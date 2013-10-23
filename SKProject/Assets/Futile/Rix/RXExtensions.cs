@@ -295,3 +295,61 @@ public static class RXListExtensions
     	}
 	}
 }
+
+public static class RXDictionaryExtensions
+{
+	//this implementation can alternatively be written using dict.TryGetKey, but I'm not sure which approach is faster
+	public static TValue GetValueOrDefault<TKey,TValue>(this Dictionary<TKey,TValue> dict, TKey key, TValue defaultValue)
+	{
+		if(dict.ContainsKey(key))
+		{
+			return dict[key];
+		}
+		else 
+		{
+			return defaultValue;
+		}
+	}
+	
+	public static void SetValueIfExists<TKey,TValue>(this Dictionary<TKey,TValue> dict, TKey key, ref TValue thingToSet)
+	{
+		if(dict.ContainsKey(key))
+		{
+			thingToSet = dict[key];
+		}
+	}
+	
+	//these next few are super handy for parsing json Dictionary<string,object> stuff
+	
+	public static void SetStringIfExists<TKey,TValue>(this Dictionary<TKey,TValue> dict, TKey key, ref string thingToSet)
+	{
+		if(dict.ContainsKey(key))
+		{
+			thingToSet = dict[key] as string;
+		}
+	}
+	
+	public static void SetFloatIfExists<TKey,TValue>(this Dictionary<TKey,TValue> dict, TKey key, ref float thingToSet)
+	{
+		if(dict.ContainsKey(key))
+		{
+			thingToSet = float.Parse(dict[key] as string);
+		}
+	}
+	
+	public static void SetIntIfExists<TKey,TValue>(this Dictionary<TKey,TValue> dict, TKey key, ref int thingToSet)
+	{
+		if(dict.ContainsKey(key))
+		{
+			thingToSet = int.Parse(dict[key] as string);
+		}
+	}
+	
+	public static void SetBoolIfExists<TKey,TValue>(this Dictionary<TKey,TValue> dict, TKey key, ref bool thingToSet)
+	{
+		if(dict.ContainsKey(key))
+		{
+			thingToSet = bool.Parse(dict[key] as string);
+		}
+	}
+}
