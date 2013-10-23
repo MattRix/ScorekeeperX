@@ -24,6 +24,7 @@ public class PlayerColor
 
 		int c = 0;
 
+		//remove all the usedColors until we find an unused color (which is really the LEAST used color)
 		while(true)
 		{
 			PlayerColor checkColor = allColors[c%allColors.Count]; //get next color in all

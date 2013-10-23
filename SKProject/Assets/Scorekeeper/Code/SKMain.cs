@@ -6,6 +6,9 @@ using System.Collections.Generic;
 public class SKMain : MonoBehaviour
 {	
 	static public SKMain instance;
+
+	private Player _player;
+	private WeakReference _weakRef;
 	
 	private void Start()
 	{
@@ -51,17 +54,57 @@ public class SKMain : MonoBehaviour
 		FTextParams textParams;
 		
 		textParams = new FTextParams();
-		textParams.kerningOffset = -0.5f;
-		textParams.lineHeightOffset = -8.0f;
+		textParams.kerningOffset = -1.0f;
+		textParams.lineHeightOffset = -15.0f;
 		Futile.atlasManager.LoadFont("Raleway","Atlases/Fonts/Raleway", "Atlases/Fonts/Raleway"+Futile.resourceSuffix, -2.0f,-5.0f,textParams);
 
-		FSprite ph = new FSprite("Icons/Box");
-		Futile.stage.AddChild(ph);
-		ph.width = Futile.screen.width - 10.0f;
-		ph.height = Futile.screen.height - 10.0f;
+//		FSprite ph = new FSprite("Icons/Placeholder");
+//		Futile.stage.AddChild(ph);
+//		ph.width = Futile.screen.width - 10.0f;
+//		ph.height = Futile.screen.height - 10.0f;
 
-		//FLabel label = new FLabel("Raleway","HELLO WORLD");
-		//Futile.stage.AddChild(label);
+		FLabel label = new FLabel("Raleway","ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
+		Futile.stage.AddChild(label);
+
+		_player = new Player("MATT", PlayerColor.Red, 0);
+
+		//player.dispatcher.AddStrongListener(Player.NAME_CHANGE, HandleChange);
+
+
+
+		//player.dispatcher.RemoveListener(Player.NAME_CHANGE, HandleChange);
+
+		_weakRef = new WeakReference(new Resulter());
+
+		_player.SignalNameChange += (_weakRef.Target as Resulter).HandleChange;
+
+		_player.SetName();
+
+		GC.Collect();
+	}
+
+	private bool hasRun = false;
+
+	public void Update()
+	{
+		if(hasRun) return;  
+
+		hasRun = true;
+
+		GC.Collect();
+
+		Debug.Log ("does have? " + _weakRef.IsAlive);
+
+		_player.SetName();
+	}
+
+
+	public class Resulter
+	{
+		public void HandleChange ()
+		{
+			Debug.Log ("GOGO BABTYS");
+		}
 	}
 }
 
