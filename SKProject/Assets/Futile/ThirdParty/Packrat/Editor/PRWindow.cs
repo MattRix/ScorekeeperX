@@ -84,31 +84,31 @@ public class PRWindow : EditorWindow
 
 		_scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
 
-		if(GUILayout.Button("TEST"))
-		{
-			Color outputColor;
-
-			outputColor = Color.red * 0.6f;
-			outputColor += Color.blue * 0.1f;
-			outputColor += Color.red * 0.1f;
-			outputColor += Color.red * 0.1f;
-			outputColor += Color.red * 0.1f;
-
-			Debug.Log(outputColor);
-
-//			Texture2D image = new Texture2D(16,16,TextureFormat.ARGB32,false,false);
-//			
-//			for(int r = 0; r<image.width; r++)
-//			{
-//				for(int c = 0; c<image.height; c++)
-//				{
-//					Debug.Log(image.GetPixel(c,r)); 
-//				}
-//			}
-//			
-//			File.WriteAllBytes(Application.dataPath+"/RedTest.png",image.EncodeToPNG());
-//			Object.DestroyImmediate(image);
-		}
+//		if(GUILayout.Button("TEST"))
+//		{
+//			Color outputColor;
+//
+//			outputColor = Color.red * 0.6f;
+//			outputColor += Color.blue * 0.1f;
+//			outputColor += Color.red * 0.1f;
+//			outputColor += Color.red * 0.1f;
+//			outputColor += Color.red * 0.1f;
+//
+//			Debug.Log(outputColor);
+//
+////			Texture2D image = new Texture2D(16,16,TextureFormat.ARGB32,false,false);
+////			
+////			for(int r = 0; r<image.width; r++)
+////			{
+////				for(int c = 0; c<image.height; c++)
+////				{
+////					Debug.Log(image.GetPixel(c,r)); 
+////				}
+////			}
+////			
+////			File.WriteAllBytes(Application.dataPath+"/RedTest.png",image.EncodeToPNG());
+////			Object.DestroyImmediate(image);
+//		}
 
 		if(_activeGenerator != null)
 		{
@@ -264,6 +264,8 @@ public class PRWindow : EditorWindow
 
 			link.shouldAddSubfolders = EditorGUILayout.Toggle(new GUIContent("Include subfolders?","Note:\nSubfolder names will be used in element names"), link.shouldAddSubfolders);
 
+			link.shouldUseBytes = EditorGUILayout.Toggle(new GUIContent("Export as .bytes?","Stores the image as png bytedata for reduced file size"), link.shouldUseBytes);
+			
 			link.shouldTrim = EditorGUILayout.Toggle(new GUIContent("Trim sprites?", "Remove alpha from edges of the sprite"), link.shouldTrim);
 
 			if(link.shouldTrim)

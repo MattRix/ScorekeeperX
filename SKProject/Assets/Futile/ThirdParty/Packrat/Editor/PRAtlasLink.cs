@@ -14,6 +14,7 @@ public class PRAtlasLink
 	public bool shouldAutoGenerate = false;
 	public bool shouldFoldout = false;
 	public bool shouldAddSubfolders = true;
+	public bool shouldUseBytes = false;
 
 	public float scale = 1.0f;
 	public int padding = 1;
@@ -35,6 +36,7 @@ public class PRAtlasLink
 		dict.SetBoolIfExists("shouldFoldout", ref shouldFoldout);
 		dict.SetBoolIfExists("shouldAutoGenerate", ref shouldAutoGenerate);
 		dict.SetBoolIfExists("shouldAddSubfolders", ref shouldAddSubfolders);
+		dict.SetBoolIfExists("shouldUseBytes", ref shouldUseBytes);
 		dict.SetFloatIfExists("scale", ref scale);
 		dict.SetBoolIfExists("shouldTrim", ref shouldTrim);
 		dict.SetIntIfExists("padding", ref padding);
@@ -52,6 +54,7 @@ public class PRAtlasLink
 		stringBuilder.Append("\t\"shouldFoldout\":\""+shouldFoldout.ToString()+"\",\n");
 		stringBuilder.Append("\t\"shouldAutoGenerate\":\""+shouldAutoGenerate.ToString()+"\",\n");
 		stringBuilder.Append("\t\"shouldAddSubfolders\":\""+shouldAddSubfolders.ToString()+"\",\n");
+		stringBuilder.Append("\t\"shouldUseBytes\":\""+shouldUseBytes.ToString()+"\",\n");
 		stringBuilder.Append("\t\"scale\":\""+scale.ToString()+"\"");
 		stringBuilder.Append("\t\"shouldTrim\":\""+shouldTrim.ToString()+"\"");
 		stringBuilder.Append("\t\"padding\":\""+padding.ToString()+"\"");
@@ -70,6 +73,7 @@ public class PRAtlasLink
 		link.shouldFoldout = shouldFoldout;
 		link.shouldAutoGenerate = shouldAutoGenerate;
 		link.shouldAddSubfolders = shouldAddSubfolders;
+		link.shouldUseBytes = shouldUseBytes;
 		link.scale = scale;
 		link.shouldTrim = shouldTrim;
 		link.padding = padding;

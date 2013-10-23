@@ -16,6 +16,7 @@ public class PRAtlasGenerator
 	public Texture2D atlasTexture;
 	public IEnumerator<string> generateEnumerator;
 	public string progressMessage = "";
+	public string pngSuffix;
 
 	public PRAtlasGenerator(PRAtlasLink link)
 	{
@@ -38,6 +39,15 @@ public class PRAtlasGenerator
 	 
 	public IEnumerator<string> Generate()
 	{
+		if(link.shouldUseBytes)
+		{
+			pngSuffix = "_png.bytes";
+		}
+		else 
+		{
+			pngSuffix = ".png";
+		}
+
 		yield return "Creating Elements";
 		CreateElementsFromImages();
 
@@ -603,7 +613,7 @@ public class PRAtlasGenerator
 
 		atlasTexture.Apply(false,false);
 
-		File.WriteAllBytes(link.atlasFilePath +".png",atlasTexture.EncodeToPNG());
+		File.WriteAllBytes(link.atlasFilePath + pngSuffix,atlasTexture.EncodeToPNG());
 
 		//in theory this should make it unreadable, 
 		//but it doesn't matter because we're about to delete it anyway
@@ -611,8 +621,8 @@ public class PRAtlasGenerator
 
 
 
-		//This stuff would be handy, but it's SO SLOW that it's not worth it
-//		TextureImporter importer = TextureImporter.GetAtPath(link.atlasFilePath+".png") as TextureImporter;
+		//This stuff would be handy, but it's SO SLOW and unreliable that it's not worth it
+//		TextureImporter importer = TextureImporter.GetAtPath(link.atlasFilePath+pngSuffix) as TextureImporter;
 //
 //		if(importer != null)
 //		{
