@@ -1,0 +1,17 @@
+﻿
+
+can have slightly different configs based on resolution or scale
+
+List width = screen width / 5
+player height = 90
+
+keyboard: width/10, height/6
+
+PADDING_XL = 20
+PADDING_L = 15
+PADDING_M = 10
+PADDING_S = 5
+PADDING_XS = 2
+
+
+effectLayer.showClickEffect(CBox, intensity); 
