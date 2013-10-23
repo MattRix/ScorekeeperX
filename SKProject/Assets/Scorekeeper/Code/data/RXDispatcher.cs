@@ -15,6 +15,8 @@ public class RXDispatcher
 
 	public void Dispatch(int eventType)
 	{
+		if(_listeners == null) return; //we have no listeners so don't dispatch anything!
+
 		for(int n = 0; n<_listeners.Count;n++)
 		{
 			RXListener listener = _listeners[n];
