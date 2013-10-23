@@ -19,7 +19,7 @@
 	"shouldAutoGenerate":"False",
 	"shouldAddSubfolders":"True",
 	"shouldUseBytes":"True",
-	"scale":"0.5"	"shouldTrim":"False"	"padding":"0"	"extrude":"1"	"trimPadding":"0"
+	"scale":"0.5"	"shouldTrim":"True"	"padding":"0"	"extrude":"1"	"trimPadding":"1"
 },
 
 {

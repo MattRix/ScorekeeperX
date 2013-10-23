@@ -61,11 +61,13 @@ public class PRAtlasElement
 
 		//the standard atlas data format assumes 0,0 is in the top left
 		//but our coordinates are in bottom left form, so we need to flip the y coord
-		int flippedPackedY = (generator.atlasHeight - packedRect.y) - packedRect.height; 
-		//NOTE: this needs to be fixed to take into account the expansion
+		int packedX = packedRect.x += extrude; //the x already has the padding accounted for!
+		int packedY = (generator.atlasHeight - packedRect.y) - packedRect.height + extrude + padding; 
+		int packedWidth = packedRect.width - extrude*2 - padding;
+		int packedHeight = packedRect.height - extrude*2 - padding;
 
 		//the coordinates within the atlas texture
-		stringBuilder.Append("\t\"frame\": {\"x\":"+packedRect.x+",\"y\":"+flippedPackedY+",\"w\":"+packedRect.width+",\"h\":"+packedRect.height+"},\n");  
+		stringBuilder.Append("\t\"frame\": {\"x\":"+packedX+",\"y\":"+packedY+",\"w\":"+packedWidth+",\"h\":"+packedHeight+"},\n");  
 		 
 		//this tool doesn't support rotations (though it could in the future)
 		stringBuilder.Append("\t\"rotated\": "+(shouldRotate?"true":"false")+",\n");
