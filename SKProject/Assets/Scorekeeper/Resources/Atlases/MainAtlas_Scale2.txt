@@ -1,0 +1,35 @@
+{"frames": {
+
+"Icons/Box":
+{
+	"frame": {"x":0,"y":0,"w":34,"h":34},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"Icons/Placeholder":
+{
+	"frame": {"x":0,"y":34,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":98,"h":98},
+	"sourceSize": {"w":98,"h":98}
+},
+"Icons/Skull":
+{
+	"frame": {"x":0,"y":134,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":98,"h":98},
+	"sourceSize": {"w":98,"h":98}
+}},
+"meta":{
+	"app": "Packrat Atlas Generator github.com/MattRix/Packrat",
+	"version": "1.0",
+	"image": "Assets/Scorekeeper/Resources/Atlases/MainAtlas_Scale2.png",
+	"format": "RGBA8888",
+	"size": {"w":128,"h":256},
+	"scale": "0.5"
+}
+}
