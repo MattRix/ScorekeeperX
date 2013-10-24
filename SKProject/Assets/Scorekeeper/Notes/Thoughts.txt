@@ -14,4 +14,4 @@ PADDING_S = 5
 PADDING_XS = 2
 
 
-effectLayer.showClickEffect(CBox, intensity); 
+effectLayer.showClickEffect(thisBox, intensity); 

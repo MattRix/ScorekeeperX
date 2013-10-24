@@ -1,13 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Futile\Editor\Packrat\PRWindow.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scorekeeper\Code\data\RXWeak.cs">
     <Files>
-      <File FileName="Assets\Futile\Rix\RXExtensions.cs" Line="309" Column="4" />
-      <File FileName="Assets\Scorekeeper\Notes\Thoughts.txt" Line="17" Column="47" />
-      <File FileName="Assets\Scorekeeper\Code\SKMain.cs" Line="51" Column="3" />
-      <File FileName="Assets\Futile\Editor\Packrat\PRWindow.cs" Line="260" Column="30" />
-      <File FileName="Assets\Futile\Editor\Packrat\PRAtlasLink.cs" Line="49" Column="58" />
-      <File FileName="Assets\Futile\Editor\Packrat\PRAtlasGenerator.cs" Line="675" Column="33" />
+      <File FileName="Assets\Scorekeeper\Code\SKMain.cs" Line="79" Column="21" />
+      <File FileName="Assets\Scorekeeper\Code\display\Box.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scorekeeper\Code\data\Player.cs" Line="23" Column="16" />
+      <File FileName="Assets\Scorekeeper\Code\data\RXSignal.cs" Line="29" Column="24" />
+      <File FileName="Assets\Scorekeeper\Code\data\RXWeak.cs" Line="33" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

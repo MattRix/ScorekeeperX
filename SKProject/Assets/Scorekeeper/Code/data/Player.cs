@@ -12,11 +12,9 @@ public class Player
 	private PlayerColor _color;
 	private int _score;
 
-	public RXDispatcher dispatcher = new RXDispatcher();
-
-	public delegate void NoArgumentDelegate();
-
-	public event NoArgumentDelegate SignalNameChange;
+	public Action SignalNameChange;
+	public Action SignalColorChange;
+	public Action SignalScoreChange;
 
 	public Player (string name, PlayerColor color, int score)
 	{
@@ -27,8 +25,6 @@ public class Player
 
 	public void SetName()
 	{
-		dispatcher.Dispatch(NAME_CHANGE);
-
 		if(SignalNameChange != null)
 		{
 			SignalNameChange();
