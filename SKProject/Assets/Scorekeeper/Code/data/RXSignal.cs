@@ -2,13 +2,13 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class RXDispatcher
+public class RXSignal
 {
 	public delegate void NoArgumentDelegate();
 
-	private List<RXListener> _listeners;
+	private List<RXSignalListener> _listeners;
 
-	public RXDispatcher()
+	public RXSignal()
 	{
 
 	}
@@ -19,7 +19,7 @@ public class RXDispatcher
 
 		for(int n = 0; n<_listeners.Count;n++)
 		{
-			RXListener listener = _listeners[n];
+			RXSignalListener listener = _listeners[n];
 
 			if(listener.eventType == eventType)
 			{
@@ -56,9 +56,9 @@ public class RXDispatcher
 
 	public void AddListener(int eventType, NoArgumentDelegate dele, bool isWeak)
 	{
-		if(_listeners == null) _listeners = new List<RXListener>();
+		if(_listeners == null) _listeners = new List<RXSignalListener>();
 
-		RXListener listener = new RXListener();
+		RXSignalListener listener = new RXSignalListener();
 
 		listener.eventType = eventType;
 
@@ -111,7 +111,7 @@ public class RXDispatcher
 		}
 	}
 
-	private class RXListener
+	private class RXSignalListener
 	{
 		public bool isWeak;
 		public WeakReference weakRef;
