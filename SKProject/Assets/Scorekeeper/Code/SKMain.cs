@@ -5,12 +5,8 @@ using System.Collections.Generic;
 
 public class SKMain : MonoBehaviour
 {	
-	static public SKMain instance;
-
 	private void Start()
 	{
-		instance = this; 
-		
 		Go.defaultEaseType = EaseType.Linear;
 		Go.duplicatePropertyRule = DuplicatePropertyRuleType.RemoveRunningProperty;
 		
@@ -60,9 +56,10 @@ public class SKMain : MonoBehaviour
 //		ph.width = Futile.screen.width - 10.0f;
 //		ph.height = Futile.screen.height - 10.0f;
 
-		FLabel label = new FLabel("Raleway","ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
-		Futile.stage.AddChild(label);
+//		FLabel label = new FLabel("Raleway","ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
+//		Futile.stage.AddChild(label);
 
+		Futile.stage.AddChild(new Keeper()); //keeper statically retains itself and never gets removed
 	}
 
 }
