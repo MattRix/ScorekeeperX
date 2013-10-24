@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 public class Box : FSprite
 {
-	public Entity entity;
-	
-	public Box(Entity entity) : base("Box")
+	public Box() : base("Box")
 	{
-		this.entity = entity;
+
 	}
 	
 	public void SetSize(float width, float height)
