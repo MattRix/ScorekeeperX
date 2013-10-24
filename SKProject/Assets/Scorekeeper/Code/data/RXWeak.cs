@@ -5,6 +5,13 @@ using System.Timers;
 
 public class RXWeak
 {
+	//allows you to add weak listeners, but currently only works with zero-argument Action callbacks
+	//
+	//syntax: 
+	//			SomeEvent += RXWeak.Add(HandleEvent);
+	//			SomeEvent -= RXWeak.Remove(HandleEvent);
+	//
+
 	private static List<RXWeakListener> _listeners;
 	private static Timer _cleanUpTimer;
 
@@ -38,25 +45,21 @@ public class RXWeak
 
 	public static Action Add(Action callback)
 	{
-		int timesAdded = 0;
-		//if we already have a listener, remove it!
+		//if we already have it, just use what we have (but increment timesAdded so we know how many Remove() calls are needed)
 		for(int n = 0; n<_listeners.Count; n++)
 		{
 			Action dele = (_listeners[n].weakRef.Target as Action);
 
 			if(dele == callback)
 			{
-				timesAdded = _listeners[n].timesAdded;
-				_listeners.RemoveAt(n);
-				break;
+				_listeners[n].timesAdded++;
+				return _listeners[n].InnerCallback;
 			}
 		}
 
-		Debug.Log ("add " + timesAdded);
-
+		//create a new listener
 		RXWeakListener listener = new RXWeakListener();
 		listener.weakRef = new WeakReference(callback);
-		listener.timesAdded += timesAdded;
 		_listeners.Add(listener);
 		return listener.InnerCallback;
 	}
@@ -70,11 +73,14 @@ public class RXWeak
 			if(dele == callback)
 			{
 				RXWeakListener listener = _listeners[n];
-				listener.timesAdded--;
+
+				listener.timesAdded --;
+
 				if(listener.timesAdded <= 0)
 				{
 					_listeners.RemoveAt(n);
 				}
+
 				return listener.InnerCallback;
 			}
 		}
@@ -83,8 +89,8 @@ public class RXWeak
 
 	private class RXWeakListener
 	{
-		public WeakReference weakRef;
 		public int timesAdded = 1;
+		public WeakReference weakRef;
 
 		public void InnerCallback()
 		{
@@ -96,7 +102,7 @@ public class RXWeak
 			}
 			else 
 			{
-				_listeners.Remove(this);
+				_listeners.Remove(this); //we don't have the target, so remove us
 			}
 		}
 	}
