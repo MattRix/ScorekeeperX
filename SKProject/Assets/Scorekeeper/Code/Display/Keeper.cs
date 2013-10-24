@@ -8,7 +8,7 @@ public class Keeper : FContainer
 
 	public FContainer mainContainer;
 
-	public MegaBoxes megaBoxes;
+	public MegaEntities megaEntities;
 
 	public Keeper ()
 	{
@@ -17,12 +17,11 @@ public class Keeper : FContainer
 		Config.Setup();
 
 		AddChild(mainContainer = new FContainer());
+		megaEntities = new MegaEntities();
 
-		megaBoxes = new MegaBoxes();
+		megaEntities.all.ForEach(entity => {AddChild(entity);});
 
-		megaBoxes.all.ForEach(box => {AddChild(box);});
-
-		megaBoxes.UpdatePositions();
+		megaEntities.UpdatePositions();
 
 		Futile.screen.SignalResize += HandleSignalResize;
 	}
@@ -30,26 +29,26 @@ public class Keeper : FContainer
 	void HandleSignalResize (bool wasResizedDueToOrientationChange)
 	{
 		Config.Setup();
-		megaBoxes.UpdatePositions();
+		megaEntities.UpdatePositions();
 	}
 
-	public class MegaBoxes
+	public class MegaEntities
 	{
-		public List<Box> all = new List<Box>();
+		public List<Entity> all = new List<Entity>();
 		
-		public Box newPlayer;
-		public Box timer;
-		public Box sort;
-		public Box reset;
-		public Box settings;
+		public Entity newPlayer;
+		public Entity timer;
+		public Entity sort;
+		public Entity reset;
+		public Entity settings;
 
-		public MegaBoxes ()
+		public MegaEntities()
 		{
-			all.Add(newPlayer = 	new Box(new PlaceholderIcon(),	Player.NullPlayer));
-			all.Add(timer = 		new Box(new PlaceholderIcon(),	Player.NullPlayer));
-			all.Add(sort = 			new Box(new PlaceholderIcon(),	Player.NullPlayer));
-			all.Add(reset = 		new Box(new PlaceholderIcon(),	Player.NullPlayer));
-			all.Add(settings = 		new Box(new PlaceholderIcon(),	Player.NullPlayer));
+			all.Add(newPlayer = 	new PlaceholderEntity());
+			all.Add(timer = 		new PlaceholderEntity());
+			all.Add(sort = 			new PlaceholderEntity());
+			all.Add(reset = 		new PlaceholderEntity());
+			all.Add(settings = 		new PlaceholderEntity());
 		}
 
 		public void UpdatePositions()
