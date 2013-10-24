@@ -2,7 +2,7 @@
 
 "Icons/Box":
 {
-	"frame": {"x":1,"y":0,"w":67,"h":67},
+	"frame": {"x":2,"y":2,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -10,7 +10,7 @@
 },
 "Icons/Placeholder":
 {
-	"frame": {"x":1,"y":67,"w":191,"h":191},
+	"frame": {"x":2,"y":69,"w":188,"h":188},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":4,"y":4,"w":188,"h":188},
@@ -18,7 +18,7 @@
 },
 "Icons/Skull":
 {
-	"frame": {"x":1,"y":258,"w":172,"h":189},
+	"frame": {"x":2,"y":260,"w":169,"h":186},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":15,"y":4,"w":169,"h":186},

@@ -2,26 +2,26 @@
 
 "Icons/Box":
 {
-	"frame": {"x":0,"y":0,"w":34,"h":34},
+	"frame": {"x":2,"y":2,"w":32,"h":32},
 	"rotated": false,
-	"trimmed": false,
+	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32}
 },
 "Icons/Placeholder":
 {
-	"frame": {"x":0,"y":34,"w":100,"h":100},
+	"frame": {"x":2,"y":37,"w":94,"h":94},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":98,"h":98},
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":2,"w":94,"h":94},
 	"sourceSize": {"w":98,"h":98}
 },
 "Icons/Skull":
 {
-	"frame": {"x":0,"y":134,"w":100,"h":100},
+	"frame": {"x":2,"y":134,"w":85,"h":93},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":98,"h":98},
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":2,"w":85,"h":93},
 	"sourceSize": {"w":98,"h":98}
 }},
 "meta":{
