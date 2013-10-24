@@ -15,7 +15,7 @@ public class Config
 	public static float HALF_SCREEN_HEIGHT;
 
 	public static float LIST_WIDTH;
-	public static float SIDE_WIDTH;
+	public static float MEGA_WIDTH;
 
 	public static float PADDING_XL;
 	public static float PADDING_L;
@@ -23,7 +23,7 @@ public class Config
 	public static float PADDING_S;
 	public static float PADDING_XS;
 
-	public static float PLAYER_HEIGHT;
+	public static float SLOT_HEIGHT;
 
 	public static float GRID_MARGIN;
 	public static float GRID_SPACING;
@@ -38,7 +38,7 @@ public class Config
 		HALF_SCREEN_HEIGHT = SCREEN_HEIGHT/2.0f;
 
 		LIST_WIDTH = Mathf.Round(SCREEN_WIDTH * (7.0f/10.0f));
-		SIDE_WIDTH = Mathf.Round((SCREEN_WIDTH - LIST_WIDTH) / 2.0f);
+		MEGA_WIDTH = Mathf.Round((SCREEN_WIDTH - LIST_WIDTH) / 2.0f);
 
 		PADDING_XL = 20.0f;
 		PADDING_L = 15.0f;
@@ -46,7 +46,7 @@ public class Config
 		PADDING_S = 5.0f;
 		PADDING_XS = 2.0f;
 
-		PLAYER_HEIGHT = 90.0f;
+		SLOT_HEIGHT = 90.0f;
 
 		GRID_MARGIN = 10.0f;
 		GRID_SPACING = 6.0f;

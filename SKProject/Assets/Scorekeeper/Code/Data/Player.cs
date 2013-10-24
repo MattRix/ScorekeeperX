@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Player
 {
+	public static Player NullPlayer = new Player("NullPlayer",PlayerColor.NullGray,0);
+
 	public const int NAME_CHANGE = 0;
 	public const int COLOR_CHANGE = 1;
 	public const int SCORE_CHANGE = 2;
@@ -23,13 +25,46 @@ public class Player
 		_score = score;
 	}
 
-	public void SetName()
+	public string name 
 	{
-		if(SignalNameChange != null)
+		get {return _name;}
+		
+		set 
 		{
-			SignalNameChange();
+			if(_name != value)
+			{
+				_name = value;
+				SignalNameChange();
+			}
 		}
+	}
 
+	public PlayerColor color 
+	{
+		get {return _color;}
+
+		set 
+		{
+			if(_color != value)
+			{
+				_color = value;
+				SignalColorChange();
+			}
+		}
+	}
+
+	public int score 
+	{
+		get {return _score;}
+		
+		set 
+		{
+			if(_score != value)
+			{
+				score = value;
+				SignalScoreChange();
+			}
+		}
 	}
 }
 
