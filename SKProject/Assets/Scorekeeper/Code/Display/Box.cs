@@ -5,30 +5,22 @@ using System.Collections.Generic;
 public class Box : FContainer
 {
 	public FSprite boxSprite;
-	public List<FSprite> foregroundSprites = new List<FSprite>();
-	public FContainer foregroundContainer;
+
+	public Content content;
 
 	protected Player _player;
 
-	protected float _width;
-	protected float _height;
+	protected float _width = 100;
+	protected float _height = 100;
 
-	protected bool _hasInited = false;
-
-	public Box()
+	public Box(Content content, Player player)
 	{
-	}
-
-	virtual public void Init(float width, float height, Player player)
-	{
-		if(_hasInited) return; 
-		_hasInited = true;
-
 		AddChild(boxSprite = new FSprite("Box"));
-		AddChild(foregroundContainer = new FContainer());
 		boxSprite.color = player.color.color;
 
-		SetSize(width,height);
+		this.content = content;
+		content.Init(this);
+		AddChild(content);
 	}
 
 	public Player player 
