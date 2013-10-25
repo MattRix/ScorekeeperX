@@ -101,8 +101,10 @@ public class FMeshFacet
 	{
 		FMeshVertex vertex = vertices[index];
 
-		vertex.pos = new Vector2(x,y);
-		vertex.uv = new Vector2(u,v);
+		vertex.x = x;
+		vertex.y = y;
+		vertex.u = u;
+		vertex.v = v;
 		
 		return this; //for chaining
 	}
@@ -110,9 +112,11 @@ public class FMeshFacet
 	public FMeshFacet SetVertex(int index, float x, float y, float u, float v, Color color)
 	{
 		FMeshVertex vertex = vertices[index];
-		
-		vertex.pos = new Vector2(x,y);
-		vertex.uv = new Vector2(u,v);
+
+		vertex.x = x;
+		vertex.y = y;
+		vertex.u = u;
+		vertex.v = v;
 		vertex.color = color;
 		
 		return this; //for chaining
@@ -120,25 +124,29 @@ public class FMeshFacet
 
 	public FMeshFacet SetVertexPos(int index, float x, float y)
 	{
-		vertices[index].pos = new Vector2(x,y);
+		vertices[index].x = x;
+		vertices[index].y = y;
 		return this; //for chaining
 	}
 
 	public FMeshFacet SetVertexPos(int index, Vector2 pos)
 	{
-		vertices[index].pos = pos;
+		vertices[index].x = pos.x;
+		vertices[index].y = pos.y;
 		return this; //for chaining
 	}
 
 	public FMeshFacet SetVertexUV(int index, float u, float v)
 	{
-		vertices[index].uv = new Vector2(u,v);
+		vertices[index].u = u;
+		vertices[index].v = v;
 		return this; //for chaining
 	}
 
 	public FMeshFacet SetVertexUV(int index, Vector2 uv)
 	{
-		vertices[index].uv = uv;
+		vertices[index].u = uv.x;
+		vertices[index].v = uv.y;
 		return this; //for chaining
 	}
 
@@ -167,7 +175,8 @@ public class FMeshFacet
 		
 		for(int v = 0; v<count; v++)
 		{
-			vertices[v].pos += new Vector2(offsetX,offsetY);	
+			vertices[v].x += offsetX;
+			vertices[v].y += offsetY;	
 		}
 		
 		return this; //for chaining
@@ -184,10 +193,10 @@ public class FMeshQuad : FMeshFacet
 
 	public FMeshQuad SetPosRect(float leftX, float bottomY, float width, float height)
 	{
-		vertices[0].pos = new Vector2(leftX,bottomY+height);
-		vertices[1].pos = new Vector2(leftX+width,bottomY+height);
-		vertices[2].pos = new Vector2(leftX+width,bottomY);
-		vertices[3].pos = new Vector2(leftX,bottomY);
+		vertices[0].SetPos(leftX,bottomY+height);
+		vertices[1].SetPos(leftX+width,bottomY+height);
+		vertices[2].SetPos(leftX+width,bottomY);
+		vertices[3].SetPos(leftX,bottomY);
 		
 		return this; //for chaining
 	}
@@ -199,20 +208,20 @@ public class FMeshQuad : FMeshFacet
 		float bottomY = rect.yMin;
 		float topY = rect.yMax;
 		
-		vertices[0].pos = new Vector2(leftX,topY);
-		vertices[1].pos = new Vector2(rightX,topY);
-		vertices[2].pos = new Vector2(rightX,bottomY);
-		vertices[3].pos = new Vector2(leftX,bottomY);
+		vertices[0].SetPos(leftX,topY);
+		vertices[1].SetPos(rightX,topY);
+		vertices[2].SetPos(rightX,bottomY);
+		vertices[3].SetPos(leftX,bottomY);
 		
 		return this; //for chaining
 	}
 
 	public FMeshQuad SetUVRect(float leftX, float bottomY, float width, float height)
 	{
-		vertices[0].uv = new Vector2(leftX,bottomY+height);
-		vertices[1].uv = new Vector2(leftX+width,bottomY+height);
-		vertices[2].uv = new Vector2(leftX+width,bottomY);
-		vertices[3].uv = new Vector2(leftX,bottomY);
+		vertices[0].SetUV(leftX,bottomY+height);
+		vertices[1].SetUV(leftX+width,bottomY+height);
+		vertices[2].SetUV(leftX+width,bottomY);
+		vertices[3].SetUV(leftX,bottomY);
 		
 		return this; //for chaining
 	}
@@ -224,20 +233,20 @@ public class FMeshQuad : FMeshFacet
 		float bottomY = rect.yMin;
 		float topY = rect.yMax;
 		
-		vertices[0].uv = new Vector2(leftX,topY);
-		vertices[1].uv = new Vector2(rightX,topY);
-		vertices[2].uv = new Vector2(rightX,bottomY);
-		vertices[3].uv = new Vector2(leftX,bottomY);
+		vertices[0].SetUV(leftX,topY);
+		vertices[1].SetUV(rightX,topY);
+		vertices[2].SetUV(rightX,bottomY);
+		vertices[3].SetUV(leftX,bottomY);
 		
 		return this; //for chaining
 	}
 
 	public FMeshQuad SetUVRectFull() //creates a uv rect that takes up the whole element texture
 	{
-		vertices[0].uv = new Vector2(0,1);
-		vertices[1].uv = new Vector2(1,1);
-		vertices[2].uv = new Vector2(1,0);
-		vertices[3].uv = new Vector2(0,0);
+		vertices[0].SetUV(0.0f,1.0f);
+		vertices[1].SetUV(1.0f,1.0f);
+		vertices[2].SetUV(1.0f,0.0f);
+		vertices[3].SetUV(0.0f,0.0f);
 		
 		return this; //for chaining
 	}
@@ -249,10 +258,10 @@ public class FMeshQuad : FMeshFacet
 		float bottomY = element.uvRect.yMin;
 		float topY = element.uvRect.yMax;
 
-		vertices[0].uv = new Vector2(leftX,topY);
-		vertices[1].uv = new Vector2(rightX,topY);
-		vertices[2].uv = new Vector2(rightX,bottomY);
-		vertices[3].uv = new Vector2(leftX,bottomY);
+		vertices[0].SetUV(leftX,topY);
+		vertices[1].SetUV(rightX,topY);
+		vertices[2].SetUV(rightX,bottomY);
+		vertices[3].SetUV(leftX,bottomY);
 		
 		return this; //for chaining
 	}
@@ -270,8 +279,12 @@ public class FMeshTriangle : FMeshFacet
 
 public class FMeshVertex
 {
-	public Vector2 pos;
-	public Vector2 uv;
+	public float x;
+	public float y;
+
+	public float u;
+	public float v;
+
 	public Color color = Futile.white;
 
 	public FMeshVertex()
@@ -281,14 +294,62 @@ public class FMeshVertex
 
 	public FMeshVertex(float x, float y, float u, float v)
 	{
-		this.pos = new Vector2(x,y);
-		this.uv = new Vector2(u,v);
+		this.x = x;
+		this.y = y;
+		this.u = u;
+		this.v = v;
 	}
 
 	public FMeshVertex(Vector2 pos, Vector2 uv)
 	{
-		this.pos = pos;
-		this.uv = uv;
+		x = pos.x;
+		y = pos.y;
+		u = uv.x;
+		v = uv.y;
+	}
+
+	public void Set(float x, float y, float u, float v)
+	{
+		this.x = x;
+		this.y = y;
+		this.u = u;
+		this.v = u;
+	}
+
+	public void SetPos(float x, float y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	public void SetUV(float u, float v)
+	{
+		this.u = u;
+		this.v = u;
+	}
+
+	//making the getters and setters below a little bit clumsy so people prefer the direct values instead
+
+	public void SetPos(Vector2 pos)
+	{
+		x = pos.x;
+		y = pos.y;
+	}
+
+	public void SetUV(Vector2 uv)
+	{
+		u = uv.x;
+		v = uv.y;
+	}
+
+	public Vector2 GetPos()
+	{
+		return new Vector2(x,y);
+	}
+
+	public Vector2 GetUV()
+	{
+		return new Vector2(u,v);
 	}
 }
 

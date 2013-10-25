@@ -12,8 +12,11 @@ public class FMeshNode : FFacetElementNode
 	protected FMeshData _meshData;
 	protected int _previousMeshDataVersion;
 
-	protected Vector2 _uvScale;
-	protected Vector2 _uvOffset;
+	protected float _uvScaleX;
+	protected float _uvScaleY;
+
+	protected float _uvOffsetX;
+	protected float _uvOffsetY;
 
 	protected bool _shouldUseWholeAtlas = false;
 
@@ -88,13 +91,17 @@ public class FMeshNode : FFacetElementNode
 
 		if(_shouldUseWholeAtlas)
 		{
-			_uvScale = new Vector2(1.0f,1.0f);
-			_uvOffset = new Vector2(0.0f,0.0f);
+			_uvScaleX = 1.0f;
+			_uvScaleY = 1.0f;
+			_uvOffsetX = 0.0f;
+			_uvOffsetY = 0.0f;
 		}
 		else 
 		{
-			_uvScale = new Vector2(_element.uvRect.width, _element.uvRect.height);
-			_uvOffset = new Vector2(_element.uvRect.xMin, _element.uvRect.yMin);
+			_uvScaleX = _element.uvRect.width;
+			_uvScaleY = _element.uvRect.height;
+			_uvOffsetX = _element.uvRect.xMin;
+			_uvOffsetY = _element.uvRect.yMin;
 		}
 	}
 	
@@ -133,32 +140,49 @@ public class FMeshNode : FFacetElementNode
 		{
 			_isMeshDirty = false;
 
+			float a = _concatenatedMatrix.a;
+			float b = _concatenatedMatrix.b;
+			float c = _concatenatedMatrix.c;
+			float d = _concatenatedMatrix.d;
+			float tx = _concatenatedMatrix.tx;
+			float ty = _concatenatedMatrix.ty;
+
+			Vector3[] vertices = _renderLayer.vertices;
+			Vector2[] uvs = _renderLayer.uvs;
+			Color[] colors = _renderLayer.colors;
+			
+			List<FMeshFacet> facets = _meshData.facets;
+			int facetCount = facets.Count;
+
+			FMeshVertex vertex;
+
 			if(_meshData.facetType == FFacetType.Triangle)
 			{
 				int vertexIndex0 = _firstFacetIndex*4;
 				int vertexIndex1 = vertexIndex0 + 1;
 				int vertexIndex2 = vertexIndex0 + 2;
 
-				Vector3[] vertices = _renderLayer.vertices;
-				Vector2[] uvs = _renderLayer.uvs;
-				Color[] colors = _renderLayer.colors;
-
-				List<FMeshFacet> facets = _meshData.facets;
-				int facetCount = facets.Count;
-
 				for(int f = 0; f<facetCount; f++)
 				{
 					FMeshFacet facet = facets[f];
 
+					//outVector.x = localVector.x*a + localVector.y*c + tx;
+					//outVector.y = localVector.x*b + localVector.y*d + ty;
+					//outVector.z = z;
+
 					FMeshVertex[] meshVertices = facet.vertices;
-					_concatenatedMatrix.ApplyVector3FromLocalVector2(ref vertices[vertexIndex0], meshVertices[0].pos, _meshZ);
-					_concatenatedMatrix.ApplyVector3FromLocalVector2(ref vertices[vertexIndex1], meshVertices[1].pos, _meshZ);
-					_concatenatedMatrix.ApplyVector3FromLocalVector2(ref vertices[vertexIndex2], meshVertices[2].pos, _meshZ);
+
+					vertex = meshVertices[0];
+					vertices[vertexIndex0] = new Vector3(vertex.x*a + vertex.y*c + tx,vertex.x*b + vertex.y*d + ty,_meshZ);
+					vertex = meshVertices[1];
+					vertices[vertexIndex1] = new Vector3(vertex.x*a + vertex.y*c + tx,vertex.x*b + vertex.y*d + ty,_meshZ);
+					vertex = meshVertices[2];
+					vertices[vertexIndex2] = new Vector3(vertex.x*a + vertex.y*c + tx,vertex.x*b + vertex.y*d + ty,_meshZ);
 
 					//this needs to be offset by the element uvs, so that the uvs are relative to the element (add then multiply element uv)
-					uvs[vertexIndex0] = new Vector2(_uvOffset.x + meshVertices[0].uv.x * _uvScale.x,_uvOffset.y + meshVertices[0].uv.y * _uvScale.y);
-					uvs[vertexIndex1] = new Vector2(_uvOffset.x + meshVertices[1].uv.x * _uvScale.x,_uvOffset.y + meshVertices[1].uv.y * _uvScale.y);
-					uvs[vertexIndex2] = new Vector2(_uvOffset.x + meshVertices[2].uv.x * _uvScale.x,_uvOffset.y + meshVertices[2].uv.y * _uvScale.y);
+					uvs[vertexIndex0] = new Vector2(_uvOffsetX + meshVertices[0].u * _uvScaleX,_uvOffsetY + meshVertices[0].v * _uvScaleY);
+					uvs[vertexIndex1] = new Vector2(_uvOffsetX + meshVertices[1].u * _uvScaleX,_uvOffsetY + meshVertices[1].v * _uvScaleY);
+					uvs[vertexIndex2] = new Vector2(_uvOffsetX + meshVertices[2].u * _uvScaleX,_uvOffsetY + meshVertices[2].v * _uvScaleY);
 
 					//could also use vertex colours here!
 					colors[vertexIndex0] = _alphaColor * meshVertices[0].color;
@@ -178,28 +202,25 @@ public class FMeshNode : FFacetElementNode
 				int vertexIndex2 = vertexIndex0 + 2;
 				int vertexIndex3 = vertexIndex0 + 3;
 				
-				Vector3[] vertices = _renderLayer.vertices;
-				Vector2[] uvs = _renderLayer.uvs;
-				Color[] colors = _renderLayer.colors;
-				
-				List<FMeshFacet> facets = _meshData.facets;
-				int facetCount = facets.Count;
-				
 				for(int f = 0; f<facetCount; f++)
 				{
 					FMeshFacet facet = facets[f];
 					
 					FMeshVertex[] meshVertices = facet.vertices;
-					_concatenatedMatrix.ApplyVector3FromLocalVector2(ref vertices[vertexIndex0], meshVertices[0].pos, _meshZ);
-					_concatenatedMatrix.ApplyVector3FromLocalVector2(ref vertices[vertexIndex1], meshVertices[1].pos, _meshZ);
-					_concatenatedMatrix.ApplyVector3FromLocalVector2(ref vertices[vertexIndex2], meshVertices[2].pos, _meshZ);
-					_concatenatedMatrix.ApplyVector3FromLocalVector2(ref vertices[vertexIndex3], meshVertices[3].pos, _meshZ);
-					
+					vertex = meshVertices[0];
+					vertices[vertexIndex0] = new Vector3(vertex.x*a + vertex.y*c + tx,vertex.x*b + vertex.y*d + ty,_meshZ);
+					vertex = meshVertices[1];
+					vertices[vertexIndex1] = new Vector3(vertex.x*a + vertex.y*c + tx,vertex.x*b + vertex.y*d + ty,_meshZ);
+					vertex = meshVertices[2];
+					vertices[vertexIndex2] = new Vector3(vertex.x*a + vertex.y*c + tx,vertex.x*b + vertex.y*d + ty,_meshZ);
+					vertex = meshVertices[3];
+					vertices[vertexIndex3] = new Vector3(vertex.x*a + vertex.y*c + tx,vertex.x*b + vertex.y*d + ty,_meshZ);
+
 					//this needs to be offset by the element uvs, so that the uvs are relative to the element (add then multiply element uv)
-					uvs[vertexIndex0] = new Vector2(_uvOffset.x + meshVertices[0].uv.x * _uvScale.x,_uvOffset.y + meshVertices[0].uv.y * _uvScale.y);
-					uvs[vertexIndex1] = new Vector2(_uvOffset.x + meshVertices[1].uv.x * _uvScale.x,_uvOffset.y + meshVertices[1].uv.y * _uvScale.y);
-					uvs[vertexIndex2] = new Vector2(_uvOffset.x + meshVertices[2].uv.x * _uvScale.x,_uvOffset.y + meshVertices[2].uv.y * _uvScale.y);
-					uvs[vertexIndex3] = new Vector2(_uvOffset.x + meshVertices[3].uv.x * _uvScale.x,_uvOffset.y + meshVertices[3].uv.y * _uvScale.y);
+					uvs[vertexIndex0] = new Vector2(_uvOffsetX + meshVertices[0].u * _uvScaleX,_uvOffsetY + meshVertices[0].v * _uvScaleY);
+					uvs[vertexIndex1] = new Vector2(_uvOffsetX + meshVertices[1].u * _uvScaleX,_uvOffsetY + meshVertices[1].v * _uvScaleY);
+					uvs[vertexIndex2] = new Vector2(_uvOffsetX + meshVertices[2].u * _uvScaleX,_uvOffsetY + meshVertices[2].v * _uvScaleY);
+					uvs[vertexIndex3] = new Vector2(_uvOffsetX + meshVertices[3].u * _uvScaleX,_uvOffsetY + meshVertices[3].v * _uvScaleY);
 					
 					//could also use vertex colours here!
 					colors[vertexIndex0] = _alphaColor * meshVertices[0].color;
