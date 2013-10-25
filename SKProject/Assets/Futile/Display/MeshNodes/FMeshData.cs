@@ -10,13 +10,17 @@ public class FMeshData
 	public FFacetType facetType;
 	public int version = 0;
 
-	public delegate void UpdateDelegate();
-	
-	public event UpdateDelegate SignalUpdate;
+	public Action SignalUpdate;
 
 	public FMeshData()
 	{
+		//if you use this constructor, you must call AddFacet/AddQuad/AddTriangle before passing it to the FMeshNode
+	}
 
+	public FMeshData(FFacetType facetType)
+	{
+		this.facets = new List<FMeshFacet>();
+		this.facetType = facetType;
 	}
 
 	public FMeshData(List<FMeshFacet> inFacets)
@@ -71,6 +75,20 @@ public class FMeshData
 		return triangle;
 	}
 
+	public FMeshTriangle AddTriangle(FMeshVertex[] vertices)
+	{
+		FMeshTriangle triangle = new FMeshTriangle(vertices);
+		AddFacet(triangle);
+		return triangle;
+	}
+	
+	public FMeshTriangle AddTriangle(FMeshVertex vertex1, FMeshVertex vertex2, FMeshVertex vertex3)
+	{
+		FMeshTriangle triangle = new FMeshTriangle(vertex1,vertex2,vertex3);
+		AddFacet(triangle);
+		return triangle;
+	}
+
 	public FMeshQuad AddQuad()
 	{
 		FMeshQuad quad = new FMeshQuad();
@@ -84,6 +102,21 @@ public class FMeshData
 		return quad;
 	}
 
+	public FMeshQuad AddQuad(FMeshVertex[] vertices)
+	{
+		FMeshQuad quad = new FMeshQuad(vertices);
+		AddFacet(quad);
+		return quad;
+	}
+	
+	public FMeshQuad AddQuad(FMeshVertex vertex1, FMeshVertex vertex2, FMeshVertex vertex3, FMeshVertex vertex4)
+	{
+		FMeshQuad quad = new FMeshQuad(vertex1,vertex2,vertex3,vertex4);
+		AddFacet(quad);
+		return quad;
+	}
+
+	//call MarkChanged any time you change the mesh!
 	public void MarkChanged()
 	{
 		version++; //things that use meshdata will check the version
@@ -191,6 +224,18 @@ public class FMeshQuad : FMeshFacet
 		vertices = new FMeshVertex[] {new FMeshVertex(),new FMeshVertex(),new FMeshVertex(),new FMeshVertex()};
 	}
 
+	public FMeshQuad(FMeshVertex[] vertices)
+	{
+		facetType = FFacetType.Quad;
+		this.vertices = vertices;
+	}
+
+	public FMeshQuad(FMeshVertex vertex1, FMeshVertex vertex2, FMeshVertex vertex3, FMeshVertex vertex4)
+	{
+		facetType = FFacetType.Quad;
+		vertices = new FMeshVertex[] {vertex1,vertex2,vertex3,vertex4};
+	}
+
 	public FMeshQuad SetPosRect(float leftX, float bottomY, float width, float height)
 	{
 		vertices[0].SetPos(leftX,bottomY+height);
@@ -273,6 +318,18 @@ public class FMeshTriangle : FMeshFacet
 	{
 		facetType = FFacetType.Triangle;
 		vertices = new FMeshVertex[] {new FMeshVertex(),new FMeshVertex(),new FMeshVertex()};
+	}
+
+	public FMeshTriangle(FMeshVertex[] vertices)
+	{
+		facetType = FFacetType.Triangle;
+		this.vertices = vertices;
+	}
+	
+	public FMeshTriangle(FMeshVertex vertex1, FMeshVertex vertex2, FMeshVertex vertex3)
+	{
+		facetType = FFacetType.Triangle;
+		vertices = new FMeshVertex[] {vertex1,vertex2,vertex3};
 	}
 }
 

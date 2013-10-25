@@ -10,6 +10,8 @@ public class Keeper : FContainer
 
 	public MegaEntities megaEntities;
 
+	private BorderBox _borderBox;
+
 	public Keeper ()
 	{
 		instance = this;	
@@ -27,16 +29,23 @@ public class Keeper : FContainer
 
 		megaEntities.all.ForEach(entity => {AddChild(entity);});
 
-
 		megaEntities.reset.MoveToCellTweened(CellManager.middleCell,10.0f);
 
 		Futile.screen.SignalResize += HandleSignalResize;
 		Futile.instance.SignalLateUpdate += HandleLateUpdate;
+
+		_borderBox = new BorderBox(100,100,10);
+		AddChild (_borderBox);
+		_borderBox.anchorX = 0.0f;
+		_borderBox.anchorY = 0.0f;
 	}
 
 	void HandleLateUpdate ()
 	{
 		CellManager.Refresh();
+
+		_borderBox.borderThickness = Mathf.Abs(GetLocalMousePosition().x);
+		_borderBox.scale = Mathf.Abs(GetLocalMousePosition().y/Futile.screen.halfHeight);
 	}
 
 	void HandleSignalResize (bool wasResizedDueToOrientationChange)

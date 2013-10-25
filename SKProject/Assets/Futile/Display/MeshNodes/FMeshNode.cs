@@ -22,14 +22,13 @@ public class FMeshNode : FFacetElementNode
 
 	protected FMeshNode() : base() //for overriding
 	{
-
 	}
 
-	public FMeshNode (string elementName) : this(new FMeshData(), Futile.atlasManager.GetElementWithName(elementName))
+	public FMeshNode (FFacetType facetType, string elementName) : this(new FMeshData(facetType), Futile.atlasManager.GetElementWithName(elementName))
 	{
 	}
 
-	public FMeshNode (FAtlasElement element) : this(new FMeshData(), element)
+	public FMeshNode (FFacetType facetType, FAtlasElement element) : this(new FMeshData(facetType), element)
 	{
 	}
 	

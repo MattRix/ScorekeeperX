@@ -8,6 +8,14 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32}
 },
+"BoxBorder":
+{
+	"frame": {"x":37,"y":2,"w":64,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":32},
+	"sourceSize": {"w":64,"h":32}
+},
 "Icons/Placeholder":
 {
 	"frame": {"x":2,"y":37,"w":94,"h":94},
