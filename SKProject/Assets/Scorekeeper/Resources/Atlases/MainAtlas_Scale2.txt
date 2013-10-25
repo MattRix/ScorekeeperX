@@ -1,6 +1,6 @@
 {"frames": {
 
-"Icons/Box":
+"Box":
 {
 	"frame": {"x":2,"y":2,"w":32,"h":32},
 	"rotated": false,
