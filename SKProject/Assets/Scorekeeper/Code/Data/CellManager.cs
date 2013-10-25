@@ -13,9 +13,7 @@ public class CellManager
 	public static Cell megaSettings = new Cell();
 
 	public static Cell middleCell = new Cell();
-
-	private static bool _isFlipped = false;
-
+	
 	public static void Recalculate()
 	{
 		Config.Setup();
@@ -52,44 +50,6 @@ public class CellManager
 
 		middleCell.SetSize(Futile.screen.halfWidth, Futile.screen.halfHeight);
 		allCells.Add(middleCell);
-
-
-		if(Config.WIDTH < 500.0f)
-		{
-			if(!_isFlipped)
-			{
-				_isFlipped = true;
-				megaNewPlayer.rotation = 90.0f;
-				megaTimer.rotation = 90.0f;
-				megaSort.rotation = 90.0f;
-				megaReset.rotation = 90.0f;
-				megaSettings.rotation = 90.0f;
-
-				megaNewPlayer.didHaveMajorChange = true;
-				megaTimer.didHaveMajorChange = true;
-				megaSort.didHaveMajorChange = true;
-				megaReset.didHaveMajorChange = true;
-				megaSettings.didHaveMajorChange = true;
-			}
-		}
-		else 
-		{
-			if(_isFlipped)
-			{
-				_isFlipped = false;
-				megaNewPlayer.rotation = 0.0f;
-				megaTimer.rotation = 0.0f;
-				megaSort.rotation = 0.0f;
-				megaReset.rotation = 0.0f;
-				megaSettings.rotation = 0.0f;
-
-				megaNewPlayer.didHaveMajorChange = true;
-				megaTimer.didHaveMajorChange = true;
-				megaSort.didHaveMajorChange = true;
-				megaReset.didHaveMajorChange = true;
-				megaSettings.didHaveMajorChange = true;
-			}
-		}
 	}
 
 	public static void Refresh ()
