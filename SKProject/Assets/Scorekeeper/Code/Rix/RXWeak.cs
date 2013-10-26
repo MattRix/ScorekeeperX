@@ -13,26 +13,21 @@ public class RXWeak
 	//
 
 	private static List<RXWeakListener> _listeners;
-	private static Timer _cleanUpTimer;
 
-	private static RXWeak()
+	static RXWeak()
 	{
+		Debug.Log("RXWeak Init!");
 		_listeners = new List<RXWeakListener>();
 
-		_cleanUpTimer = new Timer(5000); //run cleanup every 5 seconds
-		_cleanUpTimer.Elapsed += HandleCleanUpTimerTick;
-		_cleanUpTimer.Enabled = true; 
-	}
-
-	private static void HandleCleanUpTimerTick (object sender, ElapsedEventArgs e)
-	{
-		CleanUp();
+		//this will trigger CleanUp to be called every time the Garbage Collector is run
+		RXGCTrigger.AddCallback(CleanUp);
 	}
 
 	//removes unused listeners periodically (and can be called manually if needed)
 	//an unused listener is one where the target has already been garbage collected
 	public static void CleanUp()
 	{
+		Debug.Log ("Cleanup!");
 		//reverse order so removals are easy
 		for(int n = _listeners.Count-1; n>=0; n--)
 		{
