@@ -11,6 +11,7 @@ public class PlaceholderBox : Box
 		base.Init(Player.NullPlayer);
 		contentContainer.AddChild(tempSprite = new FSprite("Icons/Placeholder"));
 		contentSprites.Add(tempSprite);
+		tempSprite.color = Color.black;
 	}
 }
 

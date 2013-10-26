@@ -10,10 +10,6 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	protected Player _player;
 
-	protected Cell _baseCell = new Cell();
-	protected Cell _currentCell = new Cell();
-	protected Cell _targetCell = new Cell();
-
 	protected float _tweenTimeElapsed;
 	protected float _tweenTimeTotal;
 
@@ -25,15 +21,24 @@ public class Box : FContainer, FSmartTouchableInterface
 	public Action SignalRelease;
 	public Action SignalReleaseOutside;
 
-	private float _innerAlpha = 1.0f;
+	private float _width = 100.0f;
+	private float _height = 100.0f;
 
 	public Box()
 	{
 
 	}
-	
+
 	virtual public void Init(Player player)
 	{
+		Init(player,100,100);
+	}
+
+	virtual public void Init(Player player, float width, float height)
+	{
+		_width = width;
+		_height = height;
+
 		BoxSprite boxSprite = new BoxSprite();
 		boxSprites.Add(boxSprite);
 		AddChild(boxSprite);
@@ -43,68 +48,29 @@ public class Box : FContainer, FSmartTouchableInterface
 		_player = player;
 		UpdatePlayer();
 
-		ListenForAfterUpdate(HandleAfterUpdate);
 		EnableSmartTouch();
+		DoLayout();
 	}
 
-	void HandleAfterUpdate ()
+	virtual public void DoLayout ()
 	{
-		if(_targetCell.didHaveMajorChange)
-		{
-			_baseCell = _currentCell.Clone();
-			_tweenTimeElapsed = Mathf.Max(0.0f, _tweenTimeElapsed-0.3f);
-			_tweenTimeTotal = Mathf.Max(0.3f, _tweenTimeTotal); //if there has been a major change, at least tween a bit
-		}
-
-		if(_tweenTimeElapsed < _tweenTimeTotal)
-		{
-			_tweenTimeElapsed += Time.deltaTime;
-		}
-
-		UpdatePosition();
+		boxSprites[0].SetSize(_width,_height);
 	}
 
-	virtual public void UpdatePosition()
+	public void SetToCell(Cell cell)
 	{
-		_percent = Mathf.Clamp01(_tweenTimeElapsed / _tweenTimeTotal);
-
-		if(_percent > 0 && _percent < 1.0f)
-		{
-			_percent = RXEase.ExpoInOut(_percent);
-		}
-
-		_currentCell.SetInterpolated(_baseCell,_targetCell,_percent);
-
-		this.x = _currentCell.x;
-		this.y = _currentCell.y;
-		boxSprites[0].width = _currentCell.width;	
-		boxSprites[0].height = _currentCell.height;
-		this.rotation = _currentCell.rotation;
-		this.alpha = _currentCell.alpha * _innerAlpha;
+		_width = cell.width;
+		_height = cell.height;
+		this.x = cell.x;
+		this.y = cell.y;
+		DoLayout();
 	}
 
 	protected void UpdatePlayer ()	
 	{
 		boxSprites.ForEach(boxSprite => {boxSprite.color = _player.color.color;});
 	}
-
-	public void GoToCellTweened(Cell cell, float tweenTime)
-	{
-		_tweenTimeTotal = tweenTime;
-		_tweenTimeElapsed = 0.0f;
-		_baseCell = _currentCell.Clone();
-		_targetCell = cell;
-	}
-
-	public void GoToCellInstantly(Cell cell)
-	{
-		_tweenTimeTotal = 0.0f;
-		_tweenTimeElapsed = 0.001f;
-		_baseCell = _currentCell.Clone();
-		_targetCell = cell;
-		UpdatePosition();
-	}
-
+	
 	#region FSmartTouchableInterface implementation
 
 	bool FSmartTouchableInterface.HandleSmartTouchBegan (int touchIndex, FTouch touch)
@@ -112,7 +78,7 @@ public class Box : FContainer, FSmartTouchableInterface
 		if(!_isEnabled) return false;
 		if(touchIndex > 0) return false; //we only want the first touch for now
 
-		if(_currentCell.GetLocalRect().Contains(GetLocalTouchPosition(touch)))
+		if(GetLocalRect().Contains(GetLocalTouchPosition(touch)))
 		{
 			Keeper.instance.CreateEffect(this,Config.PADDING_S);
 			if(SignalPress != null) SignalPress();
@@ -130,7 +96,7 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	void FSmartTouchableInterface.HandleSmartTouchEnded (int touchIndex, FTouch touch)
 	{
-		if(_currentCell.GetGlobalRect().Contains(GetLocalTouchPosition(touch)))
+		if(GetLocalRect().Contains(GetLocalTouchPosition(touch)))
 		{
 			if(SignalRelease != null) SignalRelease();
 		}
@@ -147,57 +113,52 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	#endregion
 
+	public Rect GetLocalRect()
+	{
+		return new Rect(-_width*0.5f,-_height*0.5f,_width,_height);
+	}
+
 	private void UpdateEnabled ()
 	{
 		if(_isEnabled)
 		{
-			_innerAlpha = 1.0f;
+			this.alpha = 1.0f;
 		}
 		else 
 		{
-			_innerAlpha = 0.2f;
+			this.alpha = 0.2f;
 		}
 	}
 
 	public Player player 
 	{
 		get {return _player;}
-		set 
-		{
-			if(_player != value)
-			{
-				_player = value;
-				UpdatePlayer();
-			}
-		}
-	}
-
-	public Cell currentCell
-	{
-		get {return _currentCell;}
-	}
-
-	public Cell baseCell
-	{
-		get {return _baseCell;}
-	}
-
-	public Cell targetCell
-	{
-		get {return _targetCell;}
+		set {if(_player != value) {_player = value; UpdatePlayer();}}
 	}
 
 	public bool isEnabled
 	{
 		get {return _isEnabled;}
-		set 
-		{
-			if(_isEnabled != value)
-			{
-				_isEnabled = value;
-				UpdateEnabled();
-			}
-		}
+		set {if(_isEnabled != value) {_isEnabled = value; UpdateEnabled();}}
+	}
+
+	public void SetSize(float width, float height)
+	{
+		_width = width;
+		_height = height; 
+		DoLayout();
+	}
+	
+	public float width
+	{
+		get {return _width;}
+		set {if(_width != value) {_width = value; DoLayout();}}
+	}
+	
+	public float height
+	{
+		get {return _height;}
+		set {if(_height != value) {_height = value; DoLayout();}}
 	}
 }
 

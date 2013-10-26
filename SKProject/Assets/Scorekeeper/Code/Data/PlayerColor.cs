@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerColor
 {
-	public static PlayerColor NullGray = new PlayerColor(0x666666);
+	public static PlayerColor NullGray = new PlayerColor(0x999999);
 
 	public static PlayerColor Red = new PlayerColor(0xFF4444);
 	public static PlayerColor Orange = new PlayerColor(0xFF8822);

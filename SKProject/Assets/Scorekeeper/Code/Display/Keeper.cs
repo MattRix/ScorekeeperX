@@ -35,29 +35,34 @@ public class Keeper : FContainer
 	void SetupMegaBoxes ()
 	{
 		mainContainer.AddChild(newPlayerBox = new PlaceholderBox());
-		newPlayerBox.GoToCellInstantly(CellManager.megaNewPlayer);
+		newPlayerBox.SetToCell(CellManager.megaNewPlayer);
 		megaBoxes.Add(newPlayerBox);
 
 		mainContainer.AddChild(timerBox = new PlaceholderBox());
-		timerBox.GoToCellInstantly(CellManager.megaTimer);
+		timerBox.SetToCell(CellManager.megaTimer);
 		megaBoxes.Add(timerBox);
 
 		mainContainer.AddChild(sortBox = new PlaceholderBox());
-		sortBox.GoToCellInstantly(CellManager.megaSort);
+		sortBox.SetToCell(CellManager.megaSort);
 		megaBoxes.Add(sortBox);
 
 		mainContainer.AddChild(resetBox = new PlaceholderBox());
-		resetBox.GoToCellInstantly(CellManager.megaReset);
+		resetBox.SetToCell(CellManager.megaReset);
 		megaBoxes.Add(resetBox);
 
 		mainContainer.AddChild(settingsBox = new PlaceholderBox());
-		settingsBox.GoToCellInstantly(CellManager.megaSettings);
+		settingsBox.SetToCell(CellManager.megaSettings);
 		megaBoxes.Add(settingsBox);
 
 		newPlayerBox.SignalPress += HandleNewPlayerPress;
 
 		resetBox.isEnabled = false;
+
+		testSlot = new Slot(new Player("MATT", PlayerColor.Red, 17));
+		mainContainer.AddChild(testSlot);
 	}
+
+	public Slot testSlot;
 
 	void HandleNewPlayerPress ()
 	{
@@ -87,8 +92,8 @@ public class Keeper : FContainer
 
 	public void CreateEffect(Box box, float borderThickness)
 	{
-		float scaleRatio = box.currentCell.width / box.currentCell.height;
-		BorderBox borderBox = new BorderBox(box.currentCell.width,box.currentCell.height,-borderThickness);
+		float scaleRatio = box.width / box.height;
+		BorderBox borderBox = new BorderBox(box.width,box.height,-borderThickness);
 		borderBox.x = box.x;
 		borderBox.y = box.y;
 		borderBox.rotation = box.rotation;
