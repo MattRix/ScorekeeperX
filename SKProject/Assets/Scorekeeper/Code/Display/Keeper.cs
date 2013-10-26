@@ -69,15 +69,15 @@ public class Keeper : FContainer
 	{
 		CellManager.Refresh();
 
-		for(int w = 0; w<10; w++)
-		{
-			BorderBox borderBox = new BorderBox(RXRandom.Range(0,300.0f),RXRandom.Range(0,300.0f),RXRandom.Range(1,30.0f));
-			borderBox.alpha = 0.2f;
-			borderBox.scale = 1.00f;
-			borderBox.shader = FShader.Additive;
-			effectContainer.AddChild(borderBox);
-			Go.to(borderBox,0.2f,new TweenConfig().floatProp("scale",1.1f).floatProp("alpha",0.0f).removeWhenComplete());
-		}
+//		for(int w = 0; w<10; w++)
+//		{
+//			BorderBox borderBox = new BorderBox(RXRandom.Range(0,300.0f),RXRandom.Range(0,300.0f),RXRandom.Range(1,30.0f));
+//			borderBox.alpha = 0.5f;
+//			borderBox.scale = 1.00f;
+//			borderBox.shader = FShader.Additive;
+//			effectContainer.AddChild(borderBox);
+//			Go.to(borderBox,0.2f,new TweenConfig().floatProp("scale",1.1f).floatProp("alpha",0.0f).removeWhenComplete());
+//		}
 	}
 
 	void HandleSignalResize (bool wasResizedDueToOrientationChange)
@@ -91,7 +91,7 @@ public class Keeper : FContainer
 		borderBox.x = box.x;
 		borderBox.y = box.y;
 		borderBox.rotation = box.rotation;
-		borderBox.alpha = 0.2f;
+		borderBox.alpha = 0.3f;
 		borderBox.scale = 1.00f;
 		borderBox.shader = FShader.Additive;
 		effectContainer.AddChild(borderBox);

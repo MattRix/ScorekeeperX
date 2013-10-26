@@ -89,6 +89,11 @@ public class FMeshData
 		return triangle;
 	}
 
+	public FMeshTriangle GetTriangle(int index)
+	{
+		return facets[index] as FMeshTriangle;
+	}
+
 	public FMeshQuad AddQuad()
 	{
 		FMeshQuad quad = new FMeshQuad();
@@ -114,6 +119,11 @@ public class FMeshData
 		FMeshQuad quad = new FMeshQuad(vertex1,vertex2,vertex3,vertex4);
 		AddFacet(quad);
 		return quad;
+	}
+
+	public FMeshQuad GetQuad(int index)
+	{
+		return facets[index] as FMeshQuad;
 	}
 
 	//call MarkChanged any time you change the mesh!

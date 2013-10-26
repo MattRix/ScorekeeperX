@@ -26,13 +26,12 @@ public class BorderBox : FMeshNode
 		_innerVertices = new FMeshVertex[]{new FMeshVertex(0,0,0,1),new FMeshVertex(0,0,1,1),new FMeshVertex(0,0,1,0),new FMeshVertex(0,0,0,0)};
 		_outerVertices = new FMeshVertex[]{new FMeshVertex(0,0,0,1),new FMeshVertex(0,0,1,1),new FMeshVertex(0,0,1,0),new FMeshVertex(0,0,0,0)};
 
-		//_innerVertices = new FMeshVertex[]{new FMeshVertex(),new FMeshVertex(),new FMeshVertex(),new FMeshVertex()};
-		//_outerVertices = new FMeshVertex[]{new FMeshVertex(),new FMeshVertex(),new FMeshVertex(),new FMeshVertex()};
-
 		_meshData.AddQuad(_outerVertices[0],_outerVertices[1],_innerVertices[1],_innerVertices[0]);
 		_meshData.AddQuad(_outerVertices[1],_outerVertices[2],_innerVertices[2],_innerVertices[1]);
 		_meshData.AddQuad(_outerVertices[2],_outerVertices[3],_innerVertices[3],_innerVertices[2]);
 		_meshData.AddQuad(_outerVertices[3],_outerVertices[0],_innerVertices[0],_innerVertices[3]);
+
+		_meshData.AddQuad().SetColorForAllVertices(new Color(1,1,1,0.5f));
 
 		UpdateMesh();
 	}
@@ -61,6 +60,8 @@ public class BorderBox : FMeshNode
 		_innerVertices[1].SetPos(rightX,topY);
 		_innerVertices[2].SetPos(rightX,bottomY);
 		_innerVertices[3].SetPos(leftX,bottomY);
+
+		_meshData.GetQuad(4).SetPosRect(leftX,bottomY,_width-thickness*2,_height-thickness*2);
 
 		_meshData.MarkChanged();
 	}
