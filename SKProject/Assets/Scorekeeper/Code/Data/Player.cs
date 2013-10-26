@@ -31,6 +31,7 @@ public class Player
 		
 		set 
 		{
+			value = value.ToUpper();
 			if(_name != value)
 			{
 				_name = value;
@@ -61,7 +62,7 @@ public class Player
 		{
 			if(_score != value)
 			{
-				score = value;
+				_score = value;
 				SignalScoreChange();
 			}
 		}

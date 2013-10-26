@@ -58,11 +58,11 @@ public class Keeper : FContainer
 
 		resetBox.isEnabled = false;
 
-		testSlot = new Slot(new Player("MATT", PlayerColor.Red, 17));
+		testSlot = new Slot(new Player("MATT", RXRandom.GetRandomItem(PlayerColor.allColors), 17));
 		mainContainer.AddChild(testSlot);
 
 //		FLabel label = new FLabel("Raleway","CENTERED");
-//		label.anchorY = 0.0f;
+//		label.anchorY = 0.0f; 
 //		AddChild (label);
 	}
 
@@ -70,6 +70,7 @@ public class Keeper : FContainer
 
 	void HandleNewPlayerPress ()
 	{
+		newPlayerBox.DoTapEffect();
 		FSoundManager.PlaySound("UI/Button1");
 		Debug.Log ("Go team");
 	}
@@ -94,13 +95,13 @@ public class Keeper : FContainer
 		CellManager.Recalculate();
 	}
 
-	public void CreateEffect(Box box, float borderThickness)
+	public void CreateTapEffect(Box box, float borderThickness)
 	{
 		BorderBox borderBox = new BorderBox(box.width,box.height,-borderThickness);
 		borderBox.x = box.x;
 		borderBox.y = box.y;
 		borderBox.rotation = box.rotation;
-		borderBox.alpha = 0.5f;
+		borderBox.alpha = 0.4f;
 		borderBox.scale = 1.0f;
 		borderBox.shader = FShader.Additive;
 		borderBox.color = box.player.color.color + new Color(0.3f,0.3f,0.3f); //add grey to make it brighter

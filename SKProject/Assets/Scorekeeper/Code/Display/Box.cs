@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class Box : FContainer, FSmartTouchableInterface
 {
+	public Action SignalPress;
+	public Action SignalRelease;
+	public Action SignalReleaseOutside;
+
 	public List<BoxSprite> boxSprites = new List<BoxSprite>();
 	public List<FSprite> contentSprites = new List<FSprite>();
 	public FContainer contentContainer;
@@ -15,14 +19,13 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	protected float _percent = 0.0f;
 
+	protected bool _isTouchable = true;
 	protected bool _isEnabled = true;
 
-	public Action SignalPress;
-	public Action SignalRelease;
-	public Action SignalReleaseOutside;
+	protected float _width = 100.0f;
+	protected float _height = 100.0f;
 
-	private float _width = 100.0f;
-	private float _height = 100.0f;
+	protected FTouch _theTouch;
 
 	public Box()
 	{
@@ -84,17 +87,23 @@ public class Box : FContainer, FSmartTouchableInterface
 	{
 		boxSprites.ForEach(boxSprite => {boxSprite.color = _player.color.color;});
 	}
+
+	public void DoTapEffect()
+	{
+		Keeper.instance.CreateTapEffect(this,Config.PADDING_S);
+	}
 	
 	#region FSmartTouchableInterface implementation
 
 	bool FSmartTouchableInterface.HandleSmartTouchBegan (int touchIndex, FTouch touch)
 	{
 		if(!_isEnabled) return false;
+		if(!_isTouchable) return false;
 		if(touchIndex > 0) return false; //we only want the first touch for now
 
 		if(GetLocalRect().Contains(GetLocalTouchPosition(touch)))
 		{
-			Keeper.instance.CreateEffect(this,Config.PADDING_S);
+			_theTouch = touch;
 			if(SignalPress != null) SignalPress();
 			return true;
 		}
@@ -132,7 +141,7 @@ public class Box : FContainer, FSmartTouchableInterface
 		return new Rect(-_width*0.5f,-_height*0.5f,_width,_height);
 	}
 
-	private void UpdateEnabled ()
+	private void UpdateEnabled()
 	{
 		if(_isEnabled)
 		{
@@ -142,6 +151,10 @@ public class Box : FContainer, FSmartTouchableInterface
 		{
 			this.alpha = 0.2f;
 		}
+	}
+
+	private void UpdateTouchable()
+	{
 	}
 
 	public Player player 
@@ -154,6 +167,12 @@ public class Box : FContainer, FSmartTouchableInterface
 	{
 		get {return _isEnabled;}
 		set {if(_isEnabled != value) {_isEnabled = value; UpdateEnabled();}}
+	}
+
+	public bool isTouchable
+	{
+		get {return _isTouchable;}
+		set {if(_isTouchable != value) {_isTouchable = value; UpdateTouchable();}}
 	}
 
 	public float width

@@ -47,7 +47,7 @@ public class SKMain : MonoBehaviour
 		FTextParams textParams;
 		
 		textParams = new FTextParams();
-		textParams.kerningOffset = -1.0f;
+		textParams.kerningOffset = -0.0f;
 		textParams.lineHeightOffset = -15.0f;
 		Futile.atlasManager.LoadFont("Raleway","Atlases/Fonts/Raleway", "Atlases/Fonts/Raleway"+Futile.resourceSuffix, -1.0f,-1.0f,textParams);
 

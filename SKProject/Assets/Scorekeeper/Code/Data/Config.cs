@@ -46,7 +46,14 @@ public class Config
 		PADDING_S = 2.0f;
 		PADDING_XS = 1.0f;
 
-		SLOT_HEIGHT = 45.0f;
+		if(Futile.screen.pixelWidth > 1000.0f)
+		{
+			SLOT_HEIGHT = 40.0f; //if the screen has over 1000 pixels, it's probably a larger screen
+		}
+		else 
+		{
+			SLOT_HEIGHT = 45.0f;
+		}
 
 		GRID_MARGIN = 10.0f;
 		GRID_SPACING = 6.0f;
