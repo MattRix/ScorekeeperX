@@ -1,6 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scorekeeper/Code/Display/Keeper.cs">
+    <Files>
+      <File FileName="Assets/Scorekeeper/Code/SKMain.cs" Line="16" Column="35" />
+      <File FileName="Assets/Scorekeeper/Code/Display/Keeper.cs" Line="44" Column="3" />
+      <File FileName="Assets/Scorekeeper/Code/Display/BorderBox.cs" Line="44" Column="37" />
+      <File FileName="Assets/Futile/Display/MeshNodes/FMeshNode.cs" Line="65" Column="3" />
+      <File FileName="Assets/Futile/Display/MeshNodes/FMeshData.cs" Line="22" Column="40" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
