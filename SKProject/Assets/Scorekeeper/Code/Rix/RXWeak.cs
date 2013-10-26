@@ -15,7 +15,7 @@ public class RXWeak
 	private static List<RXWeakListener> _listeners;
 	private static Timer _cleanUpTimer;
 
-	static RXWeak()
+	private static RXWeak()
 	{
 		_listeners = new List<RXWeakListener>();
 
@@ -24,7 +24,7 @@ public class RXWeak
 		_cleanUpTimer.Enabled = true; 
 	}
 
-	static void HandleCleanUpTimerTick (object sender, ElapsedEventArgs e)
+	private static void HandleCleanUpTimerTick (object sender, ElapsedEventArgs e)
 	{
 		CleanUp();
 	}
