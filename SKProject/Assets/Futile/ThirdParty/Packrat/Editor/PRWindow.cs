@@ -96,18 +96,18 @@ public class PRWindow : EditorWindow
 //
 //			Debug.Log(outputColor);
 //
-////			Texture2D image = new Texture2D(16,16,TextureFormat.ARGB32,false,false);
-////			
-////			for(int r = 0; r<image.width; r++)
-////			{
-////				for(int c = 0; c<image.height; c++)
-////				{
-////					Debug.Log(image.GetPixel(c,r)); 
-////				}
-////			}
-////			
-////			File.WriteAllBytes(Application.dataPath+"/RedTest.png",image.EncodeToPNG());
-////			Object.DestroyImmediate(image);
+//			Texture2D image = new Texture2D(16,16,TextureFormat.ARGB32,false,false);
+//			
+//			for(int r = 0; r<image.width; r++)
+//			{
+//				for(int c = 0; c<image.height; c++)
+//				{
+//					Debug.Log(image.GetPixel(c,r)); 
+//				}
+//			}
+//			
+//			File.WriteAllBytes(Application.dataPath+"/RedTest.png",image.EncodeToPNG());
+//			Object.DestroyImmediate(image);
 //		}
 
 		if(_activeGenerator != null)
@@ -118,11 +118,11 @@ public class PRWindow : EditorWindow
 
 			GUILayout.Space(10.0f);
 		}
-		else 
+		else  
 		{
 			GUILayout.BeginHorizontal();
-			GUILayout.Label ("Packrat Atlas Generator", EditorStyles.boldLabel);
-			GUILayout.FlexibleSpace();
+			GUILayout.Label ("Packrat", EditorStyles.boldLabel);
+			GUILayout.FlexibleSpace(); 
 			GUI.backgroundColor = new Color(0.8f,1.0f,0.8f);
 
 			if(_atlasLinks.Count > 0)

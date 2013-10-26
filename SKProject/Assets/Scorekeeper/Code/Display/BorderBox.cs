@@ -49,10 +49,13 @@ public class BorderBox : FMeshNode
 		_outerVertices[2].SetPos(rightX,bottomY);
 		_outerVertices[3].SetPos(leftX,bottomY);
 
-		leftX = leftX + _borderThickness;
-		rightX = rightX - _borderThickness;
-		bottomY = bottomY + _borderThickness;
-		topY = topY - _borderThickness;
+		//don't get thicker than the actual size of the box
+		float thickness = Mathf.Min(_width*0.5f,_height*0.5f,_borderThickness);
+
+		leftX = leftX + thickness;
+		rightX = rightX - thickness;
+		bottomY = bottomY + thickness;
+		topY = topY - thickness;
 
 		_innerVertices[0].SetPos(leftX,topY);
 		_innerVertices[1].SetPos(rightX,topY);
