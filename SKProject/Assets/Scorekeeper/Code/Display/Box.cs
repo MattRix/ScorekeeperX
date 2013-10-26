@@ -114,7 +114,7 @@ public class Box : FContainer, FSmartTouchableInterface
 
 		if(_currentCell.GetLocalRect().Contains(GetLocalTouchPosition(touch)))
 		{
-			Keeper.instance.CreateEffect(this,Config.PADDING_M);
+			Keeper.instance.CreateEffect(this,Config.PADDING_S);
 			if(SignalPress != null) SignalPress();
 			return true;
 		}

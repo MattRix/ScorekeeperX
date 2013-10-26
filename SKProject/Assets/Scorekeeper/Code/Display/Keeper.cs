@@ -87,15 +87,16 @@ public class Keeper : FContainer
 
 	public void CreateEffect(Box box, float borderThickness)
 	{
-		BorderBox borderBox = new BorderBox(box.currentCell.width+borderThickness*0.5f,box.currentCell.height+borderThickness*0.5f,borderThickness);
+		float scaleRatio = box.currentCell.width / box.currentCell.height;
+		BorderBox borderBox = new BorderBox(box.currentCell.width,box.currentCell.height,-borderThickness);
 		borderBox.x = box.x;
 		borderBox.y = box.y;
 		borderBox.rotation = box.rotation;
-		borderBox.alpha = 0.3f;
-		borderBox.scale = 1.00f;
+		borderBox.alpha = 0.5f;
+		borderBox.scale = 1.0f;
 		borderBox.shader = FShader.Additive;
 		effectContainer.AddChild(borderBox);
-		Go.to(borderBox,0.2f,new TweenConfig().floatProp("scale",1.1f).floatProp("alpha",0.0f).removeWhenComplete());
+		Go.to(borderBox,0.2f,new TweenConfig().setEaseType(EaseType.Linear).floatProp("scaleX",1.0f + 0.1f).floatProp("scaleY",1.0f + scaleRatio*0.1f).floatProp("alpha",0.0f).removeWhenComplete());
 	}
 
 }
