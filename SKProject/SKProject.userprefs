@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scorekeeper\Code\Display\Keeper.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="m:\Work\Magicule\SVN\2012\ScorekeeperX\SKGit\SKProject\Assets\Scorekeeper\Code\Display\Box.cs">
     <Files>
-      <File FileName="Assets\Scorekeeper\Code\Display\BorderBox.cs" Line="48" Column="24" />
-      <File FileName="Assets\Scorekeeper\Code\Display\Keeper.cs" Line="37" Column="40" />
-      <File FileName="Assets\Scorekeeper\Code\Display\Icons\PlaceholderEntity.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scorekeeper\Code\Editor\SKPostProcess.cs" Line="25" Column="2" />
+      <File FileName="Assets\Scorekeeper\Code\Display\Keeper.cs" Line="41" Column="2" />
+      <File FileName="m:\Work\Magicule\SVN\2012\ScorekeeperX\SKGit\SKProject\Assets\Scorekeeper\Code\Display\Box.cs" Line="72" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

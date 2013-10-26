@@ -20,7 +20,7 @@ public class FStage : FContainer
 	
 	private string _name;
 	
-	private FMatrix _identityMatrix;
+	private FMatrix _idboxMatrix;
 	
 	private bool _doesRendererNeedTransformChange = false;
 	
@@ -41,8 +41,8 @@ public class FStage : FContainer
 		
 		_renderer = new FRenderer(this);
 		
-		_identityMatrix = new FMatrix();
-		_identityMatrix.ResetToIdentity();
+		_idboxMatrix = new FMatrix();
+		_idboxMatrix.ResetToIdbox();
 		
 		_inverseConcatenatedMatrix = new FMatrix();
 		_screenConcatenatedMatrix = new FMatrix();
@@ -226,21 +226,21 @@ public class FStage : FContainer
         }
     }
 	
-	//notice how we're returning identity matrixes
+	//notice how we're returning idbox matrixes
 	//because we don't want our children to think we've been transformed (or else they will transform)
 	override public FMatrix matrix
 	{
-		get {return _identityMatrix;}
+		get {return _idboxMatrix;}
 	}
 	
 	override public FMatrix concatenatedMatrix
 	{
-		get {return _identityMatrix;}
+		get {return _idboxMatrix;}
 	}
 	
 	override public FMatrix inverseConcatenatedMatrix
 	{
-		get {return _identityMatrix;}
+		get {return _idboxMatrix;}
 	}
 	
 	//these represent the actual matrix of the stage and therefore the screen

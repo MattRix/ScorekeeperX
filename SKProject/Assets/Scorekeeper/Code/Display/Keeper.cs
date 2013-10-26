@@ -8,9 +8,12 @@ public class Keeper : FContainer
 
 	public FContainer mainContainer;
 
-	public MegaEntities megaEntities;
-
-	private BorderBox _borderBox;
+	public List<Box> megaBoxes = new List<Box>();
+	public Box newPlayerBox;
+	public Box timerBox;
+	public Box sortBox;
+	public Box resetBox;
+	public Box settingsBox;
 
 	public Keeper ()
 	{
@@ -19,32 +22,39 @@ public class Keeper : FContainer
 		CellManager.Recalculate();
 
 		AddChild(mainContainer = new FContainer());
-		megaEntities = new MegaEntities();
 
-		megaEntities.newPlayer.MoveToCellInstantly(CellManager.megaNewPlayer);
-		megaEntities.timer.MoveToCellInstantly(CellManager.megaTimer);
-		megaEntities.sort.MoveToCellInstantly(CellManager.megaSort);
-		megaEntities.reset.MoveToCellInstantly(CellManager.megaReset);
-		megaEntities.settings.MoveToCellInstantly(CellManager.megaSettings);
-
-		megaEntities.all.ForEach(entity => {AddChild(entity);});
-
-		megaEntities.reset.MoveToCellTweened(CellManager.middleCell,10.0f);
+		SetupMegaBoxes();
 
 		Futile.screen.SignalResize += HandleSignalResize;
 		Futile.instance.SignalLateUpdate += HandleLateUpdate; 
+	}
 
-		_borderBox = new BorderBox(200,50,5);
-		AddChild (_borderBox);
-		_borderBox.anchorX = 0.0f;
-		_borderBox.anchorY = 0.0f;
+	void SetupMegaBoxes ()
+	{
+		AddChild(newPlayerBox = new PlaceholderBox());
+		newPlayerBox.GoToCellInstantly(CellManager.megaNewPlayer);
+		megaBoxes.Add(newPlayerBox);
+
+		AddChild(timerBox = new PlaceholderBox());
+		timerBox.GoToCellInstantly(CellManager.megaTimer);
+		megaBoxes.Add(timerBox);
+
+		AddChild(sortBox = new PlaceholderBox());
+		sortBox.GoToCellInstantly(CellManager.megaSort);
+		megaBoxes.Add(sortBox);
+
+		AddChild(resetBox = new PlaceholderBox());
+		resetBox.GoToCellInstantly(CellManager.megaReset);
+		megaBoxes.Add(resetBox);
+
+		AddChild(settingsBox = new PlaceholderBox());
+		settingsBox.GoToCellInstantly(CellManager.megaSettings);
+		megaBoxes.Add(settingsBox);
 	}
 
 	void HandleLateUpdate ()
 	{
 		CellManager.Refresh();
-
-		//_borderBox.scale = Mathf.Abs(GetLocalMousePosition().y/Futile.screen.halfHeight);
 	}
 
 	void HandleSignalResize (bool wasResizedDueToOrientationChange)
@@ -52,23 +62,18 @@ public class Keeper : FContainer
 		CellManager.Recalculate();
 	}
 
-	public class MegaEntities
+	public class MegaBoxes
 	{
-		public List<Entity> all = new List<Entity>();
+		public List<Box> all = new List<Box>();
 		
-		public Entity newPlayer;
-		public Entity timer;
-		public Entity sort;
-		public Entity reset;
-		public Entity settings;
+		public Box newPlayer;
+		public Box timer;
+		public Box sort;
+		public Box reset;
+		public Box settings;
 
-		public MegaEntities()
+		public MegaBoxes()
 		{
-			all.Add(newPlayer = 	new PlaceholderEntity());
-			all.Add(timer = 		new PlaceholderEntity());
-			all.Add(sort = 			new PlaceholderEntity());
-			all.Add(reset = 		new PlaceholderEntity());
-			all.Add(settings = 		new PlaceholderEntity());
 		}
 	}
 
