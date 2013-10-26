@@ -46,12 +46,12 @@ public class Config
 		PADDING_S = 2.0f;
 		PADDING_XS = 1.0f;
 
-		SLOT_HEIGHT = 90.0f;
+		SLOT_HEIGHT = 45.0f;
 
 		GRID_MARGIN = 10.0f;
 		GRID_SPACING = 6.0f;
 
-		RESET_SIZE = 96.0f;
+		RESET_SIZE = 48.0f;
 	}
 }
 

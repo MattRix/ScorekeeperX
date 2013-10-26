@@ -92,7 +92,8 @@ public class Keeper : FContainer
 
 	public void CreateEffect(Box box, float borderThickness)
 	{
-		float scaleRatio = box.width / box.height;
+
+
 		BorderBox borderBox = new BorderBox(box.width,box.height,-borderThickness);
 		borderBox.x = box.x;
 		borderBox.y = box.y;
@@ -100,8 +101,19 @@ public class Keeper : FContainer
 		borderBox.alpha = 0.5f;
 		borderBox.scale = 1.0f;
 		borderBox.shader = FShader.Additive;
+		borderBox.color = box.player.color.color + new Color(0.3f,0.3f,0.3f); //add grey to make it brighter
 		effectContainer.AddChild(borderBox);
-		Go.to(borderBox,0.2f,new TweenConfig().setEaseType(EaseType.Linear).floatProp("scaleX",1.0f + 0.1f).floatProp("scaleY",1.0f + scaleRatio*0.1f).floatProp("alpha",0.0f).removeWhenComplete());
+
+		float growSize = 12.0f;
+		float growScaleX = (borderBox.width+growSize)/borderBox.width;
+		float growScaleY = (borderBox.height+growSize)/borderBox.height;
+
+		Go.to(borderBox,0.25f,new TweenConfig()
+		      .setEaseType(EaseType.Linear)
+		      .floatProp("scaleX",growScaleX)
+		      .floatProp("scaleY",growScaleY)
+		      .floatProp("alpha",0.0f)
+		      .removeWhenComplete());
 	}
 
 }

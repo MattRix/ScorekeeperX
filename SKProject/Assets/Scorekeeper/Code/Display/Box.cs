@@ -66,6 +66,20 @@ public class Box : FContainer, FSmartTouchableInterface
 		DoLayout();
 	}
 
+	public void SetSize(float width, float height)
+	{
+		_width = width;
+		_height = height; 
+		DoLayout();
+	}
+
+	public void SetTopLeft(float leftX, float topY)
+	{
+		this.x = leftX + _width*0.5f;
+		this.y = topY - _height*0.5f;
+	}
+
+
 	protected void UpdatePlayer ()	
 	{
 		boxSprites.ForEach(boxSprite => {boxSprite.color = _player.color.color;});
@@ -142,13 +156,6 @@ public class Box : FContainer, FSmartTouchableInterface
 		set {if(_isEnabled != value) {_isEnabled = value; UpdateEnabled();}}
 	}
 
-	public void SetSize(float width, float height)
-	{
-		_width = width;
-		_height = height; 
-		DoLayout();
-	}
-	
 	public float width
 	{
 		get {return _width;}
