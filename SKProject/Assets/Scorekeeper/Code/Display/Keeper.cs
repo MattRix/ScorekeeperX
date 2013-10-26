@@ -60,6 +60,10 @@ public class Keeper : FContainer
 
 		testSlot = new Slot(new Player("MATT", PlayerColor.Red, 17));
 		mainContainer.AddChild(testSlot);
+
+//		FLabel label = new FLabel("Raleway","CENTERED");
+//		label.anchorY = 0.0f;
+//		AddChild (label);
 	}
 
 	public Slot testSlot;
@@ -92,8 +96,6 @@ public class Keeper : FContainer
 
 	public void CreateEffect(Box box, float borderThickness)
 	{
-
-
 		BorderBox borderBox = new BorderBox(box.width,box.height,-borderThickness);
 		borderBox.x = box.x;
 		borderBox.y = box.y;

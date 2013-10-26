@@ -560,7 +560,12 @@ public class FFont
 		{
 			lines[lineCount].bounds = new Rect(minX,minY,maxX-minX,maxY-minY);
 		}
-		
+
+		for(int n = 0; n<lineCount+1; n++)
+		{
+			lines[n].bounds.height += labelTextParams.scaledLineHeightOffset + _textParams.scaledLineHeightOffset;
+		}
+
 		return lines;
 	}
 	
