@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Box : FContainer
+public class Box : FContainer, FSmartTouchableInterface
 {
 	public List<BoxSprite> boxSprites = new List<BoxSprite>();
 	public List<FSprite> contentSprites = new List<FSprite>();
@@ -18,6 +18,9 @@ public class Box : FContainer
 	protected float _tweenTimeTotal;
 
 	protected float _percent = 0.0f;
+
+	protected Action SignalTouch;
+	protected Action SignalRelease;
 
 	public Box()
 	{
@@ -36,6 +39,7 @@ public class Box : FContainer
 		UpdatePlayer();
 
 		ListenForAfterUpdate(HandleAfterUpdate);
+		EnableSmartTouch();
 	}
 
 	void HandleAfterUpdate ()
@@ -95,6 +99,30 @@ public class Box : FContainer
 		_targetCell = cell;
 		UpdatePosition();
 	}
+
+	#region FSmartTouchableInterface implementation
+
+	bool FSmartTouchableInterface.HandleSmartTouchBegan (int touchIndex, FTouch touch)
+	{
+		throw new NotImplementedException ();
+	}
+
+	void FSmartTouchableInterface.HandleSmartTouchMoved (int touchIndex, FTouch touch)
+	{
+		throw new NotImplementedException ();
+	}
+
+	void FSmartTouchableInterface.HandleSmartTouchEnded (int touchIndex, FTouch touch)
+	{
+		throw new NotImplementedException ();
+	}
+
+	void FSmartTouchableInterface.HandleSmartTouchCanceled (int touchIndex, FTouch touch)
+	{
+		throw new NotImplementedException ();
+	}
+
+	#endregion
 
 	public Player player 
 	{
