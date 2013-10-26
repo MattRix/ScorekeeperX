@@ -19,8 +19,9 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	protected float _percent = 0.0f;
 
-	protected Action SignalTouch;
-	protected Action SignalRelease;
+	public Action SignalPress;
+	public Action SignalRelease;
+	public Action SignalReleaseOutside;
 
 	public Box()
 	{
@@ -104,22 +105,39 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	bool FSmartTouchableInterface.HandleSmartTouchBegan (int touchIndex, FTouch touch)
 	{
-		throw new NotImplementedException ();
+		if(touchIndex > 0) return false; //we only want the first touch for now
+
+		if(_currentCell.GetLocalRect().Contains(GetLocalTouchPosition(touch)))
+		{
+			Keeper.instance.CreateEffect(this,Config.PADDING_M);
+			if(SignalPress != null) SignalPress();
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
 	}
 
 	void FSmartTouchableInterface.HandleSmartTouchMoved (int touchIndex, FTouch touch)
 	{
-		throw new NotImplementedException ();
 	}
 
 	void FSmartTouchableInterface.HandleSmartTouchEnded (int touchIndex, FTouch touch)
 	{
-		throw new NotImplementedException ();
+		if(_currentCell.GetGlobalRect().Contains(GetLocalTouchPosition(touch)))
+		{
+			if(SignalRelease != null) SignalRelease();
+		}
+		else 
+		{
+			if(SignalReleaseOutside != null) SignalReleaseOutside();
+		}
 	}
 
 	void FSmartTouchableInterface.HandleSmartTouchCanceled (int touchIndex, FTouch touch)
 	{
-		throw new NotImplementedException ();
+		if(SignalReleaseOutside != null) SignalReleaseOutside();
 	}
 
 	#endregion

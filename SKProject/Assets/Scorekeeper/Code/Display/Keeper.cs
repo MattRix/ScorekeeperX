@@ -15,6 +15,8 @@ public class Keeper : FContainer
 	public Box resetBox;
 	public Box settingsBox;
 
+	public FContainer effectContainer;
+
 	public Keeper ()
 	{
 		instance = this;	
@@ -22,6 +24,7 @@ public class Keeper : FContainer
 		CellManager.Recalculate();
 
 		AddChild(mainContainer = new FContainer());
+		AddChild(effectContainer = new FContainer());
 
 		SetupMegaBoxes();
 
@@ -31,30 +34,47 @@ public class Keeper : FContainer
 
 	void SetupMegaBoxes ()
 	{
-		AddChild(newPlayerBox = new PlaceholderBox());
+		mainContainer.AddChild(newPlayerBox = new PlaceholderBox());
 		newPlayerBox.GoToCellInstantly(CellManager.megaNewPlayer);
 		megaBoxes.Add(newPlayerBox);
 
-		AddChild(timerBox = new PlaceholderBox());
+		mainContainer.AddChild(timerBox = new PlaceholderBox());
 		timerBox.GoToCellInstantly(CellManager.megaTimer);
 		megaBoxes.Add(timerBox);
 
-		AddChild(sortBox = new PlaceholderBox());
+		mainContainer.AddChild(sortBox = new PlaceholderBox());
 		sortBox.GoToCellInstantly(CellManager.megaSort);
 		megaBoxes.Add(sortBox);
 
-		AddChild(resetBox = new PlaceholderBox());
+		mainContainer.AddChild(resetBox = new PlaceholderBox());
 		resetBox.GoToCellInstantly(CellManager.megaReset);
 		megaBoxes.Add(resetBox);
 
-		AddChild(settingsBox = new PlaceholderBox());
+		mainContainer.AddChild(settingsBox = new PlaceholderBox());
 		settingsBox.GoToCellInstantly(CellManager.megaSettings);
 		megaBoxes.Add(settingsBox);
+
+		newPlayerBox.SignalPress += RXWeak.Add(HandleNewPlayerPress);
+	}
+
+	void HandleNewPlayerPress ()
+	{
+		Debug.Log ("Go team");
 	}
 
 	void HandleLateUpdate ()
 	{
 		CellManager.Refresh();
+
+		for(int w = 0; w<10; w++)
+		{
+			BorderBox borderBox = new BorderBox(RXRandom.Range(0,300.0f),RXRandom.Range(0,300.0f),RXRandom.Range(1,30.0f));
+			borderBox.alpha = 0.2f;
+			borderBox.scale = 1.00f;
+			borderBox.shader = FShader.Additive;
+			effectContainer.AddChild(borderBox);
+			Go.to(borderBox,0.2f,new TweenConfig().floatProp("scale",1.1f).floatProp("alpha",0.0f).removeWhenComplete());
+		}
 	}
 
 	void HandleSignalResize (bool wasResizedDueToOrientationChange)
@@ -62,19 +82,18 @@ public class Keeper : FContainer
 		CellManager.Recalculate();
 	}
 
-	public class MegaBoxes
+	public void CreateEffect(Box box, float borderThickness)
 	{
-		public List<Box> all = new List<Box>();
-		
-		public Box newPlayer;
-		public Box timer;
-		public Box sort;
-		public Box reset;
-		public Box settings;
-
-		public MegaBoxes()
-		{
-		}
+		FSoundManager.PlaySound("UI/ButtonTick");
+		BorderBox borderBox = new BorderBox(box.currentCell.width+borderThickness*0.5f,box.currentCell.height+borderThickness*0.5f,borderThickness);
+		borderBox.x = box.x;
+		borderBox.y = box.y;
+		borderBox.rotation = box.rotation;
+		borderBox.alpha = 0.2f;
+		borderBox.scale = 1.00f;
+		borderBox.shader = FShader.Additive;
+		effectContainer.AddChild(borderBox);
+		Go.to(borderBox,0.2f,new TweenConfig().floatProp("scale",1.1f).floatProp("alpha",0.0f).removeWhenComplete());
 	}
 
 }

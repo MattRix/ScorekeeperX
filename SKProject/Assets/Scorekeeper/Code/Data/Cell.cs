@@ -28,6 +28,16 @@ public class Cell
 		_alpha = alpha;
 	}
 
+	public Rect GetGlobalRect()
+	{
+		return new Rect(_x - _width*0.5f, _y - _height*0.5f, _width, _height);
+	}
+
+	public Rect GetLocalRect()
+	{
+		return new Rect(-_width*0.5f, -_height*0.5f, _width, _height);
+	}
+
 	public void SetInterpolated (Cell baseCell, Cell targetCell, float percent)
 	{
 		_x = baseCell.x + (targetCell.x - baseCell.x) * percent;
