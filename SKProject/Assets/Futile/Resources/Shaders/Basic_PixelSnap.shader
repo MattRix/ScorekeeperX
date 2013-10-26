@@ -1,4 +1,5 @@
 //from http://forum.unity3d.com/threads/68402-Making-a-2D-game-for-iPhone-iPad-and-need-better-performance
+//pixelsnap code is from the Unity standard pixelsnap shader (Sprites/PixelSnap/AlphaBlended)
 
 Shader "Futile/Basic_PixelSnap" //Unlit Transparent Vertex Colored
 {
@@ -28,7 +29,6 @@ Shader "Futile/Basic_PixelSnap" //Unlit Transparent Vertex Colored
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-			fixed4 _Color;
 
 			struct appdata_t
 			{
