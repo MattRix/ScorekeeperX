@@ -54,11 +54,14 @@ public class Keeper : FContainer
 		settingsBox.GoToCellInstantly(CellManager.megaSettings);
 		megaBoxes.Add(settingsBox);
 
-		newPlayerBox.SignalPress += RXWeak.Add(HandleNewPlayerPress);
+		newPlayerBox.SignalPress += HandleNewPlayerPress;
+
+		resetBox.isEnabled = false;
 	}
 
 	void HandleNewPlayerPress ()
 	{
+		FSoundManager.PlaySound("UI/Button1");
 		Debug.Log ("Go team");
 	}
 
@@ -84,7 +87,6 @@ public class Keeper : FContainer
 
 	public void CreateEffect(Box box, float borderThickness)
 	{
-		FSoundManager.PlaySound("UI/ButtonTick");
 		BorderBox borderBox = new BorderBox(box.currentCell.width+borderThickness*0.5f,box.currentCell.height+borderThickness*0.5f,borderThickness);
 		borderBox.x = box.x;
 		borderBox.y = box.y;

@@ -19,9 +19,13 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	protected float _percent = 0.0f;
 
+	protected bool _isEnabled = true;
+
 	public Action SignalPress;
 	public Action SignalRelease;
 	public Action SignalReleaseOutside;
+
+	private float _innerAlpha = 1.0f;
 
 	public Box()
 	{
@@ -76,7 +80,7 @@ public class Box : FContainer, FSmartTouchableInterface
 		boxSprites[0].width = _currentCell.width;	
 		boxSprites[0].height = _currentCell.height;
 		this.rotation = _currentCell.rotation;
-		this.alpha = _currentCell.alpha;
+		this.alpha = _currentCell.alpha * _innerAlpha;
 	}
 
 	protected void UpdatePlayer ()	
@@ -105,6 +109,7 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	bool FSmartTouchableInterface.HandleSmartTouchBegan (int touchIndex, FTouch touch)
 	{
+		if(!_isEnabled) return false;
 		if(touchIndex > 0) return false; //we only want the first touch for now
 
 		if(_currentCell.GetLocalRect().Contains(GetLocalTouchPosition(touch)))
@@ -142,6 +147,18 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	#endregion
 
+	private void UpdateEnabled ()
+	{
+		if(_isEnabled)
+		{
+			_innerAlpha = 1.0f;
+		}
+		else 
+		{
+			_innerAlpha = 0.2f;
+		}
+	}
+
 	public Player player 
 	{
 		get {return _player;}
@@ -168,6 +185,19 @@ public class Box : FContainer, FSmartTouchableInterface
 	public Cell targetCell
 	{
 		get {return _targetCell;}
+	}
+
+	public bool isEnabled
+	{
+		get {return _isEnabled;}
+		set 
+		{
+			if(_isEnabled != value)
+			{
+				_isEnabled = value;
+				UpdateEnabled();
+			}
+		}
 	}
 }
 
