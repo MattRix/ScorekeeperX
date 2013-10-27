@@ -34,20 +34,27 @@ public class FTouchSlot
 	public bool didJustEnd = false;
 	public bool didJustCancel = false;
 
-	//call Cancel() instead of setting this directly
-	public bool shouldForceCancel = false;
-	public bool isForceCanceled = false;
-	
+	public bool wasArtificiallyCanceled = false;
+
 	public FTouchSlot(int index)
 	{
 		this.index = index;
 	}
 
-	public void Cancel()
+	public void CancelTouchable()
 	{
-		if(!isForceCanceled)
+		if(touchable != null)
 		{
-			shouldForceCancel = true; //this will cause a Cancel event to be sent out
+			if(isUsedBySingleTouchable)
+			{
+				(touchable as FSingleTouchableInterface).HandleSingleTouchCanceled(touch);
+			}
+			else 
+			{
+				(touchable as FSmartTouchableInterface).HandleSmartTouchCanceled(index, touch);
+			}
+
+			wasArtificiallyCanceled = true;
 		}
 	}
 
@@ -60,9 +67,8 @@ public class FTouchSlot
 		didJustEnd = false;
 		didJustMove = false;
 		didJustCancel = false;
-		
-		shouldForceCancel = false;
-		isForceCanceled = false;
+
+		wasArtificiallyCanceled = false;
 	}
 }
 
@@ -298,8 +304,7 @@ public class FTouchManager
 				if(slot.touch.phase == TouchPhase.Began)
 				{
 					slot.didJustBegin = true;
-					slot.isForceCanceled = false;
-					slot.shouldForceCancel = false;
+					slot.wasArtificiallyCanceled = false;
 
 					for(int c = 0; c<capturedTouchableCount; c++)
 					{
@@ -326,9 +331,11 @@ public class FTouchManager
 						}
 					}
 				}
-				else if(slot.shouldForceCancel || slot.touch.phase == TouchPhase.Canceled)
+				else if(slot.touch.phase == TouchPhase.Canceled)
 				{
-					if(!slot.isForceCanceled)
+					slot.didJustCancel = true;
+
+					if(!slot.wasArtificiallyCanceled)
 					{
 						if(slot.touchable != null)
 						{
@@ -343,9 +350,6 @@ public class FTouchManager
 						}
 					}
 
-					slot.isForceCanceled = true;
-					slot.didJustCancel = true;
-					
 					//cleaned up in CleanUpEndedAndCanceledTouches() instead
 					//slot.touchable = null;
 					//slot.doesHaveTouch = false;
@@ -354,7 +358,7 @@ public class FTouchManager
 				{
 					slot.didJustEnd = true;
 
-					if(!slot.isForceCanceled)
+					if(!slot.wasArtificiallyCanceled)
 					{
 						if(slot.touchable != null)
 						{
@@ -377,7 +381,7 @@ public class FTouchManager
 				{
 					slot.didJustMove = true;
 
-					if(!slot.isForceCanceled)
+					if(!slot.wasArtificiallyCanceled)
 					{
 						if(slot.touchable != null)
 						{
@@ -417,13 +421,12 @@ public class FTouchManager
 			FTouchSlot slot = _touchSlots[t];
 			if(slot.doesHaveTouch)
 			{
-				if(slot.shouldForceCancel)
+				if(slot.wasArtificiallyCanceled && slot.touchable != null)
 				{
-					slot.shouldForceCancel = false;
-					slot.didJustCancel = false;
 					slot.touchable = null;
 				}
-				else if(slot.touch.phase == TouchPhase.Moved)
+
+				if(slot.touch.phase == TouchPhase.Moved)
 				{
 					slot.didJustMove = false;
 				}

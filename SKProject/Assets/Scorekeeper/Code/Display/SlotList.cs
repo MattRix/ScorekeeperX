@@ -23,8 +23,6 @@ public class SlotList : FContainer
 
 	private FTouchSlot _touchSlot;
 
-	private float _timeUntilCancel = 0.0f;
-
 	public SlotList(float width, float height)
 	{
 		_width = width;
@@ -52,7 +50,6 @@ public class SlotList : FContainer
 
 		if(_touchSlot.didJustBegin)
 		{
-			_timeUntilCancel = 0.3f;
 			_scroller.BeginDrag(GetLocalTouchPosition(_touchSlot.touch).y);
 		}
 		else if (_touchSlot.didJustEnd || _touchSlot.didJustCancel)
@@ -63,12 +60,11 @@ public class SlotList : FContainer
 		{
 			_scroller.UpdateDrag(GetLocalTouchPosition(_touchSlot.touch).y);
 
-			if(!_touchSlot.isForceCanceled)
+			if(!_touchSlot.wasArtificiallyCanceled)
 			{
-				_timeUntilCancel -= Time.deltaTime;
-				if(_timeUntilCancel <= 0)
+				if(_scroller.GetDragDistance() > 10.0f)
 				{
-					_touchSlot.Cancel();
+					_touchSlot.CancelTouchable();
 				}
 			}
 		}

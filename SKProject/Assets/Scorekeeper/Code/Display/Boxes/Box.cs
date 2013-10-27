@@ -131,7 +131,6 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	void FSmartTouchableInterface.HandleSmartTouchCanceled (int touchIndex, FTouch touch)
 	{
-		Debug.Log("box cancel");
 		if(SignalReleaseOutside != null) SignalReleaseOutside();
 	}
 

@@ -163,11 +163,21 @@ public class RXScroller
 	{
 		return _speed;
 	}
-	
+
 	public void SetBounds(float boundsMin, float boundsMax)
 	{
 		_boundsMin = boundsMin;
 		_boundsMax = boundsMax;
+	}
+
+	public float GetDragDelta()
+	{
+		return _pos - _basePos;
+	}
+
+	public float GetDragDistance()
+	{
+		return Mathf.Abs(_pos - _basePos);
 	}
 
 	public bool isDragging
