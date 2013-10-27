@@ -1,9 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="m:\Work\Magicule\SVN\2012\ScorekeeperX\SKGit\SKProject\Assets\Scorekeeper\Code\Display\Box.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scorekeeper\Code\Display\SlotList.cs">
     <Files>
-      <File FileName="Assets\Scorekeeper\Code\Display\Keeper.cs" Line="41" Column="2" />
-      <File FileName="m:\Work\Magicule\SVN\2012\ScorekeeperX\SKGit\SKProject\Assets\Scorekeeper\Code\Display\Box.cs" Line="72" Column="35" />
+      <File FileName="Assets\Scorekeeper\Code\Display\Keeper.cs" Line="31" Column="3" />
+      <File FileName="Assets\Scorekeeper\Code\SKMain.cs" Line="41" Column="3" />
+      <File FileName="Assets\Scorekeeper\Code\Display\Slot.cs" Line="17" Column="2" />
+      <File FileName="Assets\Scorekeeper\Code\Display\SlotList.cs" Line="40" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

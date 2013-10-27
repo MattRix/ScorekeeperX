@@ -16,6 +16,22 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":16},
 	"sourceSize": {"w":32,"h":16}
 },
+"Icons/Equals":
+{
+	"frame": {"x":56,"y":2,"w":24,"h":17},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":8,"w":24,"h":17},
+	"sourceSize": {"w":32,"h":32}
+},
+"Icons/Minus":
+{
+	"frame": {"x":83,"y":2,"w":24,"h":7},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":13,"w":24,"h":7},
+	"sourceSize": {"w":32,"h":32}
+},
 "Icons/Placeholder":
 {
 	"frame": {"x":2,"y":21,"w":47,"h":47},
@@ -23,6 +39,14 @@
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":1,"w":47,"h":47},
 	"sourceSize": {"w":49,"h":49}
+},
+"Icons/Plus":
+{
+	"frame": {"x":83,"y":12,"w":24,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":4,"w":24,"h":24},
+	"sourceSize": {"w":32,"h":32}
 },
 "Icons/Skull":
 {
@@ -37,7 +61,7 @@
 	"version": "1.0",
 	"image": "Assets/Scorekeeper/Resources/Atlases/MainAtlas_Scale1.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":128},
+	"size": {"w":128,"h":128},
 	"scale": "0.25"
 }
 }
