@@ -12,7 +12,7 @@ public class Slot : FContainer
 	public MathBox minusBox;
 	public MathBox plusBox;
 
-	public bool isMathMode;
+	private bool _isMathMode;
 
 	private float _width;
 	private float _height;
@@ -42,6 +42,11 @@ public class Slot : FContainer
 //		box.SetSize(_width,_height);
 //		box.y -= _height;
 
+		minusBox.SignalTick += HandleMinusTick;
+		plusBox.SignalTick += HandlePlusTick;
+		nameBox.SignalRelease += HandleNameTap;
+
+		ListenForUpdate(HandleUpdate);
 		DoLayout();
 	}
 
@@ -69,8 +74,9 @@ public class Slot : FContainer
 			handleBox.RemoveFromContainer();
 		}
 
+		float mathModeMultiplier = (1.0f + 0.5f*scoreBox.mathModeTweenAmount); //between 1.0f and 2.0f
 		float maxScoreWidth = 100.0f;
-		float scoreWidth = Mathf.Min(maxScoreWidth,freeWidth * 2.0f/5.0f);
+		float scoreWidth = Mathf.Min(maxScoreWidth,freeWidth * 2.0f/5.0f) * mathModeMultiplier;
 		float nameWidth = freeWidth - scoreWidth;
 
 		nameBox.SetSize(nameWidth,_height);
@@ -93,11 +99,6 @@ public class Slot : FContainer
 		//name
 		//plus
 		//minus
-
-		minusBox.SignalTick += HandleMinusTick;
-		plusBox.SignalTick += HandlePlusTick;
-
-		nameBox.SignalRelease += HandleNameTap;
 	}
 
 	private void HandleNameTap()
@@ -110,12 +111,75 @@ public class Slot : FContainer
 
 	private void HandleMinusTick(int ticks) 
 	{
+		StartMathMode();
 		player.score -= ticks;
 	}
 
 	private void HandlePlusTick(int ticks)
 	{
+		StartMathMode();
+
 		player.score += ticks;
+	}
+
+	private void CloseMathMode()
+	{
+		Go.killAllTweensWithTarget(scoreBox);
+		Go.to(scoreBox, 0.25f, new TweenConfig().floatProp("mathModeTweenAmount",0.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeCloseComplete));
+		FSoundManager.PlaySound("UI/MathClose");
+	}
+
+	void HandleMathModeCloseComplete(AbstractTween obj)
+	{
+		_isMathMode = false;
+		Keeper.instance.slotList.Reorder(false,false,false);
+	}
+
+	private void HandleUpdate()
+	{
+		if(_mathModeAmount > 0)
+		{
+			_mathModeAmount -= Time.deltaTime/Config.MATH_MODE_TIME;
+			if(_mathModeAmount <= 0)
+			{
+				CloseMathMode();
+			}
+		}
+
+		if(_isMathMode)
+		{
+			DoLayout();
+		}
+	}
+
+	private float _mathModeAmount; 
+
+	public void StartMathMode()
+	{
+		_mathModeAmount = 1.0f;
+
+		if(!_isMathMode) //just increment the timer
+		{
+			_isMathMode = true;
+			Go.killAllTweensWithTarget(scoreBox);
+			Go.to(scoreBox, 0.25f, new TweenConfig().floatProp("mathModeTweenAmount",1.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeOpenComplete));
+			FSoundManager.PlaySound("UI/MathOpen");
+		}
+	}
+
+	void HandleMathModeOpenComplete(AbstractTween obj)
+	{
+
+	}
+
+	public void PauseMathMode()
+	{
+		throw new NotImplementedException();
+	}
+
+	public void ResumeMathMode()
+	{
+		throw new NotImplementedException();
 	}
 
 	public float width
@@ -128,6 +192,11 @@ public class Slot : FContainer
 	{
 		get {return _height;}
 		set {if(_height != value) {_height = value; DoLayout();}}
+	}
+
+	public bool isMathMode
+	{
+		get {return _isMathMode;}
 	}
 }
 

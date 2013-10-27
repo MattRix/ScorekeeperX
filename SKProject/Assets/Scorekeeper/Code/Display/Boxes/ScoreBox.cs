@@ -7,6 +7,14 @@ public class ScoreBox : Box
 {
 	public Slot slot;
 	public FLabel scoreLabel;
+
+	public float _mathModeTweenAmount = 0.0f;
+
+	public float mathModeTweenAmount
+	{
+		get {return _mathModeTweenAmount;}
+		set {_mathModeTweenAmount = value;}
+	}
 	
 	public ScoreBox(Slot slot)
 	{

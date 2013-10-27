@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 public class Config
 {
-	//data
+	//rules
 	public static int MAX_PLAYERS = 16;
 	public static int MAX_CHARS_PER_NAME = 16;
+	public static float MATH_MODE_TIME = 2.0f;
 
 	//visual
 	public static float WIDTH;
