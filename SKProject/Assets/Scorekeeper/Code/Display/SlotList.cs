@@ -48,23 +48,26 @@ public class SlotList : FContainer
 	{
 		_scroller.SetBounds(_minScrollY,_maxScrollY);
 
-		if(_touchSlot.didJustBegin)
+		if(_canScroll)
 		{
-			_scroller.BeginDrag(GetLocalTouchPosition(_touchSlot.touch).y);
-		}
-		else if (_touchSlot.didJustEnd || _touchSlot.didJustCancel)
-		{
-			_scroller.EndDrag(GetLocalTouchPosition(_touchSlot.touch).y);
-		}
-		else if(_touchSlot.doesHaveTouch)
-		{
-			_scroller.UpdateDrag(GetLocalTouchPosition(_touchSlot.touch).y);
-
-			if(!_touchSlot.wasArtificiallyCanceled)
+			if(_touchSlot.didJustBegin)
 			{
-				if(_scroller.GetDragDistance() > 10.0f)
+				_scroller.BeginDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+			}
+			else if (_touchSlot.didJustEnd || _touchSlot.didJustCancel)
+			{
+				_scroller.EndDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+			}
+			else if(_touchSlot.doesHaveTouch)
+			{
+				_scroller.UpdateDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+
+				if(!_touchSlot.wasArtificiallyCanceled)
 				{
-					_touchSlot.Cancel();
+					if(_scroller.GetDragDistance() > 10.0f)
+					{
+						_touchSlot.Cancel();
+					}
 				}
 			}
 		}
