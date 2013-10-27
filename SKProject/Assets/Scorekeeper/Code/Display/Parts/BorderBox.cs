@@ -2,6 +2,24 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
+public class TrackerBorderBox : BorderBox
+{
+	public Box box;
+	public TrackerBorderBox(Box box, float width, float height, float borderThickness) : base(width,height,borderThickness)
+	{
+		this.box = box;
+		ListenForAfterUpdate(HandleAfterUpdate);
+	}
+
+	private void HandleAfterUpdate()
+	{
+		if(box.container != null && this.container != null)
+		{
+			this.SetPosition(container.OtherToLocal(box,new Vector2()));
+		} 
+	}
+}
+
 public class BorderBox : FMeshNode
 {
 	private float _width;

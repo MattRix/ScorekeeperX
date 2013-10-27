@@ -108,7 +108,7 @@ public class Keeper : FContainer
 
 	public void CreateTapEffect(Box box, float borderThickness)
 	{
-		BorderBox borderBox = new BorderBox(box.width,box.height,-borderThickness);
+		TrackerBorderBox borderBox = new TrackerBorderBox(box, box.width,box.height,-borderThickness);
 		Vector2 boxPos = effectContainer.OtherToLocal(box,new Vector2());
 		borderBox.x = boxPos.x;
 		borderBox.y = boxPos.y;
