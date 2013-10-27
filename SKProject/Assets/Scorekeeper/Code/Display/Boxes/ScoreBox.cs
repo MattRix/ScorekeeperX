@@ -14,7 +14,7 @@ public class ScoreBox : Box
 		
 		base.Init(slot.player);
 		
-		contentContainer.AddChild(scoreLabel = new FLabel("Ostrich","0"));
+		contentContainer.AddChild(scoreLabel = new FLabel("Raleway","0"));
 		scoreLabel.color = Color.black;
 		
 		isTouchable = false;

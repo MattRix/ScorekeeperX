@@ -48,7 +48,7 @@ public class RepeatableBox : Box
 			{
 				_liveTicks++;
 
-				if(_liveTicks >= 400) //4 seconds hyper
+				if(hasHyperRepeatZones && _liveTicks >= 400) //4 seconds hyper
 				{
 					if(_liveTicks % 15 == 0) //every 150 ms
 					{
@@ -58,7 +58,7 @@ public class RepeatableBox : Box
 					//every 10 ms
 					if(SignalTick != null) SignalTick();
 				}
-				else if(_liveTicks >= 200) //2 seconds faster
+				else if(hasHyperRepeatZones && _liveTicks >= 200) //2 seconds faster
 				{
 					if(_liveTicks % 15 == 0) //every 150 ms
 					{
