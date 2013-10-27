@@ -27,11 +27,42 @@ public class FTouchSlot
 	public bool doesHaveTouch = false;
 	public FCapturedTouchableInterface touchable = null;
 
-	public bool isSingleTouchable = true;
+	public bool isUsedBySingleTouchable = true;
+
+	public bool didJustBegin = false;
+	public bool didJustMove = false;
+	public bool didJustEnd = false;
+	public bool didJustCancel = false;
+
+	//call Cancel() instead of setting this directly
+	public bool shouldForceCancel = false;
+	public bool isForceCanceled = false;
 	
 	public FTouchSlot(int index)
 	{
 		this.index = index;
+	}
+
+	public void Cancel()
+	{
+		if(!isForceCanceled)
+		{
+			shouldForceCancel = true; //this will cause a Cancel event to be sent out
+		}
+	}
+
+	public void Clear()
+	{
+		touchable = null;
+		doesHaveTouch = false;
+		
+		didJustBegin = false;
+		didJustEnd = false;
+		didJustMove = false;
+		didJustCancel = false;
+		
+		shouldForceCancel = false;
+		isForceCanceled = false;
 	}
 }
 
@@ -69,7 +100,7 @@ public interface FSmartTouchableInterface : FCapturedTouchableInterface
 	
 	void HandleSmartTouchCanceled(int touchIndex, FTouch touch);
 }
-	
+
 public class FTouchManager
 {
 	public const int SLOT_COUNT = 12;
@@ -266,6 +297,10 @@ public class FTouchManager
 			{
 				if(slot.touch.phase == TouchPhase.Began)
 				{
+					slot.didJustBegin = true;
+					slot.isForceCanceled = false;
+					slot.shouldForceCancel = false;
+
 					for(int c = 0; c<capturedTouchableCount; c++)
 					{
 						FCapturedTouchableInterface capturedTouchable = tempCapturedTouchables[c];
@@ -275,7 +310,7 @@ public class FTouchManager
 						//the first touchable to return true becomes the active one
 						if(slot.index == 0 && singleTouchable != null && singleTouchable.HandleSingleTouchBegan(slot.touch))
 						{
-							slot.isSingleTouchable = true;
+							slot.isUsedBySingleTouchable = true;
 							slot.touchable = capturedTouchable;
 							break;
 						}
@@ -284,66 +319,83 @@ public class FTouchManager
 							FSmartTouchableInterface smartTouchable = capturedTouchable as FSmartTouchableInterface;
 							if(smartTouchable != null && smartTouchable.HandleSmartTouchBegan(slot.index, slot.touch))
 							{
-								slot.isSingleTouchable = false;
+								slot.isUsedBySingleTouchable = false;
 								slot.touchable = capturedTouchable;
 								break;
 							}
 						}
 					}
 				}
-				else if(slot.touch.phase == TouchPhase.Moved)
+				else if(slot.shouldForceCancel || slot.touch.phase == TouchPhase.Canceled)
 				{
-					if(slot.touchable != null)
+					if(!slot.isForceCanceled)
 					{
-						if(slot.isSingleTouchable)
+						if(slot.touchable != null)
 						{
-							(slot.touchable as FSingleTouchableInterface).HandleSingleTouchMoved(slot.touch);
-						}
-						else 
-						{
-							(slot.touchable as FSmartTouchableInterface).HandleSmartTouchMoved(slot.index, slot.touch);
+							if(slot.isUsedBySingleTouchable)
+							{
+								(slot.touchable as FSingleTouchableInterface).HandleSingleTouchCanceled(slot.touch);
+							}
+							else 
+							{
+								(slot.touchable as FSmartTouchableInterface).HandleSmartTouchCanceled(slot.index, slot.touch);
+							}
 						}
 					}
+
+					slot.isForceCanceled = true;
+					slot.didJustCancel = true;
+					
+					//cleaned up in CleanUpEndedAndCanceledTouches() instead
+					//slot.touchable = null;
+					//slot.doesHaveTouch = false;
 				}
 				else if(slot.touch.phase == TouchPhase.Ended)
 				{
-					if(slot.touchable != null)
+					slot.didJustEnd = true;
+
+					if(!slot.isForceCanceled)
 					{
-						if(slot.isSingleTouchable)
+						if(slot.touchable != null)
 						{
-							(slot.touchable as FSingleTouchableInterface).HandleSingleTouchEnded(slot.touch);
-						}
-						else 
-						{
-							(slot.touchable as FSmartTouchableInterface).HandleSmartTouchEnded(slot.index, slot.touch);
+							if(slot.isUsedBySingleTouchable)
+							{
+								(slot.touchable as FSingleTouchableInterface).HandleSingleTouchEnded(slot.touch);
+							}
+							else 
+							{
+								(slot.touchable as FSmartTouchableInterface).HandleSmartTouchEnded(slot.index, slot.touch);
+							}
 						}
 					}
 
-					slot.touchable = null;
-					slot.doesHaveTouch = false;
+					//cleaned up in CleanUpEndedAndCanceledTouches() instead
+					//slot.touchable = null;
+					//slot.doesHaveTouch = false;
 				}
-				else if(slot.touch.phase == TouchPhase.Canceled)
+				else if(slot.touch.phase == TouchPhase.Moved)
 				{
-					if(slot.touchable != null)
+					slot.didJustMove = true;
+
+					if(!slot.isForceCanceled)
 					{
-						if(slot.isSingleTouchable)
+						if(slot.touchable != null)
 						{
-							(slot.touchable as FSingleTouchableInterface).HandleSingleTouchCanceled(slot.touch);
-						}
-						else 
-						{
-							(slot.touchable as FSmartTouchableInterface).HandleSmartTouchCanceled(slot.index, slot.touch);
+							if(slot.isUsedBySingleTouchable)
+							{
+								(slot.touchable as FSingleTouchableInterface).HandleSingleTouchMoved(slot.touch);
+							}
+							else 
+							{
+								(slot.touchable as FSmartTouchableInterface).HandleSmartTouchMoved(slot.index, slot.touch);
+							}
 						}
 					}
-
-					slot.touchable = null;
-					slot.doesHaveTouch = false;
 				}
 			}
 			else //clear the slot here
 			{
-				slot.touchable = null;
-				slot.doesHaveTouch = false;
+				slot.Clear();
 			}
 		}
 		
@@ -354,6 +406,44 @@ public class FTouchManager
 			{
 				tempMultiTouchables[m].HandleMultiTouch(touches);
 			}	
+		}
+	}
+
+	public void CleanUpEndedAndCanceledTouches()//called by Futile in LateUpdate
+	{
+		//clean up the touches that have been canceled or ended
+		for(int t = 0; t<SLOT_COUNT; t++)
+		{
+			FTouchSlot slot = _touchSlots[t];
+			if(slot.doesHaveTouch)
+			{
+				if(slot.shouldForceCancel)
+				{
+					slot.shouldForceCancel = false;
+					slot.didJustCancel = false;
+					slot.touchable = null;
+				}
+				else if(slot.touch.phase == TouchPhase.Moved)
+				{
+					slot.didJustMove = false;
+				}
+				else if(slot.touch.phase == TouchPhase.Began)
+				{
+					slot.didJustBegin = false;
+				}
+				else if(slot.touch.phase == TouchPhase.Ended)
+				{
+					slot.doesHaveTouch = false;
+					slot.touchable = null;
+					slot.didJustEnd = false;
+				}
+				else if(slot.touch.phase == TouchPhase.Canceled)
+				{
+					slot.doesHaveTouch = false;
+					slot.touchable = null;
+					slot.didJustCancel = false;
+				}
+			}
 		}
 	}
 
@@ -448,6 +538,12 @@ public class FTouchManager
 		}
 		
 		Debug.Log(stringBuilder.ToString());
+	}
+
+	public FTouchSlot GetTouchSlot(int index)
+	{
+		if(index < 0 || index >= _touchSlots.Length) return null;
+		return _touchSlots[index];
 	}
 
 

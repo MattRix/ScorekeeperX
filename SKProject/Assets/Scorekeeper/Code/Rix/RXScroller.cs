@@ -11,7 +11,7 @@ public class RXScroller
 	public float EDGE_SQUISH_RATIO = 0.55f; //keep below 1, it's the ratio of edge squish (0.55 is Apple's default) 
 	public float EDGE_BOUNCE = 0.19f; //how much force to use to bounce back
 	public float STRONG_FRICTION = 0.75f; //used to bring it to a stop quicker
-	public float WEAK_FRICTION = 0.87f; //used when throwing at high speed
+	public float WEAK_FRICTION = 0.92f; //used when throwing at high speed
 	public float SLOW_SPEED = 3.0f; //below this speed it will be brought to a stop quickly
 
 	private bool _isDragging = false;

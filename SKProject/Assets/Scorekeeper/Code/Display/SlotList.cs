@@ -19,10 +19,20 @@ public class SlotList : FContainer
 	private float _width;
 	private float _height;
 
+	private RXScroller _scroller;
+
+	private FTouchSlot _touchSlot;
+
+	private float _timeUntilCancel = 0.0f;
+
 	public SlotList(float width, float height)
 	{
 		_width = width;
 		_height = height;
+
+		_scroller = new RXScroller(0,_minScrollY,_maxScrollY);
+
+		_touchSlot = Futile.touchManager.GetTouchSlot(0);
 
 		AddChild(slotContainer = new FContainer());
 
@@ -32,6 +42,40 @@ public class SlotList : FContainer
 		{
 			AddSlotForPlayer(players[p]);
 		}
+
+		ListenForUpdate(HandleUpdate);
+	}
+
+	void HandleUpdate()
+	{
+		_scroller.SetBounds(_minScrollY,_maxScrollY);
+
+		if(_touchSlot.didJustBegin)
+		{
+			_timeUntilCancel = 0.3f;
+			_scroller.BeginDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+		}
+		else if (_touchSlot.didJustEnd || _touchSlot.didJustCancel)
+		{
+			_scroller.EndDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+		}
+		else if(_touchSlot.doesHaveTouch)
+		{
+			_scroller.UpdateDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+
+			if(!_touchSlot.isForceCanceled)
+			{
+				_timeUntilCancel -= Time.deltaTime;
+				if(_timeUntilCancel <= 0)
+				{
+					_touchSlot.Cancel();
+				}
+			}
+		}
+
+		_scroller.Update();
+
+		slotContainer.y = -_scroller.GetPos();
 	}
 
 	public void AddSlotForPlayer(Player player)
@@ -183,6 +227,17 @@ public class SlotList : FContainer
 
 		return players;
 	}
+
+//	#region FMultiTouchableInterface implementation
+//
+//	void FMultiTouchableInterface.HandleMultiTouch(FTouch[] touches)
+//	{
+//		if(touches[0].slot.index == 0)
+//		{
+//		}
+//	}
+//
+//	#endregion
 
 	public List<Slot> slots
 	{

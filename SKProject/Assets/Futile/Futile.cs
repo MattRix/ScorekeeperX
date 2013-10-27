@@ -340,6 +340,8 @@ public class Futile : MonoBehaviour
 		}
 		
 		if(SignalLateUpdate != null) SignalLateUpdate();
+
+		touchManager.CleanUpEndedAndCanceledTouches();
 	}	
 	
 	private void FixedUpdate()
