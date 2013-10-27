@@ -30,9 +30,14 @@ public class PlayerColor
 		this.color = RXColor.GetColorFromHex(hex);
 	}
 
-	public static PlayerColor GetNextUnusedColor(List<PlayerColor> usedColors)
+	public void PlaySound()
 	{
-		usedColors = new List<PlayerColor>(usedColors); //make a copy because we'll be destructive
+		Debug.Log("playing "+name+" sound!");
+	}
+
+	public static PlayerColor GetNextUnusedColor()
+	{
+		List<PlayerColor> usedColors = SKDataManager.GetUsedColors();
 
 		int c = 0;
 
@@ -51,6 +56,8 @@ public class PlayerColor
 			{
 				usedColors.RemoveAt(usedIndex);
 			}
+
+			c++;
 		}
 	}
 

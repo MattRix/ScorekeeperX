@@ -99,6 +99,23 @@ public static class RXUtils
 		output = output.Replace(",",",\n");
 		return output;
 	}
+
+	public static bool AreListsEqual<T>(List<T> listA, List<T> listB)
+	{
+		if(listA.Count != listB.Count)
+		{
+			return false;
+		}
+
+		int count = listA.Count;
+
+		for(int c = 0; c<count; c++)
+		{
+			if(!listA[c].Equals(listB[c])) return false;
+		}
+
+		return true;
+	}
 }
 
 public static class RXArrayUtil

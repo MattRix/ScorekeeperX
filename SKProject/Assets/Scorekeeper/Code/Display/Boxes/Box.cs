@@ -149,7 +149,7 @@ public class Box : FContainer, FSmartTouchableInterface
 		}
 		else 
 		{
-			this.alpha = 0.2f;
+			this.alpha = 0.5f;
 		}
 	}
 

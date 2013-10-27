@@ -21,18 +21,20 @@ public class Slot : FContainer
 
 	public float buildInAmount = 0.0f;
 
-	public Slot(Player player)
+	public int index = -1;
+
+	public Slot(Player player, float width, float height)
 	{
 		this.player = player;
+
+		_width = width;
+		_height = height;
 
 		AddChild(handleBox = new HandleBox(this));
 		AddChild(nameBox = new NameBox(this));
 		AddChild(scoreBox = new ScoreBox(this));
 		AddChild(minusBox = new MathBox(this, MathType.Minus));
 		AddChild(plusBox = new MathBox(this, MathType.Plus));
-
-		_width = Config.LIST_WIDTH;
-		_height = Config.SLOT_HEIGHT;
 
 //		Box box = new Box();
 //		AddChild(box);

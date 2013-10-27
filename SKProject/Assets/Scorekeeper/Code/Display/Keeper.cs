@@ -24,18 +24,26 @@ public class Keeper : FContainer
 	{
 		instance = this;	
 
+		SKDataManager.LoadData();
+
 		CellManager.Recalculate();
 
 		AddChild(mainContainer = new FContainer());
 
 		SetupMegaBoxes();
 
-		AddChild(slotList = new SlotList());
+		AddChild(slotList = new SlotList(Config.LIST_WIDTH, Config.HEIGHT));
 
 		AddChild(effectContainer = new FContainer());
 
+		slotList.SignalPlayerChange += HandlePlayerChange;
+		
+		HandlePlayerChange();
+
 		Futile.screen.SignalResize += HandleSignalResize;
 		Futile.instance.SignalLateUpdate += HandleLateUpdate; 
+
+		//FSoundManager.PlaySound("UI/Start");
 	}
 
 	void SetupMegaBoxes ()
@@ -63,26 +71,34 @@ public class Keeper : FContainer
 		newPlayerBox.SignalPress += HandleNewPlayerPress;
 	}
 
+	void HandlePlayerChange()
+	{
+		if(slotList.slots.Count < Config.MAX_PLAYERS)
+		{
+			newPlayerBox.isEnabled = true;
+		}
+		else 
+		{
+			newPlayerBox.isEnabled = false;
+		}
+	}
+
 	void HandleNewPlayerPress ()
 	{
 		newPlayerBox.DoTapEffect();
 		FSoundManager.PlaySound("UI/Button1");
-		Debug.Log ("Go team");
+
+		Player player = new Player();
+		player.name = (string)RXRandom.GetRandomItem("BELLA", "JOHNNY", "darko", "wallice fourteen", "everyone", "johnny b", "wick","j");
+		player.color = PlayerColor.GetNextUnusedColor();
+		player.score = RXRandom.Range(-1000,1000);
+
+		slotList.AddSlotForPlayer(player);
 	}
 
 	void HandleLateUpdate ()
 	{
 		CellManager.Refresh();
-
-//		for(int w = 0; w<10; w++)
-//		{
-//			BorderBox borderBox = new BorderBox(RXRandom.Range(0,300.0f),RXRandom.Range(0,300.0f),RXRandom.Range(1,30.0f));
-//			borderBox.alpha = 0.5f;
-//			borderBox.scale = 1.00f;
-//			borderBox.shader = FShader.Additive;
-//			effectContainer.AddChild(borderBox);
-//			Go.to(borderBox,0.2f,new TweenConfig().floatProp("scale",1.1f).floatProp("alpha",0.0f).removeWhenComplete());
-//		}
 	}
 
 	void HandleSignalResize (bool wasResizedDueToOrientationChange)
