@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class RepeatableBox : Box
 {
-	public Action SignalTick;
+	public Action<int> SignalTick;
 
 	public string normalSoundName;
 	public string fastSoundName;
@@ -43,45 +43,71 @@ public class RepeatableBox : Box
 			float totalTime = Time.time - _touchTime;
 			int totalTicks = Mathf.FloorToInt(totalTime / 0.01f);
 
+			int ticksToSend = 0;
+
+			string soundName = null;
+			bool shouldPlaySound = false;
 
 			while(_liveTicks < totalTicks)
 			{
 				_liveTicks++;
 
+				if(_liveTicks % 15 == 0) //every 150 ms play a sound
+				{
+					shouldPlaySound = true;
+				}
+
+				if(hasHyperRepeatZones && _liveTicks >= 800) //8 seconds hyper
+				{
+					//every 10 ms
+					ticksToSend += 11;
+				}
 				if(hasHyperRepeatZones && _liveTicks >= 400) //4 seconds hyper
 				{
-					if(_liveTicks % 15 == 0) //every 150 ms
-					{
-						DoTickEffectWithSound(fastestSoundName);
-					}
+					soundName = fastestSoundName;
 
 					//every 10 ms
-					if(SignalTick != null) SignalTick();
+					ticksToSend += 1;
 				}
 				else if(hasHyperRepeatZones && _liveTicks >= 200) //2 seconds faster
 				{
-					if(_liveTicks % 15 == 0) //every 150 ms
-					{
-						DoTickEffectWithSound(fastSoundName);
-					}
+					soundName = fastSoundName;
 
 					if(_liveTicks % 5 == 0) //every 50 ms
 					{
-						if(SignalTick != null) SignalTick();
+						ticksToSend += 1;
 					}
 				}
 				else if(_liveTicks >= 40) //0.4 seconds fast
 				{
 					if(_liveTicks % 15 == 0) //every 150 ms
 					{
-						DoTickEffectWithSound(normalSoundName);
-						if(SignalTick != null) SignalTick();
+						soundName = normalSoundName;
+						ticksToSend += 1;
 					}
 				}
 				else 
 				{
 					//do nothing for the first 0.4 seconds
 				}
+			}
+
+			if(shouldPlaySound && soundName != null)
+			{
+				DoTickEffectWithSound(soundName);
+			}
+
+			if(ticksToSend > 0)
+			{
+				if(ticksToSend >= 5)
+				{
+					if(Time.frameCount % 30 == 0)
+					{
+						DoTickEffectWithSound(soundName);
+					}
+				}
+
+				if(SignalTick != null) SignalTick(ticksToSend);
 			}
 		}
 	}
@@ -95,7 +121,7 @@ public class RepeatableBox : Box
 	private void HandlePress()
 	{
 		DoTickEffectWithSound(normalSoundName);
-		if(SignalTick != null) SignalTick();
+		if(SignalTick != null) SignalTick(1);
 
 		if(_shouldRepeat)
 		{

@@ -13,6 +13,8 @@ public class MathBox : RepeatableBox
 	{
 		this.slot = slot;
 		this.mathType = mathType;
+
+		this.hasHyperRepeatZones = true;
 		
 		base.Init(slot.player);
 		

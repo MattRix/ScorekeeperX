@@ -108,14 +108,14 @@ public class Slot : FContainer
 		player.name = RXRandom.GetRandomItem("BELLA", "JOHNNY", "darko", "wallice fourteen", "everyone", "johnny b", "wick","j","","             ", "do ya", "hollaber four") as string;
 	}
 
-	private void HandleMinusTick() 
+	private void HandleMinusTick(int ticks) 
 	{
-		player.score--;
+		player.score -= ticks;
 	}
 
-	private void HandlePlusTick()
+	private void HandlePlusTick(int ticks)
 	{
-		player.score++;
+		player.score += ticks;
 	}
 
 	public float width
