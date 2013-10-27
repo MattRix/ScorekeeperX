@@ -64,7 +64,7 @@ public class SlotList : FContainer
 			{
 				if(_scroller.GetDragDistance() > 10.0f)
 				{
-					_touchSlot.CancelTouchable();
+					_touchSlot.Cancel();
 				}
 			}
 		}

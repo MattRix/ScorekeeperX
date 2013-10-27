@@ -41,7 +41,7 @@ public class FTouchSlot
 		this.index = index;
 	}
 
-	public void CancelTouchable()
+	public void Cancel()
 	{
 		if(touchable != null)
 		{
