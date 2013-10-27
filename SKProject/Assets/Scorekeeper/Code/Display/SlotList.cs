@@ -14,9 +14,9 @@ public class SlotList : FContainer
 
 	public SlotList()
 	{
-		LoadPlayerData();
+		AddChild(slotContainer = new FContainer());
 
-		slotContainer = new FContainer();
+		LoadPlayerData();
 	}
 
 	public void AddSlotForPlayer(Player player)
@@ -42,6 +42,11 @@ public class SlotList : FContainer
 			{
 				if(_slots[s].isMathMode) return; //don't sort if one of them is in math mode
 			}
+		}
+
+		for(int s = 0; s<_slots.Count; s++)
+		{
+			_slots[s].y = s * _slots[s].height;
 		}
 	}
 

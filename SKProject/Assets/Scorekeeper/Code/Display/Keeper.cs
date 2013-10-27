@@ -27,11 +27,12 @@ public class Keeper : FContainer
 		CellManager.Recalculate();
 
 		AddChild(mainContainer = new FContainer());
-		AddChild(effectContainer = new FContainer());
 
 		SetupMegaBoxes();
 
 		AddChild(slotList = new SlotList());
+
+		AddChild(effectContainer = new FContainer());
 
 		Futile.screen.SignalResize += HandleSignalResize;
 		Futile.instance.SignalLateUpdate += HandleLateUpdate; 
@@ -60,18 +61,7 @@ public class Keeper : FContainer
 		megaBoxes.Add(settingsBox);
 
 		newPlayerBox.SignalPress += HandleNewPlayerPress;
-
-		resetBox.isEnabled = false;
-
-		testSlot = new Slot(new Player("MATT", RXRandom.GetRandomItem(PlayerColor.allColors), 17));
-		mainContainer.AddChild(testSlot);
-
-//		FLabel label = new FLabel("Raleway","CENTERED");
-//		label.anchorY = 0.0f; 
-//		AddChild (label);
 	}
-
-	public Slot testSlot;
 
 	void HandleNewPlayerPress ()
 	{
@@ -103,8 +93,9 @@ public class Keeper : FContainer
 	public void CreateTapEffect(Box box, float borderThickness)
 	{
 		BorderBox borderBox = new BorderBox(box.width,box.height,-borderThickness);
-		borderBox.x = box.x;
-		borderBox.y = box.y;
+		Vector2 boxPos = effectContainer.OtherToLocal(box,new Vector2());
+		borderBox.x = boxPos.x;
+		borderBox.y = boxPos.y;
 		borderBox.rotation = box.rotation;
 		borderBox.alpha = 0.35f;
 		borderBox.scale = 1.0f;
