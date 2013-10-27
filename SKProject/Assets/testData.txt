@@ -1,0 +1,42 @@
+
+{
+"players":
+[
+
+{
+"name":"MATT",
+"score":0,
+"color":"Orange"
+},
+
+{
+"name":"SUSAN",
+"score":27,
+"color":"Purple"
+},
+
+{
+"name":"RORY SIX",
+"score":123,
+"color":"Red"
+},
+
+{
+"name":"WILBUR FENTINGTON",
+"score":0,
+"color":"Yellow"
+},
+
+{
+"name":"ASYMPTOTE",
+"score":96,
+"color":"Green"
+},
+
+{
+"name":"  LIVE  WIRE  ",
+"score":44,
+"color":"Pink"
+}
+]
+}

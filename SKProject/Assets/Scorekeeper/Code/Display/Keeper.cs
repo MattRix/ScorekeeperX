@@ -15,7 +15,10 @@ public class Keeper : FContainer
 	public Box resetBox;
 	public Box settingsBox;
 
+	public SlotList slotList;
+
 	public FContainer effectContainer;
+
 
 	public Keeper ()
 	{
@@ -27,6 +30,8 @@ public class Keeper : FContainer
 		AddChild(effectContainer = new FContainer());
 
 		SetupMegaBoxes();
+
+		AddChild(slotList = new SlotList());
 
 		Futile.screen.SignalResize += HandleSignalResize;
 		Futile.instance.SignalLateUpdate += HandleLateUpdate; 
@@ -101,17 +106,17 @@ public class Keeper : FContainer
 		borderBox.x = box.x;
 		borderBox.y = box.y;
 		borderBox.rotation = box.rotation;
-		borderBox.alpha = 0.4f;
+		borderBox.alpha = 0.35f;
 		borderBox.scale = 1.0f;
 		borderBox.shader = FShader.Additive;
 		borderBox.color = box.player.color.color + new Color(0.3f,0.3f,0.3f); //add grey to make it brighter
 		effectContainer.AddChild(borderBox);
 
-		float growSize = 12.0f;
+		float growSize = 10.0f;
 		float growScaleX = (borderBox.width+growSize)/borderBox.width;
 		float growScaleY = (borderBox.height+growSize)/borderBox.height;
 
-		Go.to(borderBox,0.25f,new TweenConfig()
+		Go.to(borderBox,0.2f,new TweenConfig()
 		      .setEaseType(EaseType.Linear)
 		      .floatProp("scaleX",growScaleX)
 		      .floatProp("scaleY",growScaleY)

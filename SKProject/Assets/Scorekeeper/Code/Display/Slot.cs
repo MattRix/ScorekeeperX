@@ -12,10 +12,14 @@ public class Slot : FContainer
 	public MathBox minusBox;
 	public MathBox plusBox;
 
+	public bool isMathMode;
+
 	private float _width;
 	private float _height;
 
 	private bool _hasHandle = false;
+
+	public float buildInAmount = 0.0f;
 
 	public Slot(Player player)
 	{
@@ -155,7 +159,7 @@ public class NameBox : Box
 
 		base.Init(slot.player);
 
-		AddChild(nameLabel = new FLabel("Raleway",slot.player.name));
+		contentContainer.AddChild(nameLabel = new FLabel("Raleway",slot.player.name));
 		nameLabel.color = Color.black;
 
 		slot.player.SignalNameChange += HandleNameChange;
@@ -166,13 +170,22 @@ public class NameBox : Box
 	private void HandleNameChange()
 	{
 		nameLabel.text = slot.player.name;
-		
-		float availWidth = this.width - Config.PADDING_M*3;
-		float availHeight = this.height - Config.PADDING_M*3;
-		
-		float labelScale = Mathf.Min(0.75f, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
-		
-		nameLabel.scale = Mathf.Clamp01(labelScale);
+
+		DoLayout();
+	}
+
+	override public void DoLayout()
+	{
+		base.DoLayout();
+		if(nameLabel != null)
+		{
+			float availWidth = this.width - Config.PADDING_L*2;
+			float availHeight = this.height - Config.PADDING_M*2;
+			
+			float labelScale = Mathf.Min(1.0f, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
+			
+			nameLabel.scale = Mathf.Clamp01(labelScale); 
+		}
 	}
 }
 
@@ -187,7 +200,7 @@ public class ScoreBox : Box
 
 		base.Init(slot.player);
 
-		AddChild(scoreLabel = new FLabel("Raleway","0"));
+		contentContainer.AddChild(scoreLabel = new FLabel("Ostrich","0"));
 		scoreLabel.color = Color.black;
 
 		isTouchable = false;
@@ -201,12 +214,21 @@ public class ScoreBox : Box
 	{
 		scoreLabel.text = slot.player.score.ToString();
 
-		float availWidth = this.width - Config.PADDING_M*3;
-		float availHeight = this.height - Config.PADDING_M*3;
+		DoLayout();
+	}
 
-		float labelScale = Mathf.Min(0.75f, availHeight/scoreLabel.textRect.height,availWidth/scoreLabel.textRect.width);
-
-		scoreLabel.scale = Mathf.Clamp01(labelScale);
+	override public void DoLayout()
+	{
+		base.DoLayout();
+		if(scoreLabel != null)
+		{
+			float availWidth = this.width - Config.PADDING_M*3;
+			float availHeight = this.height - Config.PADDING_M*2;
+			
+			float labelScale = Mathf.Min(1.0f, availHeight/scoreLabel.textRect.height,availWidth/scoreLabel.textRect.width);
+			
+			scoreLabel.scale = Mathf.Clamp01(labelScale);
+		}
 	}
 }
 

@@ -31,7 +31,7 @@ public class SKMain : MonoBehaviour
 		shouldHaveScale4 = false;
 		#endif
 		
-		if(shouldHaveScale1) fparams.AddResolutionLevel(480.0f,		1.0f,	1.0f,	"_Scale1"); //iPhone
+		if(shouldHaveScale1) fparams.AddResolutionLevel(600.0f,		1.0f,	1.0f,	"_Scale1"); //iPhone
 		if(shouldHaveScale2) fparams.AddResolutionLevel(960.0f,		2.0f,	2.0f,	"_Scale2"); //iPhone retina
 		if(shouldHaveScale2) fparams.AddResolutionLevel(1024.0f,	2.0f,	2.0f,	"_Scale2"); //iPad
 		if(shouldHaveScale2) fparams.AddResolutionLevel(1280.0f,	2.0f,	2.0f,	"_Scale2"); //Nexus 7
@@ -43,6 +43,7 @@ public class SKMain : MonoBehaviour
 		
 		Futile.atlasManager.LoadAtlas("Atlases/MainAtlas");
 		Futile.atlasManager.LoadImage("Atlases/Fonts/Raleway");
+		Futile.atlasManager.LoadImage("Atlases/Fonts/Ostrich");
 		
 		FTextParams textParams;
 		
@@ -50,6 +51,13 @@ public class SKMain : MonoBehaviour
 		textParams.kerningOffset = -0.0f;
 		textParams.lineHeightOffset = -15.0f;
 		Futile.atlasManager.LoadFont("Raleway","Atlases/Fonts/Raleway", "Atlases/Fonts/Raleway"+Futile.resourceSuffix, -1.0f,-1.0f,textParams);
+
+		
+		textParams = new FTextParams();
+		textParams.kerningOffset = -0.0f;
+		textParams.lineHeightOffset = -15.0f;
+		Futile.atlasManager.LoadFont("Ostrich","Atlases/Fonts/Ostrich", "Atlases/Fonts/Ostrich"+Futile.resourceSuffix, 0.0f,-2.0f,textParams);
+
 
 //		FSprite ph = new FSprite("Icons/Placeholder");
 //		Futile.stage.AddChild(ph);

@@ -18,9 +18,14 @@ public class Player
 	public Action SignalColorChange;
 	public Action SignalScoreChange;
 
+	public Player ()
+	{
+
+	}
+
 	public Player (string name, PlayerColor color, int score)
 	{
-		_name = name;
+		_name = name.ToUpper();
 		_color = color;
 		_score = score;
 	}
@@ -35,7 +40,7 @@ public class Player
 			if(_name != value)
 			{
 				_name = value;
-				SignalNameChange();
+				if(SignalNameChange != null) SignalNameChange();
 			}
 		}
 	}
@@ -49,7 +54,7 @@ public class Player
 			if(_color != value)
 			{
 				_color = value;
-				SignalColorChange();
+				if(SignalColorChange != null) SignalColorChange();
 			}
 		}
 	}
@@ -63,7 +68,7 @@ public class Player
 			if(_score != value)
 			{
 				_score = value;
-				SignalScoreChange();
+				if(SignalScoreChange != null) SignalScoreChange();
 			}
 		}
 	}
