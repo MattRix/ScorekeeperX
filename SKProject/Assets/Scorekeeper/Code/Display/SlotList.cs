@@ -44,7 +44,33 @@ public class SlotList : FContainer
 		ListenForUpdate(HandleUpdate);
 	}
 
-	void HandleUpdate()
+	public void RemoveSlotForPlayer(Player player, bool shouldDoInstantly, bool shouldReorder)
+	{
+		Slot slotToRemove = GetSlotForPlayer(player);
+		if(slotToRemove == null) return;
+
+		_slots.Remove(slotToRemove);
+
+		float tweenTime = shouldDoInstantly ? 0.0f : 0.3f;
+		Go.to(slotToRemove, tweenTime, new TweenConfig().floatProp("buildInAmount",0.0f).setEaseType(EaseType.Linear).removeWhenComplete());
+
+		if(shouldReorder) Reorder(false,false,false);
+
+		if(SignalPlayerChange != null) SignalPlayerChange();
+
+		SKDataManager.MarkDirty();
+	}
+
+	public Slot GetSlotForPlayer(Player player)
+	{
+		for(int s = 0; s<_slots.Count; s++)
+		{
+			if(_slots[s].player == player) return _slots[s];
+		}
+		return null;
+	}
+
+	private void HandleUpdate()
 	{
 		_scroller.SetBounds(_minScrollY,_maxScrollY);
 
@@ -140,12 +166,12 @@ public class SlotList : FContainer
 			{
 				slot.y = newY;
 
-				slot.buildInAmount = 1.0f;
+				slot.buildIn.amount = 1.0f;
 			}
 			else if(slot.index < s) //moving down
 			{
 				slot.y = newY;
-				slot.buildInAmount = 1.0f;
+				slot.buildIn.amount = 1.0f;
 
 				//do shrink tween
 				slot.scaleX = 1.0f;
@@ -154,7 +180,7 @@ public class SlotList : FContainer
 			else if(slot.index > s) //moving up
 			{
 				slot.y = newY;
-				slot.buildInAmount = 1.0f;
+				slot.buildIn.amount = 1.0f;
 
 				//do grow tween
 				slot.scaleX = 1.0f;
@@ -164,7 +190,7 @@ public class SlotList : FContainer
 			{
 				if(slot.y != newY)
 				{
-					slot.buildInAmount = 1.0f;
+					slot.buildIn.amount = 1.0f;
 					slot.y = newY;
 				}
 			}

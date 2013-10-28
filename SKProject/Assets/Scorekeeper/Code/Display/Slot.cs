@@ -19,7 +19,7 @@ public class Slot : FContainer
 
 	private bool _hasHandle = false;
 
-	public float buildInAmount = 0.0f;
+	public RXTweenable buildIn = new RXTweenable(0.0f);
 
 	public int index = -1;
 
@@ -106,7 +106,9 @@ public class Slot : FContainer
 		FSoundManager.PlaySound("UI/Button1");
 		nameBox.DoTapEffect();
 
-		player.name = RXRandom.GetRandomItem("BELLA", "JOHNNY", "darko", "wallice fourteen", "everyone", "johnny b", "wick","j","","             ", "do ya", "hollaber four") as string;
+		Keeper.instance.slotList.RemoveSlotForPlayer(this.player,false,true);
+
+//		player.name = RXRandom.GetRandomItem("BELLA", "JOHNNY", "darko", "wallice fourteen", "everyone", "johnny b", "wick","j","","             ", "do ya", "hollaber four") as string;
 	}
 
 	private void HandleMinusTick(int ticks) 
