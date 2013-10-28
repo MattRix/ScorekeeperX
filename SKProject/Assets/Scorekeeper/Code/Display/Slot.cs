@@ -83,7 +83,7 @@ public class Slot : FContainer
 			handleBox.RemoveFromContainer();
 		}
 
-		float mathModeMultiplier = (1.0f + 0.5f*scoreBox.mathModeTweenAmount); //between 1.0f and 2.0f
+		float mathModeMultiplier = (1.0f + 0.75f*scoreBox.mathMode.amount); //between 1.0f and 1.75f
 		float maxScoreWidth = 100.0f;
 		float scoreWidth = Mathf.Min(maxScoreWidth,freeWidth * 2.0f/5.0f) * mathModeMultiplier;
 		float nameWidth = freeWidth - scoreWidth;
@@ -156,7 +156,7 @@ public class Slot : FContainer
 			}
 		}
 
-		if(_isMathMode || scoreBox.mathModeTweenAmount > 0)
+		if(_isMathMode || scoreBox.mathMode.amount > 0)
 		{
 			DoLayout();
 		}
@@ -172,7 +172,7 @@ public class Slot : FContainer
 		{
 			_isMathMode = true;
 			Go.killAllTweensWithTarget(scoreBox);
-			Go.to(scoreBox, 0.25f, new TweenConfig().floatProp("mathModeTweenAmount",1.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeOpenComplete));
+			Go.to(scoreBox.mathMode, 0.4f, new TweenConfig().floatProp("amount",1.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeOpenComplete));
 			FSoundManager.PlaySound("UI/MathOpen");
 		}
 	}
@@ -186,7 +186,7 @@ public class Slot : FContainer
 	{
 		_isMathMode = false;
 		Go.killAllTweensWithTarget(scoreBox);
-		Go.to(scoreBox, 0.25f, new TweenConfig().floatProp("mathModeTweenAmount",0.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeCloseComplete));
+		Go.to(scoreBox.mathMode, 0.4f, new TweenConfig().floatProp("amount",0.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeCloseComplete));
 		FSoundManager.PlaySound("UI/MathClose");
 	}
 	

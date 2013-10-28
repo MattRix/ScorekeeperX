@@ -523,7 +523,7 @@ public static class RXEase
 	public static Delegate BackInOut = (t) => 	{ return (t <= 0.5f) ? BackIn(t * 2f) * 0.5f : BackOut(t * 2f - 1f) * 0.5f + 0.5f; };
 	public static Delegate ExpoIn = (t) => 		{ return Mathf.Pow(2f, 10f * (t-1.0f)); };
 	public static Delegate ExpoOut = (t) => 	{ return 1f - Mathf.Pow(2f, -10f * t); };
-	public static Delegate ExpoInOut = (t) => 	{ return t < .5f ? ExpoIn(t * 2f) * 0.5f : ExpoOut(t * 2f) * 0.5f; };
+	public static Delegate ExpoInOut = (t) => 	{ return t < .5f ? ExpoIn(t * 2f) * 0.5f : ExpoOut(t * 2f - 1f) * 0.5f + 0.5f; };
 	public static Delegate SineIn = (t) => 		{ return -Mathf.Cos(Mathf.PI * 0.5f * t) + 1f; };
 	public static Delegate SineOut = (t) => 	{ return Mathf.Sin(Mathf.PI * 0.5f * t); };
 	public static Delegate SineInOut = (t) => 	{ return -Mathf.Cos(Mathf.PI * t) * 0.5f + .5f; };

@@ -166,7 +166,7 @@ public class SlotList : FContainer
 		{
 			for(int s = 0; s<_slots.Count; s++)
 			{
-				if(_slots[s].isMathMode) return; //don't sort if one of them is in math mode
+				if(_slots[s].scoreBox.mathMode.amount > 0) return; //don't sort if one of them is in math mode
 			}
 		}
 

@@ -60,7 +60,7 @@ public class RepeatableBox : Box
 				if(hasHyperRepeatZones && _liveTicks >= 1000) //10 seconds hyper
 				{
 					//every 10 ms
-					ticksToSend += 5;
+					ticksToSend += 50;
 				}
 				if(hasHyperRepeatZones && _liveTicks >= 400) //4 seconds hyper
 				{
@@ -78,7 +78,7 @@ public class RepeatableBox : Box
 						ticksToSend += 1;
 					}
 				}
-				else if(_liveTicks >= 40) //0.4 seconds fast
+				else if(_liveTicks >= 30) //0.3 seconds fast
 				{
 					if(_liveTicks % 15 == 0) //every 150 ms
 					{
