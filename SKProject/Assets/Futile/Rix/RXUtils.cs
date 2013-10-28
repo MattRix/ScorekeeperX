@@ -301,14 +301,16 @@ public class RXMath
 	public const float PI = Mathf.PI;
 	public const float INVERSE_PI = 1.0f/Mathf.PI;
 	public const float INVERSE_DOUBLE_PI = 1.0f/(Mathf.PI*2.0f);
-	
+
+	//Wrap is basically a version of % that works with negative numbers
+
 	public static int Wrap(int input, int range)
 	{
 		int result = input % range;
 		return (input < 0) ? result + range : result;
 	}
 	
-	public static float Wrap(float input, float range)
+	public static float Wrap(float input, float range) 
 	{
 		float result = input % range;
 		return (input < 0) ? result + range : result;
@@ -344,6 +346,21 @@ public class RXMath
 		float first = ((input + (range*1000000.0f)) % range)/range; //0 to 1
 		if(first < 0.5f) return first*2.0f;
 		else return 1.0f - ((first - 0.5f)*2.0f); 
+	}
+
+	//turns input from 0 to 1 into a saw pattern from 0 to 1 and back to 0... so when input is 0.5, the output is 1 etc.
+	public static float Saw(float input)
+	{
+		input = Wrap(input,1.0f);
+		if(input < 0.5f) return input*2f;
+		return 2f-input*2f; 
+	}
+
+	//turn input from 0 to 1 into a circular sin pattern
+	public static float Circ(float input)
+	{
+		input = Wrap(input,1.0f);
+		return Mathf.Sin(input * Mathf.PI);
 	}
 
 	public static Vector2 GetOffsetFromAngle(float angle, float distance)
@@ -513,6 +530,14 @@ public static class RXEase
 	public static Delegate ElasticIn = (t) => 	{ return 1f - ElasticOut(1f - t); };
 	public static Delegate ElasticOut = (t) => 	{ return Mathf.Pow(2f, -10f * t) * Mathf.Sin((t - 0.075f) * (2f * Mathf.PI) / 0.3f) + 1f; };
 	public static Delegate ElasticInOut = (t) =>{ return (t <= 0.5f) ? ElasticIn(t * 2f) / 2f : ElasticOut(t * 2f - 1f) * 0.5f + 0.5f; };
+
+	//turns input from 0 to 1 into a eased saw pattern from 0 to 1 and back to 0... so when input is 0.5, the output is 1 etc.
+	public static float UpDown(float input, Delegate easeFunc)
+	{
+		if(input < 0.5f) return easeFunc(input*2f);
+		return easeFunc(2f-input*2f); 
+	}
+
 }
 
 
@@ -582,6 +607,7 @@ public class RXTweenable
 		}
 	}
 
+	//TODO make this better
 	public TweenConfig Tween(float duration, float targetAmount)
 	{
 		Go.killAllTweensWithTarget(this);

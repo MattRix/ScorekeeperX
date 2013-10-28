@@ -61,7 +61,16 @@ public class SlotList : FContainer
 
 		Go.killAllTweensWithTarget(slotToRemove.buildIn);
 		float duration = shouldDoInstantly ? 0.0f : 0.3f;
-		slotToRemove.buildIn.Tween(duration,0.0f).setEaseType(EaseType.Linear).onComplete(slotToRemove.RemoveFromContainer);
+		slotToRemove.buildIn.Tween(duration,0.0f).setEaseType(EaseType.Linear).onComplete(slotToRemove.Destroy);
+
+		//move all the indexes below it down (so they don't think they have to animate)
+		for(int s = 0; s<_slots.Count; s++)
+		{
+			if(_slots[s].index > slotToRemove.index)
+			{
+				_slots[s].index --;
+			}
+		}
 
 		if(shouldReorder) Reorder(false,false,false);
 
@@ -190,46 +199,65 @@ public class SlotList : FContainer
 
 				if(_isInitializing)
 				{
-					delay = (float)s * 0.1f;
+					delay = 0.2f + (float)s * 0.1f;
 				}
 				else 
 				{
 					delay = _slots.Count == 1 ? 0 : 0.3f; //only delay if there are other players
 				}
 
-				slot.buildIn.Tween(0.3f + delay,1.0f).setEaseType(EaseType.Linear).setDelay(delay);
+				//note how we make the tween longer AND delay it by the delay. weird effect :)
+				Go.killAllTweensWithTarget(slot.buildIn);
+				Go.to(slot.buildIn, 0.5f + delay, new TweenConfig().floatProp("amount",1.0f).setDelay(delay)); 
 			}
 			else if(slot.index < s) //moving down
 			{
-				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
+				Go.killAllTweensWithTarget(slot.buildIn);
+				Go.to(slot.buildIn, 0.5f, new TweenConfig().floatProp("amount",1.0f));
 
-				//slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
-				//slot.y = newY;
 				Go.killAllTweensWithTarget(slot);
 				Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
 
-				//do shrink tween
-				slot.scaleX = 1.0f;
-				slot.scaleY = 1.0f;
+				float delta = s - slot.index ;
+				float scaleAmount = 0.04f + delta * 0.0075f;
+
+				//slot shrink more the farther it travels downward
+
+				RXTweenable tw = new RXTweenable(0.0f);
+				tw.SignalChange += () => 
+				{
+					slot.scale = 1.0f - scaleAmount * RXEase.UpDown(tw.amount,RXEase.SineIn);
+				};
+
+				Go.to(tw, 0.5f, new TweenConfig().floatProp("amount",1.0f).setEaseType(EaseType.Linear));
 			}
 			else if(slot.index > s) //moving up
 			{
-				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
-				//slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
-				//slot.y = newY;
+				Go.killAllTweensWithTarget(slot.buildIn);
+				Go.to(slot.buildIn, 0.5f, new TweenConfig().floatProp("amount",1.0f));
+
 				Go.killAllTweensWithTarget(slot);
 				Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
-				//do grow tween
-				slot.scaleX = 1.0f;
-				slot.scaleY = 1.0f;
+
+				//slot grows more the farther it travels upward
+				float delta = slot.index - s;
+				float scaleAmount = 0.04f + delta * 0.0075f;
+
+				RXTweenable tw = new RXTweenable(0.0f);
+				tw.SignalChange += () => 
+				{
+					slot.scale = 1.0f + scaleAmount * RXEase.UpDown(tw.amount,RXEase.SineIn);
+				};
+				
+				Go.to(tw, 0.5f, new TweenConfig().floatProp("amount",1.0f).setEaseType(EaseType.Linear));
 			}
 			else 
 			{
 				if(slot.y != newY)
 				{
-					slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
-					//slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
-					//slot.y = newY;
+					Go.killAllTweensWithTarget(slot.buildIn);
+					Go.to(slot.buildIn, 0.5f, new TweenConfig().floatProp("amount",1.0f));
+
 					Go.killAllTweensWithTarget(slot);
 					Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
 				}

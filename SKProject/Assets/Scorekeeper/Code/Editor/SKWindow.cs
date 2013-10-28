@@ -18,6 +18,6 @@ public class SKWindow : EditorWindow
 
 	public void OnGUI()
 	{
-		Time.timeScale = EditorGUILayout.Slider("TimeScale: ",Time.timeScale,0.1f,2.0f);
+		Time.timeScale = EditorGUILayout.Slider("TimeScale: ",Time.timeScale,0.025f,2.0f);
 	}
 }

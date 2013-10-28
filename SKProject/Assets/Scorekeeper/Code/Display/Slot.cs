@@ -53,6 +53,12 @@ public class Slot : FContainer
 		HandleBuildInChange();
 	}
 
+	public void Destroy()
+	{
+		this.RemoveFromContainer();
+		//TODO: clean up signals etc.
+	}
+
 	public void DoLayout()
 	{
 		float padding = Config.PADDING_S;

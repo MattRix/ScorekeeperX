@@ -57,10 +57,10 @@ public class RepeatableBox : Box
 					shouldPlaySound = true;
 				}
 
-				if(hasHyperRepeatZones && _liveTicks >= 800) //8 seconds hyper
+				if(hasHyperRepeatZones && _liveTicks >= 1000) //10 seconds hyper
 				{
 					//every 10 ms
-					ticksToSend += 9;
+					ticksToSend += 5;
 				}
 				if(hasHyperRepeatZones && _liveTicks >= 400) //4 seconds hyper
 				{

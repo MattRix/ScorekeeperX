@@ -99,7 +99,7 @@ public class Keeper : FContainer
 
 	void HandleSortTap ()
 	{
-		newPlayerBox.DoTapEffect();
+		sortBox.DoTapEffect();
 		FSoundManager.PlaySound("UI/Button1");
 
 		if(SKDataManager.sortType == SortType.HighestAtTop)
