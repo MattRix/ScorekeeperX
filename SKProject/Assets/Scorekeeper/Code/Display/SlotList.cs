@@ -51,8 +51,9 @@ public class SlotList : FContainer
 
 		_slots.Remove(slotToRemove);
 
-		float tweenTime = shouldDoInstantly ? 0.0f : 0.3f;
-		Go.to(slotToRemove, tweenTime, new TweenConfig().floatProp("buildInAmount",0.0f).setEaseType(EaseType.Linear).removeWhenComplete());
+		Go.killAllTweensWithTarget(slotToRemove.buildIn);
+		float duration = shouldDoInstantly ? 0.0f : 0.3f;
+		slotToRemove.buildIn.Tween(duration,0.0f).setEaseType(EaseType.Linear).onComplete(slotToRemove.RemoveFromContainer);
 
 		if(shouldReorder) Reorder(false,false,false);
 
@@ -166,12 +167,19 @@ public class SlotList : FContainer
 			{
 				slot.y = newY;
 
-				slot.buildIn.amount = 1.0f;
+				float delay = _slots.Count == 1 ? 0 : 0.3f; //only delay if there are other players
+
+				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear).setDelay(delay);
+
+				//slot.buildIn.amount = 1.0f;
+
+				//NOTE: EaseType.ExpoOut is broken!
 			}
 			else if(slot.index < s) //moving down
 			{
-				slot.y = newY;
-				slot.buildIn.amount = 1.0f;
+				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
+
+				slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
 
 				//do shrink tween
 				slot.scaleX = 1.0f;
@@ -179,9 +187,8 @@ public class SlotList : FContainer
 			}
 			else if(slot.index > s) //moving up
 			{
-				slot.y = newY;
-				slot.buildIn.amount = 1.0f;
-
+				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
+				slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
 				//do grow tween
 				slot.scaleX = 1.0f;
 				slot.scaleY = 1.0f;
@@ -190,8 +197,8 @@ public class SlotList : FContainer
 			{
 				if(slot.y != newY)
 				{
-					slot.buildIn.amount = 1.0f;
-					slot.y = newY;
+					slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
+					slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
 				}
 			}
 

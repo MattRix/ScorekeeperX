@@ -19,7 +19,7 @@ public class Slot : FContainer
 
 	private bool _hasHandle = false;
 
-	public RXTweenable buildIn = new RXTweenable(0.0f);
+	public RXTweenable buildIn;
 
 	public int index = -1;
 
@@ -48,6 +48,9 @@ public class Slot : FContainer
 
 		ListenForUpdate(HandleUpdate);
 		DoLayout();
+
+		buildIn = new RXTweenable(0.0f, HandleBuildInChange);
+		HandleBuildInChange();
 	}
 
 	public void DoLayout()
@@ -99,6 +102,19 @@ public class Slot : FContainer
 		//name
 		//plus
 		//minus
+	}
+
+	private void HandleBuildInChange()
+	{
+		float amount = buildIn.amount;
+
+		handleBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.0f,0.4f));
+		nameBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.15f,0.55f));
+		scoreBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.3f,0.7f));
+		minusBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.45f,0.85f));
+		plusBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.6f,1.0f));
+
+//		Debug.Log("m " + nameBox.scale);
 	}
 
 	private void HandleNameTap()

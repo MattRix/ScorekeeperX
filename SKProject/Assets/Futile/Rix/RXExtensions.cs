@@ -156,10 +156,26 @@ public static class RXGoKitExtensions
 		config.onComplete(HandleRemoveWhenDoneTweenComplete);	
 		return config;
 	}
+
+	//forward to an action with no arguments instead
+	public static TweenConfig onComplete(this TweenConfig config, Action onCompleteAction)
+	{
+		config.onComplete((tween) => {onCompleteAction();});	
+		return config;
+	}
 	
 	private static void HandleRemoveWhenDoneTweenComplete (AbstractTween tween)
 	{
 		((tween as Tween).target as FNode).RemoveFromContainer();
+	}
+
+	public static TweenConfig Tween(this object @this, float duration)
+	{
+		Go.killAllTweensWithTarget(@this);
+		
+		TweenConfig tc = new TweenConfig();
+		Go.to(@this,duration,tc);
+		return tc;
 	}
 }
 

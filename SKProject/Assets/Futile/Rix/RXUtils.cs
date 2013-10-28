@@ -354,7 +354,7 @@ public class RXMath
 
 	//returns the percentage across a subrange... 
 	//so for example (0.75,0.25,1.0) would return 0.666, because 0.75f is 66% of the way between 0.25 and 1.0f
-	public float GetSubPercent(float fullPercent, float lowEnd, float highEnd)
+	public static float GetSubPercent(float fullPercent, float lowEnd, float highEnd)
 	{
 		return Mathf.Clamp01((fullPercent-lowEnd)/(highEnd-lowEnd));
 	}
@@ -496,23 +496,23 @@ public static class RXEase
 
 	public static Delegate Linear = (t) => 		{ return t; };
 	public static Delegate QuadIn = (t) => 		{ return t * t; };
-	public static Delegate QuadOut = (t) => 		{ return 1 - QuadIn(1 - t); };
-	public static Delegate QuadInOut = (t) => 	{ return (t <= 0.5f) ? QuadIn(t * 2) / 2 : QuadOut(t * 2 - 1) / 2 + 0.5f; };
+	public static Delegate QuadOut = (t) => 	{ return 1f - QuadIn(1f - t); };
+	public static Delegate QuadInOut = (t) => 	{ return (t <= 0.5f) ? QuadIn(t * 2f) * 0.5f : QuadOut(t * 2f - 1f) * 0.5f + 0.5f; };
 	public static Delegate CubeIn = (t) => 		{ return t * t * t; };
-	public static Delegate CubeOut = (t) => 		{ return 1 - CubeIn(1 - t); };
-	public static Delegate CubeInOut = (t) => 	{ return (t <= 0.5f) ? CubeIn(t * 2) / 2 : CubeOut(t * 2 - 1) / 2 + 0.5f; };
+	public static Delegate CubeOut = (t) => 	{ return 1f - CubeIn(1f - t); };
+	public static Delegate CubeInOut = (t) => 	{ return (t <= 0.5f) ? CubeIn(t * 2f) * 0.5f : CubeOut(t * 2f - 1f) * 0.5f + 0.5f; };
 	public static Delegate BackIn = (t) => 		{ return t * t * (2.70158f * t - 1.70158f); };
-	public static Delegate BackOut = (t) => 		{ return 1 - BackIn(1 - t); };
-	public static Delegate BackInOut = (t) => 	{ return (t <= 0.5f) ? BackIn(t * 2) / 2 : BackOut(t * 2 - 1) / 2 + 0.5f; };
-	public static Delegate ExpoIn = (t) => 		{ return Mathf.Pow(2, 10 * (t - 1)); };
-	public static Delegate ExpoOut = (t) => 		{ return 1 - Mathf.Pow(2, 10 * (t - 1)); };
-	public static Delegate ExpoInOut = (t) => 	{ return t < .5f ? ExpoIn(t * 2) / 2 : ExpoOut(t * 2) / 2; };
-	public static Delegate SineIn = (t) => 		{ return -Mathf.Cos(Mathf.PI / 2 * t) + 1; };
-	public static Delegate SineOut = (t) => 		{ return Mathf.Sin(Mathf.PI / 2 * t); };
-	public static Delegate SineInOut = (t) => 	{ return -Mathf.Cos(Mathf.PI * t) / 2f + .5f; };
-	public static Delegate ElasticIn = (t) => 	{ return 1 - ElasticOut(1 - t); };
-	public static Delegate ElasticOut = (t) => 	{ return Mathf.Pow(2, -10 * t) * Mathf.Sin((t - 0.075f) * (2 * Mathf.PI) / 0.3f) + 1; };
-	public static Delegate ElasticInOut = (t) => 	{ return (t <= 0.5f) ? ElasticIn(t * 2) / 2 : ElasticOut(t * 2 - 1) / 2 + 0.5f; };
+	public static Delegate BackOut = (t) => 	{ return 1f - BackIn(1f - t); };
+	public static Delegate BackInOut = (t) => 	{ return (t <= 0.5f) ? BackIn(t * 2f) * 0.5f : BackOut(t * 2f - 1f) * 0.5f + 0.5f; };
+	public static Delegate ExpoIn = (t) => 		{ return Mathf.Pow(2f, 10f * (t-1.0f)); };
+	public static Delegate ExpoOut = (t) => 	{ return 1f - Mathf.Pow(2f, -10f * t); };
+	public static Delegate ExpoInOut = (t) => 	{ return t < .5f ? ExpoIn(t * 2f) * 0.5f : ExpoOut(t * 2f) * 0.5f; };
+	public static Delegate SineIn = (t) => 		{ return -Mathf.Cos(Mathf.PI * 0.5f * t) + 1f; };
+	public static Delegate SineOut = (t) => 	{ return Mathf.Sin(Mathf.PI * 0.5f * t); };
+	public static Delegate SineInOut = (t) => 	{ return -Mathf.Cos(Mathf.PI * t) * 0.5f + .5f; };
+	public static Delegate ElasticIn = (t) => 	{ return 1f - ElasticOut(1f - t); };
+	public static Delegate ElasticOut = (t) => 	{ return Mathf.Pow(2f, -10f * t) * Mathf.Sin((t - 0.075f) * (2f * Mathf.PI) / 0.3f) + 1f; };
+	public static Delegate ElasticInOut = (t) =>{ return (t <= 0.5f) ? ElasticIn(t * 2f) / 2f : ElasticOut(t * 2f - 1f) * 0.5f + 0.5f; };
 }
 
 
@@ -524,22 +524,22 @@ public static class RXEaseStandard
 	public static Delegate Linear = 		Standardize(RXEase.Linear);
 	public static Delegate QuadIn = 		Standardize(RXEase.QuadIn);
 	public static Delegate QuadOut = 		Standardize(RXEase.QuadOut);
-	public static Delegate QuadInOut = 	Standardize(RXEase.QuadInOut);
+	public static Delegate QuadInOut = 		Standardize(RXEase.QuadInOut);
 	public static Delegate CubeIn = 		Standardize(RXEase.CubeIn);
 	public static Delegate CubeOut = 		Standardize(RXEase.CubeOut);
-	public static Delegate CubeInOut = 	Standardize(RXEase.CubeInOut);
+	public static Delegate CubeInOut = 		Standardize(RXEase.CubeInOut);
 	public static Delegate BackIn = 		Standardize(RXEase.BackIn);
 	public static Delegate BackOut = 		Standardize(RXEase.BackOut);
-	public static Delegate BackInOut = 	Standardize(RXEase.BackInOut);
+	public static Delegate BackInOut = 		Standardize(RXEase.BackInOut);
 	public static Delegate ExpoIn = 		Standardize(RXEase.ExpoIn);
 	public static Delegate ExpoOut = 		Standardize(RXEase.ExpoOut);
-	public static Delegate ExpoInOut = 	Standardize(RXEase.ExpoInOut);
+	public static Delegate ExpoInOut = 		Standardize(RXEase.ExpoInOut);
 	public static Delegate SineIn = 		Standardize(RXEase.SineIn);
 	public static Delegate SineOut = 		Standardize(RXEase.SineOut);
-	public static Delegate SineInOut = 	Standardize(RXEase.SineInOut);
-	public static Delegate ElasticIn = 	Standardize(RXEase.ElasticIn);
+	public static Delegate SineInOut = 		Standardize(RXEase.SineInOut);
+	public static Delegate ElasticIn = 		Standardize(RXEase.ElasticIn);
 	public static Delegate ElasticOut = 	Standardize(RXEase.ElasticOut);
-	public static Delegate ElasticInOut = Standardize(RXEase.ElasticInOut);
+	public static Delegate ElasticInOut = 	Standardize(RXEase.ElasticInOut);
 	
 	public delegate float Delegate(float currentTime,float startingValue,float finalValue,float duration);
 
@@ -581,4 +581,16 @@ public class RXTweenable
 			}
 		}
 	}
+
+	public TweenConfig Tween(float duration, float targetAmount)
+	{
+		Go.killAllTweensWithTarget(this);
+		
+		TweenConfig tc = new TweenConfig();
+		tc.floatProp("amount", targetAmount);
+		Go.to(this,duration,tc);
+		return tc;
+	}
+
+
 }
