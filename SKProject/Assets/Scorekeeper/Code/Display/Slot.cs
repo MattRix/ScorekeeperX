@@ -195,7 +195,7 @@ public class Slot : FContainer
 	void HandleMathModeCloseComplete(AbstractTween obj)
 	{
 		_isMathMode = false;
-		Keeper.instance.slotList.Reorder(true,false,false);
+		Keeper.instance.slotList.Reorder(true,false);
 	}
 
 

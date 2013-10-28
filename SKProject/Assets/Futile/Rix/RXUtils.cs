@@ -607,15 +607,16 @@ public class RXTweenable
 		}
 	}
 
-	//TODO make this better
-	public TweenConfig Tween(float duration, float targetAmount)
+	public void To(float targetAmount, float duration)
+	{
+		this.To(targetAmount,duration, new TweenConfig());
+	}
+
+	public void To(float targetAmount, float duration, TweenConfig tc)
 	{
 		Go.killAllTweensWithTarget(this);
-		
-		TweenConfig tc = new TweenConfig();
 		tc.floatProp("amount", targetAmount);
 		Go.to(this,duration,tc);
-		return tc;
 	}
 
 

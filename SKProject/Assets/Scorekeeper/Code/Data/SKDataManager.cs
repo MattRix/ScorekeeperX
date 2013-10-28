@@ -88,7 +88,6 @@ public class SKDataManager
 
 	public static void SaveData()
 	{
-		Debug.Log("SAVING!");
 		if(Keeper.instance.slotList == null) return; //don't bother saving before the slot list has even finished initializing
 
 		_players = Keeper.instance.slotList.GetPlayers();

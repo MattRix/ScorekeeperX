@@ -104,14 +104,14 @@ public class Keeper : FContainer
 
 		if(SKDataManager.sortType == SortType.HighestAtTop)
 		{
-			SKDataManager.sortType = SortType.HighestAtTop;
+			SKDataManager.sortType = SortType.LowestAtTop;
 		}
 		else 
 		{
-			SKDataManager.sortType = SortType.LowestAtTop;
+			SKDataManager.sortType = SortType.HighestAtTop;
 		}
 		
-		slotList.Reorder(false,true,false);
+		slotList.Reorder(false,false,true);
 	}
 
 	void HandleLateUpdate ()

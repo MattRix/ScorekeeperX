@@ -25,6 +25,8 @@ public class SlotList : FContainer
 
 	private bool _isInitializing = true;
 
+	private bool _isFlipping = false;
+
 	public SlotList(float width, float height)
 	{
 		_width = width;
@@ -45,7 +47,7 @@ public class SlotList : FContainer
 			AddSlotForPlayer(players[p], false);
 		}
 
-		Reorder(false,false,false);
+		Reorder(false,false);
 
 		ListenForUpdate(HandleUpdate);
 
@@ -61,8 +63,8 @@ public class SlotList : FContainer
 
 		Go.killAllTweensWithTarget(slotToRemove.buildIn);
 		float duration = shouldDoInstantly ? 0.0f : 0.3f;
-		slotToRemove.buildIn.Tween(duration,0.0f).setEaseType(EaseType.Linear).onComplete(slotToRemove.Destroy);
-
+		slotToRemove.buildIn.To(0,duration,new TweenConfig().onComplete(slotToRemove.Destroy));
+		Go.to(slotToRemove, duration, new TweenConfig().floatProp("scale",0.8f));
 		//move all the indexes below it down (so they don't think they have to animate)
 		for(int s = 0; s<_slots.Count; s++)
 		{
@@ -72,7 +74,7 @@ public class SlotList : FContainer
 			}
 		}
 
-		if(shouldReorder) Reorder(false,false,false);
+		if(shouldReorder) Reorder(false,false);
 
 		if(SignalPlayerChange != null) SignalPlayerChange();
 
@@ -145,13 +147,18 @@ public class SlotList : FContainer
 
 		if(shouldReorder)
 		{
-			Reorder(false,false,false);
+			Reorder(false,false);
 		}
 
 		if(SignalPlayerChange != null) SignalPlayerChange();
 	}
 
-	public void Reorder(bool shouldWaitUntilMathModeFinishes, bool isFlipping, bool shouldScrollToTop)
+	public void Reorder(bool shouldWaitUntilMathModeFinishes, bool shouldScrollToTop)
+	{
+		Reorder(shouldWaitUntilMathModeFinishes,shouldScrollToTop,false);
+	}
+
+	public void Reorder(bool shouldWaitUntilMathModeFinishes, bool shouldScrollToTop, bool isFlipping)
 	{
 		if(_slots.Count == 0) return; //no need sorting things that don't exist :) 
 
@@ -162,6 +169,8 @@ public class SlotList : FContainer
 				if(_slots[s].isMathMode) return; //don't sort if one of them is in math mode
 			}
 		}
+
+		_isFlipping = isFlipping;
 
 		List<Slot> originalSlots = new List<Slot>(_slots); //create a copy
 
@@ -174,14 +183,7 @@ public class SlotList : FContainer
 
 		_canScroll = (totalHeight > _height);
 
-		if(isFlipping)
-		{
-			_slots.Reverse();
-		}
-		else 
-		{
-			_slots.Sort(SlotSorter);
-		}
+		_slots.Sort(SlotSorter);
 
 		for(int s = 0; s<_slots.Count; s++)
 		{
@@ -289,6 +291,8 @@ public class SlotList : FContainer
 		}
 
 		SKDataManager.MarkDirty();
+
+		_isFlipping = false;
 	}
 
 	private void ScrollToTop(float time)
@@ -303,7 +307,19 @@ public class SlotList : FContainer
 		{
 			bool isHighestAtTop = (SKDataManager.sortType == SortType.HighestAtTop);
 
-			int indexMultiplier = isHighestAtTop ? -1 : 1;
+
+			//this indexMultiplier stuff has to do with how to handle ties
+
+			int indexMultiplier;
+
+			if(_isFlipping) //when flipping we want EVERYTHING to flip, even tied numbers
+			{
+				indexMultiplier = isHighestAtTop ? 1 : -1;
+			}
+			else //when a tie happens normally, we want to keep the incumbent "on top"
+			{
+				indexMultiplier = isHighestAtTop ? -1 : 1;
+			}
 
 			int scoreA = indexMultiplier*slotA.index + slotA.player.score * 100;
 			int scoreB = indexMultiplier*slotB.index + slotB.player.score * 100;

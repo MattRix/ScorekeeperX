@@ -153,29 +153,21 @@ public static class RXGoKitExtensions
 	
 	public static TweenConfig removeWhenComplete(this TweenConfig config)
 	{
-		config.onComplete(HandleRemoveWhenDoneTweenComplete);	
+		config.onComplete((tween) => {((tween as Tween).target as FNode).RemoveFromContainer();});	
 		return config;
 	}
 
-	//forward to an action with no arguments instead
+	public static TweenConfig hideWhenComplete(this TweenConfig config)
+	{
+		config.onComplete((tween) => {((tween as Tween).target as FNode).isVisible = false;});	
+		return config;
+	}
+
+	//forward to an action with no arguments instead (ex you can pass myNode.RemoveFromContainer)
 	public static TweenConfig onComplete(this TweenConfig config, Action onCompleteAction)
 	{
 		config.onComplete((tween) => {onCompleteAction();});	
 		return config;
-	}
-	
-	private static void HandleRemoveWhenDoneTweenComplete (AbstractTween tween)
-	{
-		((tween as Tween).target as FNode).RemoveFromContainer();
-	}
-
-	public static TweenConfig Tween(this object @this, float duration)
-	{
-		Go.killAllTweensWithTarget(@this);
-		
-		TweenConfig tc = new TweenConfig();
-		Go.to(@this,duration,tc);
-		return tc;
 	}
 }
 
