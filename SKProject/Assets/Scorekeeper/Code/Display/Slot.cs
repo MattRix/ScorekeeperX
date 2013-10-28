@@ -140,7 +140,6 @@ public class Slot : FContainer
 	private void HandlePlusTick(int ticks)
 	{
 		StartMathMode();
-
 		player.score += ticks;
 	}
 
@@ -170,6 +169,10 @@ public class Slot : FContainer
 
 		if(!_isMathMode) //just increment the timer
 		{
+			if(scoreBox.mathMode.amount == 0)
+			{
+				scoreBox.ResetBaseScore();
+			}
 			_isMathMode = true;
 			Go.killAllTweensWithTarget(scoreBox);
 			Go.to(scoreBox.mathMode, 0.4f, new TweenConfig().floatProp("amount",1.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeOpenComplete));

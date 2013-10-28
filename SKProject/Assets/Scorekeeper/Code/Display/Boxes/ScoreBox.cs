@@ -19,6 +19,8 @@ public class ScoreBox : Box
 	private float _signTargetX;
 	private float _equalsTargetX;
 	private float _baseTargetX;
+
+	private int _baseScore = 0;
 	
 	public ScoreBox(Slot slot)
 	{
@@ -63,6 +65,11 @@ public class ScoreBox : Box
 		_scoreLabel.text = slot.player.score.ToString();
 		
 		DoLayout();
+	}
+
+	public void ResetBaseScore()
+	{
+		_baseScore = slot.player.score;
 	}
 
 	void StartMathMode()
@@ -141,7 +148,25 @@ public class ScoreBox : Box
 
 		if(_isMathMode) //position the math mode elements here
 		{
+			int deltaScore = (slot.player.score - _baseScore);
 			//TODO: update text here
+			_baseLabel.text = _baseScore.ToString();
+			_deltaLabel.text = Mathf.Abs(deltaScore).ToString(); //abs because we have our own minus symbol
+
+//			if(deltaScore == 0)
+//			{
+//				//do nothing at 0, don't change the sign unless we have to
+//			}
+
+			if(deltaScore < 0)
+			{
+				_signIcon.element = Futile.atlasManager.GetElementWithName("Icons/Minus");
+			}
+			else 
+			{
+				_signIcon.element = Futile.atlasManager.GetElementWithName("Icons/Plus");
+			}
+
 			//update sign too
 			float baseWidth = _baseLabel.textRect.width;
 			float deltaWidth = _deltaLabel.textRect.width; 
@@ -169,7 +194,7 @@ public class ScoreBox : Box
 
 			float leftOverWidth = availLabelWidth - baseWidth - scoreWidth;
 
-			float shrinker = Math.Max(0, leftOverWidth-20.0f);//we want at least 20 padding
+			float shrinker = Math.Max(0, leftOverWidth-16.0f);//we want at least 16 padding
 
 			//left align baseWidth
 			_baseTargetX = -availWidth/2.0f + baseWidth/2.0f + shrinker/2;
