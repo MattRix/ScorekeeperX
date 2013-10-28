@@ -561,6 +561,13 @@ public class RXTweenable
 	public float amount
 	{
 		get {return _amount;}
-		set {_amount = value; if(SignalChange != null) SignalChange();}
+		set 
+		{
+			if(_amount != value)
+			{
+				_amount = value; 
+				if(SignalChange != null) SignalChange();
+			}
+		}
 	}
 }
