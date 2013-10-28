@@ -546,4 +546,19 @@ public static class RXEase
 	}
 }
 
+//a handy class for keeping tweens encapsulated
+public class RXTweenable
+{
+	private float _amount;
 
+	public RXTweenable(float amount)
+	{
+		_amount = amount;
+	}
+
+	public float amount
+	{
+		get {return _amount;}
+		set {_amount = value;}
+	}
+}
