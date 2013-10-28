@@ -17,6 +17,8 @@ public class Keeper : FContainer
 
 	public SlotList slotList;
 
+	public PlayerEditor playerEditor;
+
 	public FContainer effectContainer;
 
 
@@ -32,7 +34,7 @@ public class Keeper : FContainer
 
 		SetupMegaBoxes();
 
-		AddChild(slotList = new SlotList(Config.LIST_WIDTH, Config.HEIGHT));
+		mainContainer.AddChild(slotList = new SlotList(Config.LIST_WIDTH, Config.HEIGHT));
 
 		AddChild(effectContainer = new FContainer());
 
@@ -90,11 +92,13 @@ public class Keeper : FContainer
 		FSoundManager.PlaySound("UI/Button1");
 
 		Player player = new Player();
-		player.name = (string)RXRandom.GetRandomItem("BELLA", "JOHNNY", "darko", "wallice fourteen", "everyone", "johnny b", "wick","j");
+		player.name = Config.DEFAULT_NAME;
 		player.color = PlayerColor.GetNextUnusedColor();
-		player.score = RXRandom.Range(-1000,1000);
+		player.score = 0;
 
 		slotList.AddSlotForPlayer(player, true);
+
+		EditPlayer(player);
 	}
 
 	void HandleSortTap ()
@@ -112,6 +116,58 @@ public class Keeper : FContainer
 		}
 		
 		slotList.Reorder(false,false,true);
+	}
+
+	public void EditPlayer(Player player)
+	{
+		Slot slot = slotList.GetSlotForPlayer(player);
+		if(slot == null) return;
+
+		Go.to(mainContainer, 0.5f, new TweenConfig().floatProp("scale",0.75f).setEaseType(EaseType.ExpoOut).removeWhenComplete());
+		Go.to(mainContainer, 0.3f, new TweenConfig().floatProp("alpha",0.0f).setDelay(0.2f).setEaseType(EaseType.Linear));
+
+		//slot.PauseMathMode();
+
+		//mainholdertween
+		//disable touches on mainholder
+
+		playerEditor = new PlayerEditor();
+		AddChild(playerEditor);
+
+		playerEditor.Setup(slot);
+
+		AddChild(effectContainer); //effects on top
+
+		FSoundManager.PlaySound("UI/Woosh");
+	}
+
+	//pass null unless you want to remove the player
+	public void StopEditing(Player playerToRemove)
+	{
+		FSoundManager.PlaySound("UI/Woosh");
+
+		if(playerToRemove != null)
+		{
+			slotList.RemoveSlotForPlayer(playerToRemove,true,true);
+		}
+
+		AddChildAtIndex(mainContainer,0);
+
+		Go.to(mainContainer, 0.5f, new TweenConfig().floatProp("alpha",1.0f).setEaseType(EaseType.Linear));
+		Go.to(mainContainer, 0.5f, new TweenConfig().floatProp("scale",1.0f).setDelay(0.2f).setEaseType(EaseType.ExpoOut).onComplete(HandleStopEditingComplete));
+	}
+
+	void HandleStopEditingComplete()
+	{
+		//TODO: resume math mode on the player view (if needed)
+		//if(playerEditor.slot != null) playerEditor.slot.ResumeMathMode();
+
+		//TODO: enable mainHolder touches
+
+		RemoveChild(playerEditor);
+		playerEditor = null;
+
+		SKDataManager.MarkDirty();
 	}
 
 	void HandleLateUpdate ()
