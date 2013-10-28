@@ -353,3 +353,11 @@ public static class RXDictionaryExtensions
 		}
 	}
 }
+
+public static class RXStringExtensions
+{
+	public static string Format(this string @this, params object[] args)
+	{
+		return string.Format(@this,args);
+	}
+}
