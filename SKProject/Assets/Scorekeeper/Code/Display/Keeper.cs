@@ -68,7 +68,8 @@ public class Keeper : FContainer
 		settingsBox.SetToCell(CellManager.megaSettings);
 		megaBoxes.Add(settingsBox);
 
-		newPlayerBox.SignalPress += HandleNewPlayerPress;
+		newPlayerBox.SignalPress += HandleNewPlayerTap;
+		sortBox.SignalPress += HandleSortTap;
 	}
 
 	void HandlePlayerChange()
@@ -83,7 +84,7 @@ public class Keeper : FContainer
 		}
 	}
 
-	void HandleNewPlayerPress ()
+	void HandleNewPlayerTap ()
 	{
 		newPlayerBox.DoTapEffect();
 		FSoundManager.PlaySound("UI/Button1");
@@ -93,7 +94,24 @@ public class Keeper : FContainer
 		player.color = PlayerColor.GetNextUnusedColor();
 		player.score = RXRandom.Range(-1000,1000);
 
-		slotList.AddSlotForPlayer(player);
+		slotList.AddSlotForPlayer(player, true);
+	}
+
+	void HandleSortTap ()
+	{
+		newPlayerBox.DoTapEffect();
+		FSoundManager.PlaySound("UI/Button1");
+
+		if(SKDataManager.sortType == SortType.HighestAtTop)
+		{
+			SKDataManager.sortType = SortType.HighestAtTop;
+		}
+		else 
+		{
+			SKDataManager.sortType = SortType.LowestAtTop;
+		}
+		
+		slotList.Reorder(false,true,false);
 	}
 
 	void HandleLateUpdate ()

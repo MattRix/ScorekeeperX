@@ -23,6 +23,8 @@ public class SlotList : FContainer
 
 	private FTouchSlot _touchSlot;
 
+	private bool _isInitializing = true;
+
 	public SlotList(float width, float height)
 	{
 		_width = width;
@@ -34,14 +36,20 @@ public class SlotList : FContainer
 
 		AddChild(slotContainer = new FContainer());
 
+
+
 		List<Player> players = SKDataManager.GetPlayers();
 
 		for(int p = 0; p<players.Count; p++)
 		{
-			AddSlotForPlayer(players[p]);
+			AddSlotForPlayer(players[p], false);
 		}
 
+		Reorder(false,false,false);
+
 		ListenForUpdate(HandleUpdate);
+
+		_isInitializing = false;
 	}
 
 	public void RemoveSlotForPlayer(Player player, bool shouldDoInstantly, bool shouldReorder)
@@ -73,6 +81,7 @@ public class SlotList : FContainer
 
 	private void HandleUpdate()
 	{
+		_scroller.SetPos(-slotContainer.y);
 		_scroller.SetBounds(_minScrollY,_maxScrollY);
 
 		if(_canScroll)
@@ -81,11 +90,15 @@ public class SlotList : FContainer
 			{
 				_scroller.BeginDrag(GetLocalTouchPosition(_touchSlot.touch).y);
 			}
-			else if (_touchSlot.didJustEnd || _touchSlot.didJustCancel)
-			{
-				_scroller.EndDrag(GetLocalTouchPosition(_touchSlot.touch).y);
-			}
-			else if(_touchSlot.doesHaveTouch)
+		}
+
+		if (_touchSlot.didJustEnd || _touchSlot.didJustCancel)
+		{
+			_scroller.EndDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+		}
+		else if(_touchSlot.doesHaveTouch)
+		{
+			if(_canScroll)
 			{
 				_scroller.UpdateDrag(GetLocalTouchPosition(_touchSlot.touch).y);
 
@@ -98,6 +111,7 @@ public class SlotList : FContainer
 				}
 			}
 		}
+		
 
 		bool isMoving = _scroller.Update();
 
@@ -108,11 +122,11 @@ public class SlotList : FContainer
 		}
 		else 
 		{
-			_scroller.SetPos(-slotContainer.y);
+
 		}
 	}
 
-	public void AddSlotForPlayer(Player player)
+	public void AddSlotForPlayer(Player player, bool shouldReorder)
 	{
 		Slot slot = new Slot(player, _width, Config.SLOT_HEIGHT);
 
@@ -120,13 +134,18 @@ public class SlotList : FContainer
 
 		_slots.Add(slot);
 
-		Reorder(false,false,false);
+		if(shouldReorder)
+		{
+			Reorder(false,false,false);
+		}
 
 		if(SignalPlayerChange != null) SignalPlayerChange();
 	}
 
 	public void Reorder(bool shouldWaitUntilMathModeFinishes, bool isFlipping, bool shouldScrollToTop)
 	{
+		if(_slots.Count == 0) return; //no need sorting things that don't exist :) 
+
 		if(shouldWaitUntilMathModeFinishes)
 		{
 			for(int s = 0; s<_slots.Count; s++)
@@ -167,19 +186,27 @@ public class SlotList : FContainer
 			{
 				slot.y = newY;
 
-				float delay = _slots.Count == 1 ? 0 : 0.3f; //only delay if there are other players
+				float delay;
 
-				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear).setDelay(delay);
+				if(_isInitializing)
+				{
+					delay = (float)s * 0.1f;
+				}
+				else 
+				{
+					delay = _slots.Count == 1 ? 0 : 0.3f; //only delay if there are other players
+				}
 
-				//slot.buildIn.amount = 1.0f;
-
-				//NOTE: EaseType.ExpoOut is broken!
+				slot.buildIn.Tween(0.3f + delay,1.0f).setEaseType(EaseType.Linear).setDelay(delay);
 			}
 			else if(slot.index < s) //moving down
 			{
 				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
 
-				slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
+				//slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
+				//slot.y = newY;
+				Go.killAllTweensWithTarget(slot);
+				Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
 
 				//do shrink tween
 				slot.scaleX = 1.0f;
@@ -188,7 +215,10 @@ public class SlotList : FContainer
 			else if(slot.index > s) //moving up
 			{
 				slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
-				slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
+				//slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
+				//slot.y = newY;
+				Go.killAllTweensWithTarget(slot);
+				Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
 				//do grow tween
 				slot.scaleX = 1.0f;
 				slot.scaleY = 1.0f;
@@ -198,7 +228,10 @@ public class SlotList : FContainer
 				if(slot.y != newY)
 				{
 					slot.buildIn.Tween(0.5f,1.0f).setEaseType(EaseType.Linear);
-					slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
+					//slot.Tween(0.5f).floatProp("y",newY).setEaseType(EaseType.ExpoInOut);
+					//slot.y = newY;
+					Go.killAllTweensWithTarget(slot);
+					Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
 				}
 			}
 
@@ -209,7 +242,11 @@ public class SlotList : FContainer
 
 		if(isThereANewWinner || shouldScrollToTop)
 		{
-			ScrollToTop(1.5f);
+			ScrollToTop(1.0f);
+		}
+		else if (!_canScroll)
+		{
+			ScrollToTop(0.5f); //make sure it's always centered
 		}
 
 		if(isThereANewWinner) 
