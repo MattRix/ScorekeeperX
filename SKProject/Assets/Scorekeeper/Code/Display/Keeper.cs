@@ -99,6 +99,7 @@ public class Keeper : FContainer
 	void HandleLateUpdate ()
 	{
 		CellManager.Refresh();
+		SKDataManager.Update();
 	}
 
 	void HandleSignalResize (bool wasResizedDueToOrientationChange)

@@ -72,9 +72,17 @@ public class SlotList : FContainer
 			}
 		}
 
-		_scroller.Update();
+		bool isMoving = _scroller.Update();
 
-		slotContainer.y = -_scroller.GetPos();
+		if(isMoving)
+		{
+			Go.killAllTweensWithTarget(this);
+			slotContainer.y = -_scroller.GetPos();
+		}
+		else 
+		{
+			_scroller.SetPos(-slotContainer.y);
+		}
 	}
 
 	public void AddSlotForPlayer(Player player)
@@ -171,7 +179,7 @@ public class SlotList : FContainer
 			ScrollToTop(1.5f);
 		}
 
-		if(isThereANewWinner)
+		if(isThereANewWinner) 
 		{
 			//TODO: play winner sound
 			_slots[0].player.color.PlaySound();
@@ -182,11 +190,13 @@ public class SlotList : FContainer
 			FSoundManager.PlaySound("UI/Sort");
 		}
 
-		SKDataManager.SaveData();
+		SKDataManager.MarkDirty();
 	}
 
 	private void ScrollToTop(float time)
 	{
+		Go.killAllTweensWithTarget(this);
+		Go.to(slotContainer, time, new TweenConfig().floatProp("y", _minScrollY).setEaseType(EaseType.ExpoInOut));
 	}
 
 	private int SlotSorter(Slot slotA, Slot slotB)

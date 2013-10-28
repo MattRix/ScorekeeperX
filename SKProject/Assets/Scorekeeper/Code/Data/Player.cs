@@ -41,6 +41,7 @@ public class Player
 			{
 				_name = value;
 				if(SignalNameChange != null) SignalNameChange();
+				SKDataManager.MarkDirty();
 			}
 		}
 	}
@@ -55,6 +56,7 @@ public class Player
 			{
 				_color = value;
 				if(SignalColorChange != null) SignalColorChange();
+				SKDataManager.MarkDirty();
 			}
 		}
 	}
@@ -69,6 +71,7 @@ public class Player
 			{
 				_score = value;
 				if(SignalScoreChange != null) SignalScoreChange();
+				SKDataManager.MarkDirty();
 			}
 		}
 	}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RXScroller
 {
-	//note: these are not actual constants in case you want to set them on a per-scroller basis
+	//note: these are variables in case you want to set them on a per-scroller basis
 
 	public float MAX_DRAG_SPEED = 20.0f; //maximum drag speed in pixels-per-update
 	public float EDGE_SQUISH = 60.0f; //how far to go past the end in pixels
@@ -60,6 +60,7 @@ public class RXScroller
 		_speed = _pos - _previousPos;
 	}
 
+	//returns true if it's still moving
 	public bool Update()
 	{
 		_previousPos = _pos;

@@ -122,18 +122,6 @@ public class Slot : FContainer
 		player.score += ticks;
 	}
 
-	private void CloseMathMode()
-	{
-		Go.killAllTweensWithTarget(scoreBox);
-		Go.to(scoreBox, 0.25f, new TweenConfig().floatProp("mathModeTweenAmount",0.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeCloseComplete));
-		FSoundManager.PlaySound("UI/MathClose");
-	}
-
-	void HandleMathModeCloseComplete(AbstractTween obj)
-	{
-		_isMathMode = false;
-		Keeper.instance.slotList.Reorder(false,false,false);
-	}
 
 	private void HandleUpdate()
 	{
@@ -146,7 +134,7 @@ public class Slot : FContainer
 			}
 		}
 
-		if(_isMathMode)
+		if(_isMathMode || scoreBox.mathModeTweenAmount > 0)
 		{
 			DoLayout();
 		}
@@ -171,6 +159,21 @@ public class Slot : FContainer
 	{
 
 	}
+
+	private void CloseMathMode()
+	{
+		_isMathMode = false;
+		Go.killAllTweensWithTarget(scoreBox);
+		Go.to(scoreBox, 0.25f, new TweenConfig().floatProp("mathModeTweenAmount",0.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeCloseComplete));
+		FSoundManager.PlaySound("UI/MathClose");
+	}
+	
+	void HandleMathModeCloseComplete(AbstractTween obj)
+	{
+		_isMathMode = false;
+		Keeper.instance.slotList.Reorder(true,false,true);
+	}
+
 
 	public void PauseMathMode()
 	{

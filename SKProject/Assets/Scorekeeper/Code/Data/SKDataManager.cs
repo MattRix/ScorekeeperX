@@ -5,6 +5,8 @@ using System.IO;
 
 public class SKDataManager
 {
+	private static bool _isDirty = false;
+	private static float _timeUntilSave = 0.0f;
 	private static List<Player>_players = new List<Player>();
 	private static SortType _sortType = SortType.HighestAtTop;
 
@@ -12,6 +14,37 @@ public class SKDataManager
 	{
 		_players.Clear();
 		_sortType = SortType.HighestAtTop;
+	}
+
+	public static void MarkDirty()
+	{
+		_isDirty = true;
+		_timeUntilSave = 2.0f;
+		//wait for a few seconds of inactivity before saving
+	}
+
+	public static void SaveDataIfDirty()
+	{
+		if(_isDirty)
+		{
+			_isDirty = false;
+			SaveData();
+		}
+	}
+
+	public static void Update()
+	{
+		if(_isDirty)
+		{
+			if(_timeUntilSave > 0)
+			{
+				_timeUntilSave -= Time.deltaTime;
+				if(_timeUntilSave <= 0)
+				{
+					SaveDataIfDirty();
+				}
+			}
+		}
 	}
 
 	public static void LoadData()
@@ -52,9 +85,10 @@ public class SKDataManager
 			_players.Add(player);
 		}
 	}
-	
+
 	public static void SaveData()
 	{
+		Debug.Log("SAVING!");
 		if(Keeper.instance.slotList == null) return; //don't bother saving before the slot list has even finished initializing
 
 		_players = Keeper.instance.slotList.GetPlayers();
@@ -81,9 +115,8 @@ public class SKDataManager
 		
 		string output = Json.Serialize(rootDict);
 		
-		output = RXUtils.PrettyifyJson(output);
-		
-		File.WriteAllText(Application.dataPath+"\\testData.txt",output);
+		//output = RXUtils.PrettyifyJson(output);
+		//File.WriteAllText(Application.dataPath+"\\testData.txt",output);
 		
 		PlayerPrefs.SetString("Game_0",output);
 		PlayerPrefs.Save();
@@ -96,6 +129,8 @@ public class SKDataManager
 
 	public static List<PlayerColor> GetUsedColors()
 	{
+		SaveDataIfDirty();
+
 		List<PlayerColor> usedColors = new List<PlayerColor>(_players.Count);
 
 		for(int p = 0; p<_players.Count; p++)
