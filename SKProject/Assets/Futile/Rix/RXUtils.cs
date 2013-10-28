@@ -551,6 +551,8 @@ public class RXTweenable
 {
 	private float _amount;
 
+	public Action SignalChange;
+
 	public RXTweenable(float amount)
 	{
 		_amount = amount;
@@ -559,6 +561,6 @@ public class RXTweenable
 	public float amount
 	{
 		get {return _amount;}
-		set {_amount = value;}
+		set {_amount = value; if(SignalChange != null) SignalChange();}
 	}
 }
