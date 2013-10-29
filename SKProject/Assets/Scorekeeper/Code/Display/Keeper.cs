@@ -123,8 +123,8 @@ public class Keeper : FContainer
 		Slot slot = slotList.GetSlotForPlayer(player);
 		if(slot == null) return;
 
-		Go.to(mainContainer, 0.3f, new TweenConfig().floatProp("scale",0.75f).setEaseType(EaseType.ExpoOut).removeWhenComplete());
-		Go.to(mainContainer, 0.25f, new TweenConfig().floatProp("alpha",0.0f).setDelay(0.05f).setEaseType(EaseType.Linear));
+		Go.to(mainContainer, 0.4f, new TweenConfig().floatProp("scale",0.75f).setEaseType(EaseType.Linear).removeWhenComplete());
+		Go.to(mainContainer, 0.4f, new TweenConfig().floatProp("alpha",0.0f).setDelay(0.0f).setEaseType(EaseType.Linear));
 
 		//slot.PauseMathMode();
 
@@ -153,11 +153,12 @@ public class Keeper : FContainer
 
 		AddChildAtIndex(mainContainer,0);
 
-		Go.to(mainContainer, 0.5f, new TweenConfig().floatProp("alpha",1.0f).setEaseType(EaseType.Linear));
-		Go.to(mainContainer, 0.5f, new TweenConfig().floatProp("scale",1.0f).setDelay(0.2f).setEaseType(EaseType.ExpoOut).onComplete(HandleStopEditingComplete));
+		Go.to(mainContainer, 0.4f, new TweenConfig().floatProp("alpha",1.0f).setDelay(0.1f).setEaseType(EaseType.Linear));
+		Go.to(mainContainer, 0.4f, new TweenConfig().floatProp("scale",1.0f).setDelay(0.1f).setEaseType(EaseType.ExpoOut));
 	}
 
-	void HandleStopEditingComplete()
+	//called by player editor
+	public void RemovePlayerEditor()
 	{
 		//TODO: resume math mode on the player view (if needed)
 		//if(playerEditor.slot != null) playerEditor.slot.ResumeMathMode();

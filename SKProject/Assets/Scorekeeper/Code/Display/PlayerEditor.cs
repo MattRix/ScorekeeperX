@@ -34,7 +34,7 @@ public class PlayerEditor : FContainer
 		      .floatProp("width",nameCell.width)
 		      .floatProp("height",nameCell.height)
 		      .setEaseType(EaseType.ExpoInOut)
-		      .onComplete(HandleSlotTweenInComplete)
+		      .onComplete(() => {CreateKeyboard(); CreateSwatches();})
 		);
 
 		////////SETUP DELETE
@@ -88,20 +88,64 @@ public class PlayerEditor : FContainer
 
 	}
 
-	void RemoveKeyboardAndSwatches()
-	{
-		throw new NotImplementedException();
-	}
+
 
 	void Close()
 	{
 		RemoveKeyboardAndSwatches();
+
 		okBox.isTouchable = false;
 		deleteBox.isTouchable = false;
 
+		Go.to(okBox, 0.5f, new TweenConfig()
+		      .floatProp("x", Config.WIDTH/2+okBox.width)
+		      .setDelay(0.1f)
+		      .setEaseType(EaseType.ExpoIn));
+
+		Go.to(deleteBox, 0.5f, new TweenConfig()
+		      .floatProp("x", -Config.WIDTH/2-okBox.width)
+		      .setDelay(0.1f)
+		      .setEaseType(EaseType.ExpoIn)
+		      .onComplete(()=>{Keeper.instance.StopEditing(null);}));
+
+		//TODO: disable namebox editing and change its mode
+
+		//add it so the matrix things work properly
+		Keeper.instance.AddChild(Keeper.instance.mainContainer);
+
+		Vector2 pos = this.OtherToLocal(slot,slot.nameCell.GetPosition());
+
+		Keeper.instance.RemoveChild(Keeper.instance.mainContainer);
+
+		pos *= 1.0f/Keeper.instance.mainContainer.scale; //because we want to move to where it WILL be when it tweens in
+
+		Go.to(nameBox, 0.8f, new TweenConfig()
+		      .floatProp("x",pos.x)
+		      .floatProp("y",pos.y)
+		      .floatProp("width",slot.nameCell.width)
+		      .floatProp("height",slot.nameCell.height)
+		      .setDelay(0.4f)
+		      .setEaseType(EaseType.ExpoInOut)
+		      .onComplete(HandleCloseComplete)
+		      );
 	}
 
-	void HandleSlotTweenInComplete()
+	void HandleCloseComplete()
+	{
+		slot.AddChild(nameBox);
+		nameBox.SetToCell(slot.nameCell);
+		Keeper.instance.RemovePlayerEditor();
+	}
+
+	void RemoveKeyboardAndSwatches()
+	{
+	}
+
+	void CreateKeyboard()
+	{
+	}
+
+	void CreateSwatches()
 	{
 	}
 }

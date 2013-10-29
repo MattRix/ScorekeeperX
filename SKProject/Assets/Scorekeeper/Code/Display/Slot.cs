@@ -23,12 +23,16 @@ public class Slot : FContainer
 
 	public int index = -1;
 
+	public Cell nameCell;
+
 	public Slot(Player player, float width, float height)
 	{
 		this.player = player;
 
 		_width = width;
 		_height = height;
+
+		nameCell = new Cell();
 
 		AddChild(handleBox = new HandleBox(this));
 		AddChild(nameBox = new NameBox(this));
@@ -90,6 +94,7 @@ public class Slot : FContainer
 
 		nameBox.SetSize(nameWidth,_height);
 		nameBox.SetTopLeft(cursor.x,cursor.y);
+		nameCell.Set(cursor.x + nameWidth*0.5f,cursor.y - _height*0.5f, nameWidth,_height);
 		cursor.x += nameBox.width + padding;
 
 		scoreBox.SetSize(scoreWidth,_height);
@@ -103,7 +108,9 @@ public class Slot : FContainer
 		plusBox.SetSize(plusBox.GetNeededWidth(),_height);
 		plusBox.SetTopLeft(cursor.x,cursor.y);
 		cursor.x += plusBox.width + padding;
-		
+
+
+
 		//score
 		//name
 		//plus

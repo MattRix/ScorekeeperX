@@ -48,6 +48,14 @@ public class Cell
 		_alpha = baseCell.alpha + (targetCell.alpha - baseCell.alpha) * percent;
 	}
 
+	public void Set(float x, float y,float width, float height)
+	{
+		_x = x;
+		_y = y;
+		_width = width;
+		_height = height;
+	}
+
 	public void SetSize(float width, float height)
 	{
 		_width = width;
@@ -58,6 +66,11 @@ public class Cell
 	{
 		_x = x;
 		_y = y;
+	}
+
+	public Vector2 GetPosition()
+	{
+		return new Vector2(_x,_y);
 	}
 
 	public float width 
