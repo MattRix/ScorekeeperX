@@ -123,8 +123,8 @@ public class Keeper : FContainer
 		Slot slot = slotList.GetSlotForPlayer(player);
 		if(slot == null) return;
 
-		Go.to(mainContainer, 0.5f, new TweenConfig().floatProp("scale",0.75f).setEaseType(EaseType.ExpoOut).removeWhenComplete());
-		Go.to(mainContainer, 0.3f, new TweenConfig().floatProp("alpha",0.0f).setDelay(0.2f).setEaseType(EaseType.Linear));
+		Go.to(mainContainer, 0.3f, new TweenConfig().floatProp("scale",0.75f).setEaseType(EaseType.ExpoOut).removeWhenComplete());
+		Go.to(mainContainer, 0.25f, new TweenConfig().floatProp("alpha",0.0f).setDelay(0.05f).setEaseType(EaseType.Linear));
 
 		//slot.PauseMathMode();
 
