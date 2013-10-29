@@ -282,7 +282,7 @@ public class SlotList : FContainer
 		if(isThereANewWinner) 
 		{
 			//TODO: play winner sound
-			_slots[0].player.color.PlaySound();
+			_slots[0].player.color.PlayNormalSound();
 		}
 
 		if(!RXUtils.AreListsEqual(_slots,originalSlots))
