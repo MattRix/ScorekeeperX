@@ -25,6 +25,8 @@ public class PlayerEditor : FContainer
 		this.slot = slot;
 		this.nameBox = slot.nameBox;
 
+		nameBox.isTouchable = false;
+
 		Vector2 pos = OtherToLocal(nameBox,new Vector2(0,0));
 
 		AddChild(nameBox);
@@ -38,7 +40,7 @@ public class PlayerEditor : FContainer
 		      .floatProp("width",nameCell.width)
 		      .floatProp("height",nameCell.height)
 		      .setEaseType(EaseType.ExpoInOut)
-		      .onComplete(() => {CreateKeyboard(); CreateSwatches();})
+		      //.onComplete(() => {})
 		);
 
 		////////SETUP DELETE
@@ -90,16 +92,15 @@ public class PlayerEditor : FContainer
 			Close();
 		};
 
+		CreateKeyboard(); 
 		CreateSwatches();
-		CreateKeyboard();
-
 	}
 
 	void CreateSwatches()
 	{
-		for(int i = 0; i<10; i++)
+		for(int s = 0; s<10; s++)
 		{
-			PlayerColor color = PlayerColor.allColors[i];
+			PlayerColor color = PlayerColor.allColors[s];
 			SwatchBox swatchBox = new SwatchBox(color);
 
 			if(swatchBox.player.color == slot.player.color)
@@ -109,6 +110,58 @@ public class PlayerEditor : FContainer
 
 			swatchBoxes.Add(swatchBox);
 			keyboardAndSwatchContainer.AddChild(swatchBox);
+
+			swatchBox.SignalPress += HandleSwatchTap;
+			swatchBox.scale = 0.0f;
+
+			Go.to(swatchBox, 0.3f, new TweenConfig()
+			      .floatProp("scale",1.0f)
+			      .setDelay(0.3f + 0.04f*(float)s)
+			      .setEaseType(EaseType.ExpoOut));
+		}
+
+		RepositionSwatches();
+	}
+
+	void RepositionSwatches()
+	{
+		for(int s = 0; s<10; s++)
+		{
+			int col = s%5;
+			int row = Mathf.FloorToInt((float)s/5.0f);
+			
+			Cell cell = CellManager.GetCellFromGrid(col*2,col*2+1,row,row);
+			
+			swatchBoxes[s].SetToCell(cell);
+		}
+	}
+
+	void RemoveSwatches()
+	{
+		for(int s = 0; s<10; s++)
+		{
+			swatchBoxes[s].isTouchable = false;
+			Go.to(swatchBoxes[s], 0.3f, new TweenConfig()
+			      .floatProp("scale",0.0f)
+			      .setDelay(0.0f + 0.04f*(10.0f-(float)s))
+			      .setEaseType(EaseType.ExpoIn)
+			      .removeWhenComplete());
+		}
+	}
+
+	public int noteCount = 0;
+
+	void HandleSwatchTap(Box box)
+	{
+		box.DoTapEffect();
+
+		box.player.color.PlayNormalSound();
+		if(noteCount % 4 == 0) box.player.color.PlayBassSound();
+		noteCount++;
+
+		for(int s = 0; s<swatchBoxes.Count; s++)
+		{
+			swatchBoxes[s].isSelected = (swatchBoxes[s] == box);
 		}
 	}
 
@@ -120,19 +173,20 @@ public class PlayerEditor : FContainer
 
 	void Close()
 	{
-		RemoveKeyboardAndSwatches();
+		RemoveSwatches();
+		RemoveKeyboard();
 
 		okBox.isTouchable = false;
 		deleteBox.isTouchable = false;
 
 		Go.to(okBox, 0.5f, new TweenConfig()
 		      .floatProp("x", Config.WIDTH/2+okBox.width)
-		      .setDelay(0.1f)
+		      .setDelay(0.0f)
 		      .setEaseType(EaseType.ExpoIn));
 
 		Go.to(deleteBox, 0.5f, new TweenConfig()
 		      .floatProp("x", -Config.WIDTH/2-okBox.width)
-		      .setDelay(0.1f)
+		      .setDelay(0.0f)
 		      .setEaseType(EaseType.ExpoIn)
 		      .onComplete(()=>{Keeper.instance.StopEditing(null);}));
 
@@ -152,7 +206,7 @@ public class PlayerEditor : FContainer
 		      .floatProp("y",pos.y)
 		      .floatProp("width",slot.nameCell.width)
 		      .floatProp("height",slot.nameCell.height)
-		      .setDelay(0.4f)
+		      .setDelay(0.2f)
 		      .setEaseType(EaseType.ExpoInOut)
 		      .onComplete(HandleCloseComplete)
 		      );
@@ -161,12 +215,14 @@ public class PlayerEditor : FContainer
 	void HandleCloseComplete()
 	{
 		slot.AddChild(nameBox);
+		nameBox.isTouchable = true;
 		nameBox.SetToCell(slot.nameCell);
 		Keeper.instance.RemovePlayerEditor();
 	}
 
-	void RemoveKeyboardAndSwatches()
+	void RemoveKeyboard()
 	{
 	}
+
 
 }

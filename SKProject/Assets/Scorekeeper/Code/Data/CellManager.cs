@@ -37,7 +37,7 @@ public class CellManager
 		float rowHeight = (Config.HEIGHT - Config.GRID_MARGIN*2 - Config.GRID_SPACING*(_gridRows-1)) / _gridRows;
 
 		_gridTopLeft.x = -Config.WIDTH/2 + Config.GRID_MARGIN + colWidth/2;
-		_gridTopLeft.y = Config.HEIGHT/2 + Config.GRID_MARGIN - rowHeight/2;
+		_gridTopLeft.y = Config.HEIGHT/2 - Config.GRID_MARGIN - rowHeight/2;
 		
 		_gridColWidth = colWidth + Config.GRID_SPACING;
 		_gridRowHeight = rowHeight + Config.GRID_SPACING;

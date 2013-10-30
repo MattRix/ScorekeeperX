@@ -14,13 +14,24 @@ public class SwatchBox : Box
 
 	override public void DoLayout()
 	{
+		Go.killAllTweensWithTarget(boxSprites[0]);
 		if(_isSelected)//shrink when selected
 		{
-			boxSprites[0].SetSize(_width-Config.PADDING_M*2,_height-Config.PADDING_M*2);
+			Go.to(boxSprites[0],0.075f,new TweenConfig()
+			      .floatProp("width",_width-Config.PADDING_S*2)
+			      .floatProp("height",_height-Config.PADDING_S*2)
+			      .setEaseType(EaseType.Linear)
+			      );
+
+			//boxSprites[0].SetSize(_width-Config.PADDING_S*2,_height-Config.PADDING_S*2);
 		}
 		else 
 		{
-			boxSprites[0].SetSize(_width,_height);
+			Go.to(boxSprites[0],0.3f,new TweenConfig()
+			      .floatProp("width",_width)
+			      .floatProp("height",_height)
+			      .setEaseType(EaseType.Linear)
+			      );
 		}
 	}
 
