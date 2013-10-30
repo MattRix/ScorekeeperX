@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class Box : FContainer, FSmartTouchableInterface
 {
-	public Action SignalPress;
-	public Action SignalRelease;
-	public Action SignalReleaseOutside;
+	public Action<Box> SignalPress;
+	public Action<Box> SignalRelease;
+	public Action<Box> SignalReleaseOutside;
 
 	public List<BoxSprite> boxSprites = new List<BoxSprite>();
 	public List<FSprite> contentSprites = new List<FSprite>();
@@ -104,7 +104,7 @@ public class Box : FContainer, FSmartTouchableInterface
 		if(GetLocalRect().Contains(GetLocalTouchPosition(touch)))
 		{
 			_theTouch = touch;
-			if(SignalPress != null) SignalPress();
+			if(SignalPress != null) SignalPress(this);
 			return true;
 		}
 		else 
@@ -121,17 +121,17 @@ public class Box : FContainer, FSmartTouchableInterface
 	{
 		if(GetLocalRect().Contains(GetLocalTouchPosition(touch)))
 		{
-			if(SignalRelease != null) SignalRelease();
+			if(SignalRelease != null) SignalRelease(this);
 		}
 		else 
 		{
-			if(SignalReleaseOutside != null) SignalReleaseOutside();
+			if(SignalReleaseOutside != null) SignalReleaseOutside(this);
 		}
 	}
 
 	void FSmartTouchableInterface.HandleSmartTouchCanceled (int touchIndex, FTouch touch)
 	{
-		if(SignalReleaseOutside != null) SignalReleaseOutside();
+		if(SignalReleaseOutside != null) SignalReleaseOutside(this);
 	}
 
 	#endregion

@@ -130,7 +130,7 @@ public class Slot : FContainer
 //		Debug.Log("m " + nameBox.scale);
 	}
 
-	private void HandleNameTap()
+	private void HandleNameTap(Box box)
 	{
 		FSoundManager.PlaySound("UI/Button1");
 		nameBox.DoTapEffect();
@@ -138,13 +138,13 @@ public class Slot : FContainer
 		Keeper.instance.EditPlayer(player);
 	}
 
-	private void HandleMinusTick(int ticks) 
+	private void HandleMinusTick(Box box, int ticks) 
 	{
 		StartMathMode();
 		player.score -= ticks;
 	}
 
-	private void HandlePlusTick(int ticks)
+	private void HandlePlusTick(Box box, int ticks)
 	{
 		StartMathMode();
 		player.score += ticks;

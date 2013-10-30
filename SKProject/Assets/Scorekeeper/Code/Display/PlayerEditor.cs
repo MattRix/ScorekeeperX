@@ -10,6 +10,10 @@ public class PlayerEditor : FContainer
 
 	public Box deleteBox;
 	public Box okBox;
+
+	public List<SwatchBox> swatchBoxes = new List<SwatchBox>();
+	public List<KeyBox> keyBoxes = new List<KeyBox>();
+
 	
 	public PlayerEditor()
 	{
@@ -54,7 +58,7 @@ public class PlayerEditor : FContainer
 		      .onComplete(()=>{deleteBox.isTouchable = true;})
 		      );
 
-		deleteBox.SignalPress += () =>
+		deleteBox.SignalPress += box =>
 		{
 			FSoundManager.PlaySound("UI/Button1");
 			deleteBox.DoTapEffect();
@@ -79,15 +83,39 @@ public class PlayerEditor : FContainer
 		      .onComplete(()=>{okBox.isTouchable = true;})
 		      );
 		
-		okBox.SignalPress += () =>
+		okBox.SignalPress += box =>
 		{
 			FSoundManager.PlaySound("UI/Button1");
 			okBox.DoTapEffect();
 			Close();
 		};
 
+		CreateSwatches();
+		CreateKeyboard();
+
 	}
 
+	void CreateSwatches()
+	{
+		for(int i = 0; i<10; i++)
+		{
+			PlayerColor color = PlayerColor.allColors[i];
+			SwatchBox swatchBox = new SwatchBox(color);
+
+			if(swatchBox.player.color == slot.player.color)
+			{
+				swatchBox.isSelected = true;
+			}
+
+			swatchBoxes.Add(swatchBox);
+			keyboardAndSwatchContainer.AddChild(swatchBox);
+		}
+	}
+
+	void CreateKeyboard()
+	{
+		
+	}
 
 
 	void Close()
@@ -141,11 +169,4 @@ public class PlayerEditor : FContainer
 	{
 	}
 
-	void CreateKeyboard()
-	{
-	}
-
-	void CreateSwatches()
-	{
-	}
 }

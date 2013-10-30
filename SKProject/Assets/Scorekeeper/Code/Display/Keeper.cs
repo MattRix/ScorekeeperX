@@ -86,7 +86,7 @@ public class Keeper : FContainer
 		}
 	}
 
-	void HandleNewPlayerTap ()
+	void HandleNewPlayerTap (Box box)
 	{
 		newPlayerBox.DoTapEffect();
 		FSoundManager.PlaySound("UI/Button1");
@@ -101,7 +101,7 @@ public class Keeper : FContainer
 		EditPlayer(player);
 	}
 
-	void HandleSortTap ()
+	void HandleSortTap (Box box)
 	{
 		sortBox.DoTapEffect();
 		FSoundManager.PlaySound("UI/Button1");

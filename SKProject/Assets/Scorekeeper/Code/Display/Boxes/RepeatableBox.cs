@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class RepeatableBox : Box
 {
-	public Action<int> SignalTick;
+	public Action<Box,int> SignalTick;
 
 	public string normalSoundName;
 	public string fastSoundName;
@@ -107,7 +107,7 @@ public class RepeatableBox : Box
 					}
 				}
 
-				if(SignalTick != null) SignalTick(ticksToSend);
+				if(SignalTick != null) SignalTick(this,ticksToSend);
 			}
 		}
 	}
@@ -118,10 +118,10 @@ public class RepeatableBox : Box
 		DoTapEffect();
 	}
 	
-	private void HandlePress()
+	private void HandlePress(Box box)
 	{
 		DoTickEffectWithSound(normalSoundName);
-		if(SignalTick != null) SignalTick(1);
+		if(SignalTick != null) SignalTick(this,1);
 
 		if(_shouldRepeat)
 		{
@@ -131,7 +131,7 @@ public class RepeatableBox : Box
 		}
 	}
 
-	private void HandleRelease()
+	private void HandleRelease(Box box)
 	{
 		_isTouchDown = false;
 	}
