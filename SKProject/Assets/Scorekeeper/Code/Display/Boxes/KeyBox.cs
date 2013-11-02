@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 
 
-public class KeyBox : Box
+public class KeyBox : RepeatableBox
 {
-	public Player player;
-	
-	public KeyBox(Player player)
+	public int index;
+	public KeyBox(Player player, int index)
 	{
 		base.Init(player);
+		this.index = index;
 	}
 
 	override public void DoLayout()

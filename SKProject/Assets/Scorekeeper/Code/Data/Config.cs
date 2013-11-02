@@ -10,12 +10,6 @@ public class Config
 	public static float MATH_MODE_TIME = 2.0f;
 	public static string DEFAULT_NAME = "";
 
-	public static string THE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	public static string THE_KEYBOARD = "QWERTYUIOPASDFGHJKLZXCVBNM"; 
-	public static int SPACE_KEY = 26;
-	public static int BACKSPACE_KEY = 27;
-
-
 	//visual
 	public static float WIDTH;
 	public static float HEIGHT;
@@ -65,8 +59,8 @@ public class Config
 			SLOT_HEIGHT = 45.0f;
 		}
 
-		GRID_MARGIN = 10.0f;
-		GRID_SPACING = 6.0f;
+		GRID_MARGIN = 4.0f;
+		GRID_SPACING = 3.0f;
 		GRID_COLS = 10;
 		GRID_ROWS = 6;
 

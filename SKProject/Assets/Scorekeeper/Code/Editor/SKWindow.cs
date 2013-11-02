@@ -20,4 +20,4 @@ public class SKWindow : EditorWindow
 	{
 		Time.timeScale = EditorGUILayout.Slider("TimeScale: ",Time.timeScale,0.025f,2.0f);
 	} 
-}
+} 

@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public class PlayerEditor : FContainer
 {
+	public static string THE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public static string THE_KEYBOARD = "QWERTYUIOPASDFGHJKLZXCVBNM"; 
+	public static int SPACE_KEY = 26;
+	public static int BACKSPACE_KEY = 27;
+
 	public Slot slot;
 	public NameBox nameBox;
 	public FContainer keyboardAndSwatchContainer;
@@ -167,9 +172,127 @@ public class PlayerEditor : FContainer
 
 	void CreateKeyboard()
 	{
-		
+		bool isNameAtMaxLength = (slot.player.name.Length >= Config.MAX_CHARS_PER_NAME);
+		bool isNameEmpty = (slot.player.name.Length == 0);
+
+		FSoundManager.PlaySound("UI/LetterIn",0.5f);
+
+		FFont font = Futile.atlasManager.GetFontWithName("Raleway");
+
+		for(int k = 0; k<28; k++)
+		{
+			KeyBox keyBox = new KeyBox(slot.player,k);
+
+			if(k == SPACE_KEY)
+			{
+				keyBox.shouldRepeat = false;
+			}
+
+			keyBoxes.Add(keyBox);
+			keyboardAndSwatchContainer.AddChild(keyBox);
+
+			if(k == SPACE_KEY)
+			{
+				keyBox.normalSoundName = "UI/ButtonTick";
+			}
+			else if(k == BACKSPACE_KEY)
+			{
+				keyBox.normalSoundName = "UI/Backspace";
+			}
+			else //the normal letters
+			{
+				FLabel keyLabel = new FLabel("Raleway",THE_KEYBOARD[k].ToString());
+				keyLabel.color = Color.black;
+				keyLabel.scale = 0.75f;
+				keyBox.contentContainer.AddChild(keyLabel);
+				keyBox.normalSoundName = "UI/ButtonTick";
+			}
+
+			//disable backspace if it's empty, disable everything BUT backspace if it's full
+			if((k == BACKSPACE_KEY && !isNameEmpty) || (k != BACKSPACE_KEY && !isNameAtMaxLength)) 
+			{
+				keyBox.isEnabled = true;
+			}
+			else 
+			{
+				keyBox.isEnabled = false;
+			}
+
+			keyBox.SignalTick += HandleKeyTick;
+
+			keyBox.scale = 0.0f;
+
+			Go.to(keyBox, 0.25f, new TweenConfig()
+			      .floatProp("scale",1.0f)
+			      .setDelay(0.025f*(28f-(float)k))
+			      .setEaseType(EaseType.ExpoOut));
+
+		}
+
+		RepositionKeyboard();
 	}
 
+	private void HandleKeyTick(Box box, int ticks)
+	{
+
+	}
+
+	void RepositionKeyboard()
+	{
+		for(int k = 0; k<28; k++)
+		{
+			int col;
+			int row;
+
+			if(k < 10)
+			{
+				col = k;
+				row = 3; 
+			}
+			else if(k < 19)
+			{
+				col = k-10;
+				row = 4; 
+			}
+			else 
+			{
+				col = k-19;
+				row = 5; 
+			}
+
+			Cell cell;
+
+			if(k == SPACE_KEY)
+			{
+				cell = CellManager.GetCellFromGrid(col,col+1,row,row);
+			}
+			else if(k == BACKSPACE_KEY)
+			{
+				cell = CellManager.GetCellFromGrid(col+1,col+1,row-1,row);
+			}
+			else //the normal letters
+			{
+				cell = CellManager.GetCellFromGrid(col,col,row,row);
+			}
+
+			keyBoxes[k].SetToCell(cell);
+		}
+	}
+
+	void RemoveKeyboard()
+	{
+		FSoundManager.PlaySound("UI/LetterIn",0.5f);
+
+		for(int k = 0; k<28; k++)
+		{
+			keyBoxes[k].isTouchable = false;
+			Go.to(keyBoxes[k], 0.25f, new TweenConfig()
+			      .floatProp("scale",0.0f)
+			      .setDelay(0.0f + 0.02f*(float)k)
+			      .setEaseType(EaseType.ExpoIn)
+			      .removeWhenComplete());
+		}
+	}
 
 	void Close()
 	{
@@ -218,10 +341,6 @@ public class PlayerEditor : FContainer
 		nameBox.isTouchable = true;
 		nameBox.SetToCell(slot.nameCell);
 		Keeper.instance.RemovePlayerEditor();
-	}
-
-	void RemoveKeyboard()
-	{
 	}
 
 

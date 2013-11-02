@@ -27,9 +27,15 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	protected FTouch _theTouch;
 
+	protected RXTweenable _alphaTweenable;
+
 	public Box()
 	{
-
+		_alphaTweenable = new RXTweenable(1.0f);
+		_alphaTweenable.SignalChange += () =>
+		{
+			this.alpha = _alphaTweenable.amount;
+		};
 	}
 
 	virtual public void Init(Player player)
@@ -145,11 +151,11 @@ public class Box : FContainer, FSmartTouchableInterface
 	{
 		if(_isEnabled)
 		{
-			this.alpha = 1.0f;
+			_alphaTweenable.To(1.0f,0.2f);
 		}
 		else 
 		{
-			this.alpha = 0.5f;
+			_alphaTweenable.To(0.5f,0.2f);
 		}
 	}
 
