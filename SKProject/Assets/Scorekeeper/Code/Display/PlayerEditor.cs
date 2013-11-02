@@ -234,6 +234,52 @@ public class PlayerEditor : FContainer
 
 	private void HandleKeyTick(Box box, int ticks)
 	{
+		KeyBox keyBox = box as KeyBox;
+
+		bool isNameAtMaxLength = (slot.player.name.Length >= Config.MAX_CHARS_PER_NAME);
+		bool isNameEmpty = (slot.player.name.Length == 0);
+
+		if(keyBox.index == SPACE_KEY)
+		{
+			if(!isNameAtMaxLength) slot.player.name += " ";
+		}
+		else if(keyBox.index == BACKSPACE_KEY)
+		{
+			if(!isNameEmpty) slot.player.name = slot.player.name.Substring(0,slot.player.name.Length-1);
+		}
+		else //normal letters
+		{
+			if(!isNameAtMaxLength) slot.player.name += THE_KEYBOARD[keyBox.index];
+		}
+
+		string name = slot.player.name;
+
+		if
+		(
+			(!isNameAtMaxLength && (name.Length >= Config.MAX_CHARS_PER_NAME)) || 	// if it's now too long
+			(isNameAtMaxLength && !(name.Length >= Config.MAX_CHARS_PER_NAME)) || 	//it just stopped being too long
+			(!isNameEmpty && (name.Length == 0)) ||									//it just became empty
+			(isNameEmpty && !(name.Length == 0))  									//it just stopped being empty
+		)
+		{
+			isNameAtMaxLength = (name.Length >= Config.MAX_CHARS_PER_NAME);
+			isNameEmpty = (name.Length == 0);
+
+			okBox.isEnabled = !isNameEmpty;
+
+			for(int k = 0; k<28; k++)
+			{
+				if((k == BACKSPACE_KEY && !isNameEmpty) || (k != BACKSPACE_KEY && !isNameAtMaxLength)) 
+				{
+					keyBoxes[k].isEnabled = true;
+				}
+				else 
+				{
+					keyBoxes[k].isEnabled = false;
+				}
+			}
+
+		}
 
 	}
 

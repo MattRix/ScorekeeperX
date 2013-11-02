@@ -37,7 +37,7 @@ public class NameBox : Box
 			float availWidth = this.width - Config.PADDING_L*2;
 			float availHeight = this.height - Config.PADDING_M*2;
 			
-			float labelScale = Mathf.Min(1.0f, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
+			float labelScale = Mathf.Min(0.75f, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
 			
 			nameLabel.scale = Mathf.Clamp01(labelScale); 
 		}
