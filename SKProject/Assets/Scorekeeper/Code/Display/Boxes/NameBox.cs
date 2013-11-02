@@ -7,6 +7,7 @@ public class NameBox : Box
 {
 	public Slot slot;
 	public FLabel nameLabel;
+	private bool _isEditMode = false;
 	
 	public NameBox(Slot slot)
 	{
@@ -16,6 +17,7 @@ public class NameBox : Box
 		
 		contentContainer.AddChild(nameLabel = new FLabel("Raleway",slot.player.name));
 		nameLabel.color = Color.black;
+		nameLabel.anchorX = 0.0f;
 		
 		slot.player.SignalNameChange += HandleNameChange;
 		
@@ -27,6 +29,11 @@ public class NameBox : Box
 		nameLabel.text = slot.player.name;
 		
 		DoLayout();
+	}
+
+	void UpdateEditMode()
+	{
+		_isEditMode = true;
 	}
 	
 	override public void DoLayout()
@@ -40,6 +47,13 @@ public class NameBox : Box
 			float labelScale = Mathf.Min(0.75f, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
 			
 			nameLabel.scale = Mathf.Clamp01(labelScale); 
+			nameLabel.x = -availWidth/2.0f;
 		}
+	}
+
+	public bool isEditMode
+	{
+		get {return _isEditMode;}
+		set {if(_isEditMode != value) {_isEditMode = value; UpdateEditMode();}}
 	}
 }

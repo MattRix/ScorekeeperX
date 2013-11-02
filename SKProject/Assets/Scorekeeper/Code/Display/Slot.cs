@@ -65,7 +65,7 @@ public class Slot : FContainer
 
 	public void DoLayout()
 	{
-		float padding = Config.PADDING_S;
+		float padding = Config.PADDING_XS;
 		Vector2 cursor = new Vector2(-_width*0.5f, _height*0.5f); //the top left
 
 		float freeWidth = _width;
@@ -155,7 +155,7 @@ public class Slot : FContainer
 	{
 		if(_mathModeAmount > 0)
 		{
-			_mathModeAmount -= Time.deltaTime/Config.MATH_MODE_TIME;
+			_mathModeAmount -= Time.deltaTime/Config.MATH_MODE_TIME/Time.timeScale;
 			if(_mathModeAmount <= 0)
 			{
 				CloseMathMode();

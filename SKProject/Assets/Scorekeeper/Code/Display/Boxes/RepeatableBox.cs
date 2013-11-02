@@ -40,8 +40,15 @@ public class RepeatableBox : Box
 	{
 		if(_shouldRepeat && _isTouchDown)
 		{
+			//don't do the ticks when disabled or when the touch is out of the bounds
+			if(!_isEnabled || !_isTouchable || !_isTouchInBounds)
+			{
+				_touchTime += Time.deltaTime; //don't count disabled time towards the repeat counter
+				return;
+			}
+
 			float totalTime = Time.time - _touchTime;
-			int totalTicks = Mathf.FloorToInt(totalTime / 0.01f);
+			int totalTicks = Mathf.FloorToInt(totalTime / Time.timeScale / 0.01f); //divide by timescale so that timescale doesn't affect it
 
 			int ticksToSend = 0;
 

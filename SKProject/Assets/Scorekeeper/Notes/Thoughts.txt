@@ -1,5 +1,21 @@
 ﻿
 
+Sprite art needed:
+
+Backspace arrow
+Skull and crossbones
+Flip order (animated)
+Checkmark (animates to easter egg?)
+"easter egg checkmark"
+drag handle (animated)
+alarm clock (with real time shown)
+add player icon (animated)
+reset icon (animated)
+volume icon (animated)
+text cursor
+
+
+
 can have slightly different configs based on resolution or scale
 
 List width = screen width / 5

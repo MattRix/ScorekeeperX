@@ -63,6 +63,8 @@ public class FSoundManager
 		if (_isMuted) return;
 
 		if (_soundSource == null) Init();
+
+		_soundSource.pitch = Time.timeScale;
 		
 		string fullPath = resourcePrefix+resourceName;
 		

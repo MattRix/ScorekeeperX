@@ -29,6 +29,10 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	protected RXTweenable _alphaTweenable;
 
+	protected bool _isTouchInBounds = false;
+
+	protected bool _isFirstTimeEnabledSet = true;
+
 	public Box()
 	{
 		_alphaTweenable = new RXTweenable(1.0f);
@@ -107,7 +111,9 @@ public class Box : FContainer, FSmartTouchableInterface
 		if(!_isTouchable) return false;
 		if(touchIndex > 0) return false; //we only want the first touch for now
 
-		if(GetLocalRect().Contains(GetLocalTouchPosition(touch)))
+		_isTouchInBounds = GetLocalRect().Contains(GetLocalTouchPosition(touch));
+
+		if(_isTouchInBounds)
 		{
 			_theTouch = touch;
 			if(SignalPress != null) SignalPress(this);
@@ -121,11 +127,14 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	void FSmartTouchableInterface.HandleSmartTouchMoved (int touchIndex, FTouch touch)
 	{
+		_isTouchInBounds = GetLocalRect().Contains(GetLocalTouchPosition(touch));
 	}
 
 	void FSmartTouchableInterface.HandleSmartTouchEnded (int touchIndex, FTouch touch)
 	{
-		if(GetLocalRect().Contains(GetLocalTouchPosition(touch)))
+		_isTouchInBounds = GetLocalRect().Contains(GetLocalTouchPosition(touch));
+
+		if(_isTouchInBounds)
 		{
 			if(SignalRelease != null) SignalRelease(this);
 		}
@@ -149,13 +158,21 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	private void UpdateEnabled()
 	{
-		if(_isEnabled)
+		float duration = 0.15f;
+
+		if(_isFirstTimeEnabledSet)
 		{
-			_alphaTweenable.To(1.0f,0.2f);
+			duration = 0.01f;//super fast
+			_isFirstTimeEnabledSet = false;
+		}
+
+		if(_isEnabled) 
+		{
+			_alphaTweenable.To(1.0f,duration);
 		}
 		else 
 		{
-			_alphaTweenable.To(0.5f,0.2f);
+			_alphaTweenable.To(0.5f,duration);
 		}
 	}
 
