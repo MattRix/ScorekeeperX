@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class NameBox : Box
 {
+	const float LABEL_MAX_SIZE = 0.75f;
+
 	public Slot slot;
 	public FLabel nameLabel;
 	private bool _isEditMode = false;
@@ -54,7 +56,7 @@ public class NameBox : Box
 
 		if(nameLabel.text == "") //empty
 		{
-			nameLabelScale = 1.0f;
+			nameLabelScale = LABEL_MAX_SIZE;
 		}
 		else
 		{
@@ -63,6 +65,7 @@ public class NameBox : Box
 
 		float targetX = nameLabel.x + nameLabel.textRect.width*nameLabelScale + Config.PADDING_M*nameLabelScale;
 
+		//only ease when going leftward (ie. when characters are being removed from the label)
 		if(targetX < _cursor.x)
 		{
 			_cursor.x += (targetX - _cursor.x) * 0.2f;
@@ -83,14 +86,14 @@ public class NameBox : Box
 			float availWidth = this.width - Config.PADDING_L*2;
 			float availHeight = this.height - Config.PADDING_M*2;
 			
-			float labelScale = Mathf.Min(1, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
+			float labelScale = Mathf.Min(LABEL_MAX_SIZE, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
 
 			nameLabel.scale = Mathf.Clamp01(labelScale); 
 			nameLabel.x = -availWidth/2.0f;
 
 			if(nameLabel.text == "") //empty
 			{
-				_cursor.scale = 1.0f;
+				_cursor.scale = LABEL_MAX_SIZE;
 			}
 			else
 			{
