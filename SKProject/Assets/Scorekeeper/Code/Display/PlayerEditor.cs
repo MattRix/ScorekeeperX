@@ -97,6 +97,8 @@ public class PlayerEditor : FContainer
 			Close();
 		};
 
+		nameBox.isEditMode = true;
+
 		CreateKeyboard(); 
 		CreateSwatches();
 	}
@@ -342,6 +344,8 @@ public class PlayerEditor : FContainer
 
 	void Close()
 	{
+		nameBox.isEditMode = false;
+
 		RemoveSwatches();
 		RemoveKeyboard();
 

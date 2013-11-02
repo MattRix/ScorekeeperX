@@ -1,4 +1,15 @@
 ﻿
+Todo:
+
+- text cursor
+- player deletion
+- disable scrollview when appropriate
+- create main screen transition system
+- reset mode
+- settings mode
+- build in main menu
+
+
 
 Sprite art needed:
 

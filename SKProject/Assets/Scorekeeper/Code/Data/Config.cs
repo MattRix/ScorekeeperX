@@ -9,6 +9,7 @@ public class Config
 	public static int MAX_CHARS_PER_NAME = 16;
 	public static float MATH_MODE_TIME = 3.5f;
 	public static string DEFAULT_NAME = "";
+	public static float MIN_DRAG_DISTANCE = 3.0f;
 
 	//visual
 	public static float WIDTH;

@@ -115,7 +115,7 @@ public class SlotList : FContainer
 
 				if(!_touchSlot.wasArtificiallyCanceled)
 				{
-					if(_scroller.GetDragDistance() > 10.0f)
+					if(_scroller.GetDragDistance() > Config.MIN_DRAG_DISTANCE)
 					{
 						_touchSlot.Cancel();
 					}
