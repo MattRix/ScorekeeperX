@@ -5,6 +5,13 @@ using System.Collections.Generic;
 
 public class ScoreBox : Box
 {
+	public static float ZERO_WIDTH;
+
+	static ScoreBox()
+	{
+		ZERO_WIDTH = new FLabel("Raleway","0").textRect.width;
+	}
+
 	public Slot slot;
 
 	public RXTweenable mathMode;
@@ -168,9 +175,14 @@ public class ScoreBox : Box
 			}
 
 			//update sign too
-			float baseWidth = _baseLabel.textRect.width;
-			float deltaWidth = _deltaLabel.textRect.width; 
-			float scoreWidth = _scoreLabel.textRect.width;
+//			float baseWidth = _baseLabel.textRect.width;
+//			float deltaWidth = _deltaLabel.textRect.width; 
+//			float scoreWidth = _scoreLabel.textRect.width;
+
+			//fixed per-char-count widths instead of based on the actual text quads
+			float baseWidth = ZERO_WIDTH * _baseLabel.text.Length;
+			float deltaWidth = ZERO_WIDTH * _deltaLabel.text.Length; 
+			float scoreWidth = ZERO_WIDTH * _scoreLabel.text.Length;
 
 			float masterScale = Mathf.Clamp01(availWidth/150.0f);
 
