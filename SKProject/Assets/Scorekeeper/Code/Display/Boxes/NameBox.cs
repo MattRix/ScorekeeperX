@@ -11,7 +11,9 @@ public class NameBox : Box
 	public FLabel nameLabel;
 	private bool _isEditMode = false;
 	private NameBoxCursor _cursor;
-	
+
+	public FSprite questionMark;
+
 	public NameBox(Slot slot)
 	{
 		this.slot = slot;
@@ -75,36 +77,41 @@ public class NameBox : Box
 			_cursor.x = targetX;
 		}
 
+		//if we have question mark, show it instead of cursor
+		if(questionMark != null)
+		{
+			_cursor.isVisible = false;
+			questionMark.x = _cursor.x + Config.PADDING_L;
+			questionMark.scale = nameLabelScale;
+		}
+		else 
+		{
+			_cursor.isVisible = true;
+		}
+
 	}
 
 	override public void DoLayout()
 	{
 		base.DoLayout();
 
-		if(nameLabel != null)
+		if(nameLabel == null) return;
+
+		float availWidth = this.width - Config.PADDING_L*2;
+		float availHeight = this.height - Config.PADDING_M*2;
+		
+		float labelScale = Mathf.Min(LABEL_MAX_SIZE, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
+
+		nameLabel.scale = Mathf.Clamp01(labelScale); 
+		nameLabel.x = -availWidth/2.0f;
+
+		if(nameLabel.text == "") //empty
 		{
-			float availWidth = this.width - Config.PADDING_L*2;
-			float availHeight = this.height - Config.PADDING_M*2;
-			
-			float labelScale = Mathf.Min(LABEL_MAX_SIZE, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
-
-			nameLabel.scale = Mathf.Clamp01(labelScale); 
-			nameLabel.x = -availWidth/2.0f;
-
-			if(nameLabel.text == "") //empty
-			{
-				_cursor.scale = LABEL_MAX_SIZE;
-			}
-			else
-			{
-				_cursor.scale = nameLabel.scale;
-			}
-
-			if(!_isEditMode)
-			{
-
-			}
-
+			_cursor.scale = LABEL_MAX_SIZE;
+		}
+		else
+		{
+			_cursor.scale = nameLabel.scale;
 		}
 	}
 

@@ -14,10 +14,19 @@ public class SKWindow : EditorWindow
 		window.position = new Rect(100,100,300,500);
 		window.title = "SKWindow";
 		window.Show(); 
+
+
 	} 
 
 	public void OnGUI()
 	{
 		Time.timeScale = EditorGUILayout.Slider("TimeScale: ",Time.timeScale,0.025f,2.0f);
+
+		EditorGUILayout.BeginHorizontal();
+		if(GUILayout.Button("0.1")) Time.timeScale = 0.1f;
+		if(GUILayout.Button("0.5")) Time.timeScale = 0.5f;
+		if(GUILayout.Button("1.0")) Time.timeScale = 1.0f;
+		EditorGUILayout.EndHorizontal();
 	} 
 } 
+

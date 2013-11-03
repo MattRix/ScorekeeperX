@@ -23,7 +23,9 @@ alarm clock (with real time shown)
 add player icon (animated)
 reset icon (animated)
 volume icon (animated)
+delete icon (animated) 
 text cursor
+cancel icon (crossed out circle)
 
 
 
