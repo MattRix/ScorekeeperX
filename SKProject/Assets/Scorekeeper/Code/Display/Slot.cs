@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Slot : FContainer
+public class Slot : FContainer, SKDestroyable
 {
 	public Player player;
 
@@ -62,6 +62,11 @@ public class Slot : FContainer
 	public void Destroy()
 	{
 		this.RemoveFromContainer();
+		handleBox.Destroy();
+		nameBox.Destroy();
+		scoreBox.Destroy();
+		minusBox.Destroy();
+		plusBox.Destroy();
 		//TODO: clean up signals etc.
 	}
 

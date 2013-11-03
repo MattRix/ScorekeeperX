@@ -33,6 +33,12 @@ public class NameBox : Box
 		HandleNameChange();
 		ListenForUpdate(HandleUpdate);
 	}
+
+	override public void Destroy()
+	{
+		base.Destroy();
+		slot.player.SignalNameChange -= HandleNameChange;
+	}
 	
 	private void HandleNameChange()
 	{

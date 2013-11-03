@@ -16,7 +16,7 @@ public class ScoreBox : Box
 
 	public RXTweenable mathMode;
 	private bool _isMathMode = false;
-
+	 
 	private FLabel _scoreLabel;
 	private FLabel _baseLabel;
 	private FLabel _deltaLabel;
@@ -60,6 +60,12 @@ public class ScoreBox : Box
 		ListenForUpdate(HandleUpdate);
 		HandleMathModeChange();
 		HandleScoreChange();
+	}
+
+	override public void Destroy()
+	{
+		base.Destroy();
+		slot.player.SignalScoreChange -= HandleScoreChange;
 	}
 
 	void HandleMathModeChange()

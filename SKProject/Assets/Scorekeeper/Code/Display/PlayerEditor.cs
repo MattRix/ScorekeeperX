@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class PlayerEditor : FContainer
+public class PlayerEditor : FContainer, SKDestroyable
 {
 	public static string THE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public static string THE_KEYBOARD = "QWERTYUIOPASDFGHJKLZXCVBNM"; 
@@ -34,6 +34,13 @@ public class PlayerEditor : FContainer
 		deleteModeTweenable = new RXTweenable(0.0f);
 		deleteModeTweenable.SignalChange += HandleDeleteModeChange;
 		AddChild(keyboardAndSwatchContainer = new FContainer());
+	}
+
+	public void Destroy()
+	{
+		this.RemoveFromContainer();
+		if(deleteBox != null) deleteBox.Destroy();
+		if(okBox != null) okBox.Destroy();
 	}
 
 	public void Setup(Slot slot)
@@ -172,7 +179,7 @@ public class PlayerEditor : FContainer
 			      .floatProp("scale",0.0f)
 			      .setDelay(0.0f + 0.04f*(10.0f-(float)s))
 			      .setEaseType(EaseType.ExpoIn)
-			      .removeWhenComplete());
+			      .destroyWhenComplete());
 		}
 
 		swatchBoxes.Clear();
@@ -192,6 +199,8 @@ public class PlayerEditor : FContainer
 		{
 			swatchBoxes[s].isSelected = (swatchBoxes[s] == box);
 		}
+
+		slot.player.color = box.player.color;
 	}
 
 	void CreateKeyboard(float delay)
@@ -200,8 +209,6 @@ public class PlayerEditor : FContainer
 		bool isNameEmpty = (slot.player.name.Length == 0);
 
 		FSoundManager.PlaySound("UI/LetterIn",0.5f);
-
-		FFont font = Futile.atlasManager.GetFontWithName("Raleway");
 
 		for(int k = 0; k<28; k++)
 		{
@@ -360,7 +367,7 @@ public class PlayerEditor : FContainer
 			      .floatProp("scale",0.0f)
 			      .setDelay(0.0f + 0.015f*(float)k)
 			      .setEaseType(EaseType.ExpoIn)
-			      .removeWhenComplete());
+			      .destroyWhenComplete());
 		}
 
 		keyBoxes.Clear();
@@ -502,7 +509,7 @@ public class PlayerEditor : FContainer
 			deleteCancelBox.isTouchable = false;
 			deleteOkBox.isTouchable = false;
 
-			okBox.RemoveFromContainer();//it's offscreen anyway!
+			okBox.Destroy();//it's offscreen anyway!
 
 			deleteOkBox.DoTapEffect();
 			FSoundManager.PlaySound("UI/Button1");
@@ -518,6 +525,11 @@ public class PlayerEditor : FContainer
 	{
 		FSoundManager.PlaySound("UI/ResetOk",1.0f);
 		Keeper.instance.StopEditing(slot.player);
+
+		deleteBox.Destroy();
+		slot.Destroy();
+		nameBox.Destroy();
+
 		slot = null;
 		Keeper.instance.RemovePlayerEditor();
 	}
@@ -527,8 +539,8 @@ public class PlayerEditor : FContainer
 		nameBox.questionMark.RemoveFromContainer();
 		nameBox.questionMark = null;
 
-		deleteCancelBox.RemoveFromContainer();
-		deleteOkBox.RemoveFromContainer();
+		deleteCancelBox.Destroy();
+		deleteOkBox.Destroy();
 		deleteCancelBox = null;
 		deleteOkBox = null;
 

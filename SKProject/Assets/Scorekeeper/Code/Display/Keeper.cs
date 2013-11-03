@@ -187,7 +187,7 @@ public class Keeper : FContainer
 		//resume math mode on the player view (if needed)
 		if(playerEditor.slot != null) playerEditor.slot.ResumeMathMode();
 
-		RemoveChild(playerEditor);
+		playerEditor.Destroy();
 		playerEditor = null;
 
 		SKDataManager.MarkDirty();

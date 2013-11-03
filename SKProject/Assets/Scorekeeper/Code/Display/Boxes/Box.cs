@@ -2,17 +2,17 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Box : FContainer, FSmartTouchableInterface
+public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 {
 	public Action<Box> SignalPress;
 	public Action<Box> SignalRelease;
 	public Action<Box> SignalReleaseOutside;
 
-	public List<BoxSprite> boxSprites = new List<BoxSprite>();
+	public BoxSprite boxSprite;
 	public List<FSprite> contentSprites = new List<FSprite>();
 	public FContainer contentContainer;
 
-	protected Player _player;
+	protected Player _player = null;
 
 	protected float _tweenTimeElapsed;
 	protected float _tweenTimeTotal;
@@ -35,6 +35,8 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	public Cell anchorCell;
 
+	public float colorTweenDelay = 0.0f;
+
 	public Box()
 	{
 		_alphaTweenable = new RXTweenable(1.0f);
@@ -54,14 +56,13 @@ public class Box : FContainer, FSmartTouchableInterface
 		_width = width;
 		_height = height;
 
-		BoxSprite boxSprite = new BoxSprite();
-		boxSprites.Add(boxSprite);
+		boxSprite = new BoxSprite();
 		AddChild(boxSprite);
 
 		AddChild(contentContainer = new FContainer());
 
 		_player = player;
-		UpdatePlayer();
+		InitPlayer();
 
 		EnableSmartTouch();
 		DoLayout();
@@ -69,7 +70,7 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	virtual public void DoLayout ()
 	{
-		boxSprites[0].SetSize(_width,_height);
+		boxSprite.SetSize(_width,_height);
 	}
 
 	public void SetToCell(Cell cell)
@@ -94,10 +95,22 @@ public class Box : FContainer, FSmartTouchableInterface
 		this.y = topY - _height*0.5f;
 	}
 
-
-	protected void UpdatePlayer ()	
+	private void InitPlayer()
 	{
-		boxSprites.ForEach(boxSprite => {boxSprite.color = _player.color.color;});
+		_player.SignalColorChange += HandlePlayerColorChange;
+		boxSprite.color = _player.color.color;
+	}
+
+	private void HandlePlayerColorChange()
+	{
+		Color oldColor = boxSprite.color;
+		Color newColor = _player.color.color;
+	}
+
+	virtual public void Destroy()
+	{
+		this.RemoveFromContainer();
+		_player.SignalColorChange -= HandlePlayerColorChange;
 	}
 
 	public void DoTapEffect()
@@ -185,7 +198,6 @@ public class Box : FContainer, FSmartTouchableInterface
 	public Player player 
 	{
 		get {return _player;}
-		set {if(_player != value) {_player = value; UpdatePlayer();}}
 	}
 
 	public bool isEnabled

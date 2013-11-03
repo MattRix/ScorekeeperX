@@ -14,10 +14,10 @@ public class SwatchBox : Box
 
 	override public void DoLayout()
 	{
-		Go.killAllTweensWithTarget(boxSprites[0]);
+		Go.killAllTweensWithTarget(boxSprite);
 		if(_isSelected)//shrink when selected
 		{
-			Go.to(boxSprites[0],0.075f,new TweenConfig()
+			Go.to(boxSprite,0.075f,new TweenConfig()
 			      .floatProp("width",_width-Config.PADDING_S*2)
 			      .floatProp("height",_height-Config.PADDING_S*2)
 			      .setEaseType(EaseType.Linear)
@@ -27,7 +27,7 @@ public class SwatchBox : Box
 		}
 		else 
 		{
-			Go.to(boxSprites[0],0.3f,new TweenConfig()
+			Go.to(boxSprite,0.3f,new TweenConfig()
 			      .floatProp("width",_width)
 			      .floatProp("height",_height)
 			      .setEaseType(EaseType.Linear)
