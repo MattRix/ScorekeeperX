@@ -394,6 +394,7 @@ public class PlayerEditor : FContainer
 		deleteOkBox.isTouchable = false;
 		deleteCancelBox.isTouchable = false;
 
+		nameBox.fixedScale = nameBox.nameLabel.scale;
 		nameBox.contentContainer.AddChild(deleteQMark = new FSprite("Icons/Placeholder"));
 		deleteQMark.width = QUESTION_MARK_WIDTH;
 		nameBox.questionMark = deleteQMark;
@@ -454,7 +455,7 @@ public class PlayerEditor : FContainer
 
 		deleteSkull.x = 0 + (skullTargetX - 0) * easeOut(skullPercent);
 
-		deleteQMark.alpha = RXMath.GetSubPercent(amount, 0.3f,1.0f);
+		deleteQMark.alpha = RXMath.GetSubPercent(amount, 0.5f,1.0f);
 
 		//////////
 		//ok and cancel buttons
@@ -508,6 +509,8 @@ public class PlayerEditor : FContainer
 
 		okBox.isTouchable = true;
 		deleteBox.isTouchable = true;
+
+		nameBox.fixedScale = -1;
 	}
 
 	void Close()

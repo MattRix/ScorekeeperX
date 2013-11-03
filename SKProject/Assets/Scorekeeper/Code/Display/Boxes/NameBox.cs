@@ -12,7 +12,8 @@ public class NameBox : Box
 	private bool _isEditMode = false;
 	private NameBoxCursor _cursor;
 
-	public FSprite questionMark;
+	public FSprite questionMark; //set in PlayerEditor.StartDelete
+	public float fixedScale; //set in PlayerEditor.StartDelete
 
 	public NameBox(Slot slot)
 	{
@@ -81,7 +82,7 @@ public class NameBox : Box
 		if(questionMark != null)
 		{
 			_cursor.isVisible = false;
-			questionMark.x = _cursor.x + Config.PADDING_L;
+			questionMark.x = targetX + Config.PADDING_L;
 			questionMark.scale = nameLabelScale;
 		}
 		else 
@@ -101,6 +102,11 @@ public class NameBox : Box
 		float availHeight = this.height - Config.PADDING_M*2;
 		
 		float labelScale = Mathf.Min(LABEL_MAX_SIZE, availHeight/nameLabel.textRect.height,availWidth/nameLabel.textRect.width);
+
+		if(fixedScale > 0.0f)
+		{
+			labelScale = fixedScale;
+		}
 
 		nameLabel.scale = Mathf.Clamp01(labelScale); 
 		nameLabel.x = -availWidth/2.0f;
