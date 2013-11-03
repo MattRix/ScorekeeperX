@@ -57,16 +57,7 @@ public class SKMain : MonoBehaviour
 		textParams.kerningOffset = -0.0f;
 		textParams.lineHeightOffset = -15.0f;
 		Futile.atlasManager.LoadFont("Ostrich","Atlases/Fonts/Ostrich", "Atlases/Fonts/Ostrich"+Futile.resourceSuffix, 0.0f,-2.0f,textParams);
-
-
-//		FSprite ph = new FSprite("Icons/Placeholder");
-//		Futile.stage.AddChild(ph);
-//		ph.width = Futile.screen.width - 10.0f;
-//		ph.height = Futile.screen.height - 10.0f;
-
-//		FLabel label = new FLabel("Raleway","ABCDEFGHIJKLMNOP\nQRSTUVWXYZ");
-//		Futile.stage.AddChild(label);
-
+		
 		Futile.stage.AddChild(new Keeper()); //keeper statically retains itself and never gets removed
 	}
 

@@ -148,7 +148,7 @@ public class Keeper : FContainer
 		Go.to(mainContainer, 0.4f, new TweenConfig().floatProp("scale",0.75f).setEaseType(EaseType.Linear).removeWhenComplete());
 		Go.to(mainContainer, 0.4f, new TweenConfig().floatProp("alpha",0.0f).setDelay(0.0f).setEaseType(EaseType.Linear));
 
-		//slot.PauseMathMode();
+		slot.PauseMathMode();
 
 		//mainholdertween
 		//disable touches on mainholder
@@ -183,10 +183,9 @@ public class Keeper : FContainer
 	public void RemovePlayerEditor()
 	{
 		EnableMegaBoxes();
-		//TODO: resume math mode on the player view (if needed)
-		//if(playerEditor.slot != null) playerEditor.slot.ResumeMathMode();
 
-		//TODO: enable mainHolder touches
+		//resume math mode on the player view (if needed)
+		if(playerEditor.slot != null) playerEditor.slot.ResumeMathMode();
 
 		RemoveChild(playerEditor);
 		playerEditor = null;

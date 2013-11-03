@@ -25,6 +25,8 @@ public class Slot : FContainer
 
 	public Cell nameCell;
 
+	private bool _isMathModePaused = false;
+
 	public Slot(Player player, float width, float height)
 	{
 		this.player = player;
@@ -153,6 +155,8 @@ public class Slot : FContainer
 
 	private void HandleUpdate()
 	{
+		if(_isMathModePaused) return;
+
 		if(_mathModeAmount > 0)
 		{
 			_mathModeAmount -= Time.deltaTime/Config.MATH_MODE_TIME/Time.timeScale;
@@ -209,12 +213,12 @@ public class Slot : FContainer
 
 	public void PauseMathMode()
 	{
-		throw new NotImplementedException();
+		_isMathModePaused = true;
 	}
 
 	public void ResumeMathMode()
 	{
-		throw new NotImplementedException();
+		_isMathModePaused = false;
 	}
 
 	public float width
