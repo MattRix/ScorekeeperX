@@ -39,8 +39,6 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 
 	public float colorTweenDelay = 0.0f;
 
-	private Color _nextColor;
-
 
 	public Box()
 	{
@@ -108,37 +106,34 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 	{
 		_player.SignalColorChange += HandlePlayerColorChange;
 		boxSprite.color = _player.color.color;
-		_nextColor = boxSprite.color;
 	}
 
 	private void HandlePlayerColorChange()
 	{
-		if(_colorDelayTweenable.amount > 0.0f)
+		Color newColor = _player.color.color;
+
+		RXTweenable delayTweenable = new RXTweenable(0.0f);
+
+		delayTweenable.To(1.0f,colorTweenDelay+0.001f,new TweenConfig().onComplete(
+		()=>
 		{
-			HandleColorTweenDelayComplete();
+			Color oldColor = boxSprite.color;
+			
+			//notice how it's = instead of +=
+			_colorTweenable.SignalChange = () =>
+			{
+				boxSprite.color = oldColor + (newColor - oldColor) * _colorTweenable.amount;
+			};
+			
+			_colorTweenable.amount = 0.0f;
+			
+			_colorTweenable.To(1.0f,0.3f);
 		}
-
-		_nextColor = _player.color.color;
-
-		_colorDelayTweenable.amount = 0.0f;
-		_colorDelayTweenable.To(1.0f,colorTweenDelay+0.001f,new TweenConfig().onComplete(HandleColorTweenDelayComplete));
+		));
 	}
 
 	void HandleColorTweenDelayComplete()
 	{
-		_colorDelayTweenable.amount = 0.0f;
-		Color oldColor = boxSprite.color;
-		Color newColor = _nextColor;
-
-		//notice how it's = instead of +=
-		_colorTweenable.SignalChange = () =>
-		{
-			boxSprite.color = oldColor + (newColor - oldColor) * _colorTweenable.amount;
-		};
-		
-		_colorTweenable.amount = 0.0f;
-		
-		_colorTweenable.To(1.0f,0.3f);
 	}
 
 	virtual public void Destroy()
