@@ -28,6 +28,7 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 	protected FTouch _theTouch;
 
 	protected RXTweenable _alphaTweenable;
+	private RXTweenable _colorTweenable;
 
 	protected bool _isTouchInBounds = false;
 
@@ -37,6 +38,7 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 
 	public float colorTweenDelay = 0.0f;
 
+
 	public Box()
 	{
 		_alphaTweenable = new RXTweenable(1.0f);
@@ -44,6 +46,8 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 		{
 			this.alpha = _alphaTweenable.amount;
 		};
+
+		_colorTweenable = new RXTweenable(1.0f);
 	}
 
 	virtual public void Init(Player player)
@@ -105,6 +109,16 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 	{
 		Color oldColor = boxSprite.color;
 		Color newColor = _player.color.color;
+
+		//notice how it's = instead of +=
+		_colorTweenable.SignalChange = () =>
+		{
+			boxSprite.color = oldColor + (newColor - oldColor) * _colorTweenable.amount;
+		};
+
+		_colorTweenable.amount = 0.0f;
+
+		_colorTweenable.To(1.0f,0.3f, new TweenConfig().setDelay(colorTweenDelay));
 	}
 
 	virtual public void Destroy()

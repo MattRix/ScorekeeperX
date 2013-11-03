@@ -195,6 +195,7 @@ public class Keeper : FContainer
 
 	void HandleLateUpdate ()
 	{
+		FSoundManager.soundSource.pitch = Time.timeScale; //slow down sounds when time is slow
 		CellManager.Refresh();
 		SKDataManager.Update();
 	}

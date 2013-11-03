@@ -253,6 +253,8 @@ public class PlayerEditor : FContainer, SKDestroyable
 
 			keyBox.scale = 0.0f;
 
+			keyBox.colorTweenDelay = 0.025f*k;
+
 			Go.to(keyBox, 0.25f, new TweenConfig()
 			      .floatProp("scale",1.0f)
 			      .setDelay(delay + 0.025f*(28f-(float)k))
