@@ -112,6 +112,7 @@ public class PlayerEditor : FContainer
 		okBox.SignalPress += box =>
 		{
 			FSoundManager.PlaySound("UI/Button1");
+			slot.player.color.PlayNormalSound();
 			okBox.DoTapEffect();
 			Close();
 		};
@@ -367,6 +368,8 @@ public class PlayerEditor : FContainer
 
 	void StartDelete()
 	{
+		FSoundManager.PlaySound("UI/MathOpen");
+
 		isOpeningDelete = true;
 
 		okBox.isTouchable = false;
@@ -482,8 +485,12 @@ public class PlayerEditor : FContainer
 
 		deleteCancelBox.SignalRelease += (box) => 
 		{
+			deleteCancelBox.isTouchable = false;
+			deleteOkBox.isTouchable = false;
+
 			deleteCancelBox.DoTapEffect();
 			FSoundManager.PlaySound("UI/Cancel",0.5f);
+			FSoundManager.PlaySound("UI/MathClose");
 			isOpeningDelete = false;
 			deleteModeTweenable.To(0.0f,0.5f, new TweenConfig().onComplete(HandleDeleteModeClose));
 			CreateKeyboard(0.2f);
@@ -492,9 +499,27 @@ public class PlayerEditor : FContainer
 
 		deleteOkBox.SignalRelease += (box) => 
 		{
+			deleteCancelBox.isTouchable = false;
+			deleteOkBox.isTouchable = false;
+
+			okBox.RemoveFromContainer();//it's offscreen anyway!
+
 			deleteOkBox.DoTapEffect();
-			FSoundManager.PlaySound("UI/ResetOk",1.0f);
+			FSoundManager.PlaySound("UI/Button1");
+
+			Go.to(this, 0.4f, new TweenConfig()
+			      .floatProp("scale",0.0f)
+			      .setEaseType(EaseType.ExpoIn)
+			      .onComplete(HandleDeleteComplete));
 		};
+	}
+
+	void HandleDeleteComplete() //if they've actually deleted something
+	{
+		FSoundManager.PlaySound("UI/ResetOk",1.0f);
+		Keeper.instance.StopEditing(slot.player);
+		slot = null;
+		Keeper.instance.RemovePlayerEditor();
 	}
 
 	void HandleDeleteModeClose()

@@ -61,10 +61,17 @@ public class SlotList : FContainer
 
 		_slots.Remove(slotToRemove);
 
-		Go.killAllTweensWithTarget(slotToRemove.buildIn);
-		float duration = shouldDoInstantly ? 0.0f : 0.3f;
-		slotToRemove.buildIn.To(0,duration,new TweenConfig().onComplete(slotToRemove.Destroy));
-		Go.to(slotToRemove, duration, new TweenConfig().floatProp("scale",0.8f));
+		if(shouldDoInstantly)
+		{
+			slotToRemove.Destroy();
+		}
+		else 
+		{
+			float duration = 0.3f;
+			slotToRemove.buildIn.To(0,duration,new TweenConfig().onComplete(slotToRemove.Destroy));
+			Go.to(slotToRemove, duration, new TweenConfig().floatProp("scale",0.8f));
+		}
+
 		//move all the indexes below it down (so they don't think they have to animate)
 		for(int s = 0; s<_slots.Count; s++)
 		{
