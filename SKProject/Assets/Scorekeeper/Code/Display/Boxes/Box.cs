@@ -119,7 +119,7 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 		{
 			Color oldColor = boxSprite.color;
 			
-			//notice how it's = instead of +=
+			//note: intentionally not using +=
 			_colorTweenable.SignalChange = () =>
 			{
 				boxSprite.color = oldColor + (newColor - oldColor) * _colorTweenable.amount;

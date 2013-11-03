@@ -84,6 +84,19 @@ public class Keeper : FContainer
 		{
 			newPlayerBox.isEnabled = false;
 		}
+
+		if(slotList.slots.Count == 0)
+		{
+			sortBox.isEnabled = false;
+			resetBox.isEnabled = false;
+			settingsBox.isEnabled = false;
+		}
+		else 
+		{
+			sortBox.isEnabled = true;
+			resetBox.isEnabled = true;
+			settingsBox.isEnabled = true;
+		}
 	}
 
 	void HandleNewPlayerTap (Box box)
