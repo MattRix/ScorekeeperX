@@ -95,5 +95,15 @@ public class CellManager
 			allCells[c].didHaveMajorChange = false;
 		}
 	}
+
+	public static float GetGridColWidth()
+	{
+		return _gridColWidth;
+	}
+
+	public static float GetGridRowHeight()
+	{
+		return _gridRowHeight;
+	}
 }
 
