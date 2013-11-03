@@ -507,16 +507,10 @@ public class FFont
 					}
 				}
 				
-				//TODO: Reuse letterquads with pooling!
 				FLetterQuad letterQuad = new FLetterQuad();
-				
-				if(_charInfosByID.ContainsKey(letter))
+
+				if(!_charInfosByID.TryGetValue(letter,out charInfo))
 				{
-					charInfo = _charInfosByID[letter];
-				}
-				else //we don't have that character in the font
-				{
-					//blank,  character (could consider using the "char not found square")
 					charInfo = _charInfosByID[0];
 				}
 				
@@ -567,6 +561,37 @@ public class FFont
 		}
 
 		return lines;
+	}
+
+	public FAtlasElement GetElementForChar(char character)
+	{
+		FCharInfo charInfo;
+
+		if(!_charInfosByID.TryGetValue(character,out charInfo))
+		{
+			return null;
+		}
+
+		FAtlasElement charElement = new FAtlasElement();
+		charElement.atlas = _element.atlas;
+		charElement.atlasIndex = _element.atlasIndex;
+		charElement.indexInAtlas = -1;
+		charElement.isTrimmed = true;
+		charElement.name = ""; //_name + "_" + character.ToString();
+
+		charElement.uvRect = charInfo.uvRect;
+		charElement.sourceRect = new Rect(0,0,charInfo.width,charInfo.height);
+		charElement.sourceSize = new Vector2(charInfo.width,charInfo.height);
+		charElement.sourcePixelSize = new Vector2(charInfo.width*Futile.resourceScale,charInfo.height*Futile.resourceScale);
+
+		Rect uvRect = charElement.uvRect;
+
+		charElement.uvTopLeft.Set(uvRect.xMin,uvRect.yMax);
+		charElement.uvTopRight.Set(uvRect.xMax,uvRect.yMax);
+		charElement.uvBottomRight.Set(uvRect.xMax,uvRect.yMin);
+		charElement.uvBottomLeft.Set(uvRect.xMin,uvRect.yMin);
+
+		return charElement;
 	}
 	
 	public string name
