@@ -33,6 +33,8 @@ public class Box : FContainer, FSmartTouchableInterface
 
 	protected bool _isFirstTimeEnabledSet = true;
 
+	public Cell anchorCell;
+
 	public Box()
 	{
 		_alphaTweenable = new RXTweenable(1.0f);
