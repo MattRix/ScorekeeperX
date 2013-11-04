@@ -9,8 +9,8 @@ public class PlayerEditor : FContainer, SKDestroyable
 	public static int SPACE_KEY = 26;
 	public static int BACKSPACE_KEY = 27;
 
-	public static float SKULL_WIDTH = 25.0f;
-	public static float QUESTION_MARK_WIDTH = 15.0f;
+	public static float SKULL_WIDTH = 32.0f;
+	public static float QUESTION_MARK_WIDTH = 16.0f;
 
 	public Slot slot;
 	public NameBox nameBox;
@@ -79,8 +79,8 @@ public class PlayerEditor : FContainer, SKDestroyable
 		deleteBox.isTouchable = false; //don't allow it to be touched until it builds in
 		deleteBox.anchorCell = deleteCell;
 
-		deleteBox.contentContainer.AddChild(deleteSkull = new FSprite("Icons/Placeholder"));
-		deleteSkull.width = SKULL_WIDTH;
+		deleteBox.contentContainer.AddChild(deleteSkull = new FSprite("Icons/Skull"));
+		deleteSkull.color = Color.black;
 
 		Go.to(deleteBox, 0.4f, new TweenConfig()
 		      .floatProp("x",deleteCell.x)
@@ -407,11 +407,11 @@ public class PlayerEditor : FContainer, SKDestroyable
 		deleteCancelBox.isTouchable = false;
 
 		nameBox.fixedScale = nameBox.nameLabel.scale;
-		nameBox.contentContainer.AddChild(deleteQMark = new FSprite("Icons/Placeholder"));
-		deleteQMark.width = QUESTION_MARK_WIDTH;
+		nameBox.contentContainer.AddChild(deleteQMark = new FSprite("Icons/QuestionMark"));
+		deleteQMark.color = Color.black;
 		nameBox.questionMark = deleteQMark;
 
-		deleteModeTweenable.To(1.0f,0.5f, new TweenConfig().onComplete(HandleDeleteModeOpen));
+		deleteModeTweenable.To(1.0f,0.7f, new TweenConfig().onComplete(HandleDeleteModeOpen));
 		HandleDeleteModeChange();
 	}
 
@@ -427,7 +427,7 @@ public class PlayerEditor : FContainer, SKDestroyable
 
 		float qMarkWidth = QUESTION_MARK_WIDTH; //question mark width
 		float skullWidth = SKULL_WIDTH; //skull width
-		float skullPadding = Config.PADDING_L; //padding between skull and right side
+		float skullPadding = Config.PADDING_M; //padding between skull and right side
 
 		float innerWidth = 0;
 		innerWidth += skullWidth;
@@ -453,8 +453,8 @@ public class PlayerEditor : FContainer, SKDestroyable
 
 		//make the delete cell fill the gap
 		
-		float deletePercent = RXMath.GetSubPercent(amount, 0.0f,1.0f);
-		float namePercent = RXMath.GetSubPercent(amount, 0.0f,1.0f);
+		float deletePercent = RXMath.GetSubPercent(amount, 0.0f,0.8f);
+		float namePercent = RXMath.GetSubPercent(amount, 0.0f,0.8f);
 		
 		deleteBox.x = deleteBox.anchorCell.x + (deleteBoxTargetX - deleteBox.anchorCell.x) * easeOut(deletePercent);
 		deleteBox.width = deleteBox.anchorCell.width + (deleteBoxTargetWidth - deleteBox.anchorCell.width) * easeOut(deletePercent);
@@ -478,10 +478,10 @@ public class PlayerEditor : FContainer, SKDestroyable
 
 		okBox.x = okBox.anchorCell.x + (okX - okBox.anchorCell.x) * easeIn(okPercent);
 
-		float deleteCancelPercent = RXMath.GetSubPercent(amount, 0.6f,1.0f);
-		float deleteOkPercent = RXMath.GetSubPercent(amount, 0.7f,1.0f);
+		float deleteCancelPercent = RXMath.GetSubPercent(amount, 0.5f,0.95f);
+		float deleteOkPercent = RXMath.GetSubPercent(amount, 0.65f,1.0f);
 
-		float bottomY = -Config.HALF_HEIGHT - CellManager.GetGridRowHeight() - 10.0f;
+		float bottomY = -Config.HALF_HEIGHT - CellManager.GetGridRowHeight();
 
 		deleteCancelBox.y = bottomY + (deleteCancelBox.anchorCell.y - bottomY) * RXEase.ExpoOut(deleteCancelPercent);
 		deleteOkBox.y = bottomY + (deleteOkBox.anchorCell.y - bottomY) * RXEase.ExpoOut(deleteOkPercent);

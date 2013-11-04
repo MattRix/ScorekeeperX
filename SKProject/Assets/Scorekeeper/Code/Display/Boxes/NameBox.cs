@@ -88,8 +88,8 @@ public class NameBox : Box
 		if(questionMark != null)
 		{
 			_cursor.isVisible = false;
-			questionMark.x = targetX + Config.PADDING_L;
-			questionMark.scale = nameLabelScale;
+			questionMark.scale = nameLabelScale * (1.0f/0.75f);
+			questionMark.x = targetX + Config.PADDING_L * nameLabelScale;
 		}
 		else 
 		{
