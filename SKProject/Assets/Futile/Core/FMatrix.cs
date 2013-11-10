@@ -254,7 +254,7 @@ public class FMatrix
 		outVector.z = z;
 	}
 	
-	public void ResetToIdbox()
+	public void ResetToIdentity()
 	{
 		a = 1;
 		b = 0;

@@ -653,13 +653,13 @@ public class FNode
 	{
 		FMatrix tempMatrix = FMatrix.tempMatrix;
 		
-		tempMatrix.ResetToIdbox();
+		tempMatrix.ResetToIdentity();
 		tempMatrix.SetScaleThenRotate(0,0,_scaleX,_scaleY,_rotation * -RXMath.DTOR);
 		Vector2 firstVector = tempMatrix.GetNewTransformedVector(new Vector2(-localPoint.x,-localPoint.y));
 		
 		_rotation += relativeDegrees;
 		
-		tempMatrix.ResetToIdbox();
+		tempMatrix.ResetToIdentity();
 		tempMatrix.SetScaleThenRotate(0,0,_scaleX,_scaleY,_rotation * -RXMath.DTOR);
 		Vector2 secondVector = tempMatrix.GetNewTransformedVector(new Vector2(-localPoint.x,-localPoint.y));
 		
@@ -680,7 +680,7 @@ public class FNode
 	{
 		FMatrix tempMatrix = FMatrix.tempMatrix;
 		
-		tempMatrix.ResetToIdbox();
+		tempMatrix.ResetToIdentity();
 		tempMatrix.SetScaleThenRotate(0, 0,(relativeScaleX-1.0f),(relativeScaleY-1.0f),_rotation * -RXMath.DTOR);
 		Vector2 moveVector = tempMatrix.GetNewTransformedVector(new Vector2(localPoint.x*_scaleX,localPoint.y*_scaleY));	
 
