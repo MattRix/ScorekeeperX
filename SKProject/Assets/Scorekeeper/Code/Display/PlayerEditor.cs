@@ -391,14 +391,18 @@ public class PlayerEditor : FContainer, SKDestroyable
 
 		deleteCancelBox = new Box();
 		deleteCancelBox.Init(slot.player);
-		deleteCancelBox.contentContainer.AddChild(new FSprite("Icons/Placeholder"));
+		FSprite cancelSprite = new FSprite("Icons/Cancel");
+		cancelSprite.color = Color.black;
+		deleteCancelBox.contentContainer.AddChild(cancelSprite);
 		deleteCancelBox.SetToCell(deleteCancelCell);
 		deleteCancelBox.anchorCell = deleteCancelCell;
 		AddChild(deleteCancelBox);
 
 		deleteOkBox = new Box();
 		deleteOkBox.Init(slot.player);
-		deleteOkBox.contentContainer.AddChild(new FSprite("Icons/Placeholder"));
+		FSprite checkmarkSprite = new FSprite("Icons/Checkmark");
+		checkmarkSprite.color = Color.black;
+		deleteOkBox.contentContainer.AddChild(checkmarkSprite);
 		deleteOkBox.SetToCell(deleteOkCell);
 		deleteOkBox.anchorCell = deleteOkCell;
 		AddChild(deleteOkBox);

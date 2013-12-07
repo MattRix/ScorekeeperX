@@ -10,10 +10,10 @@ public class Keeper : FContainer
 
 	public List<Box> megaBoxes = new List<Box>();
 
-	public Box newPlayerBox;
-	public Box resetBox;
-	public Box sortBox;
-	public Box volumeBox;
+	public NewPlayerBox newPlayerBox;
+	public ResetBox resetBox;
+	public SortBox sortBox;
+	public VolumeBox volumeBox;
 
 	public SlotList slotList;
 
@@ -101,7 +101,6 @@ public class Keeper : FContainer
 	{
 		DisableMegaBoxes();
 
-		ResetBox resetBox = box as ResetBox;
 		resetBox.DoTapEffect();
 		resetBox.DoTapAnimation();
 		FSoundManager.PlaySound("UI/Button1");
@@ -111,7 +110,6 @@ public class Keeper : FContainer
 
 	void HandleVolumeTap (Box box)
 	{
-		VolumeBox volumeBox = box as VolumeBox;
 		volumeBox.DoTapEffect();
 		//volumeBox.DoTapAnimation();
 		FSoundManager.PlaySound("UI/Button1");
@@ -149,6 +147,8 @@ public class Keeper : FContainer
 		}
 		
 		slotList.Reorder(false,false,true);
+
+		sortBox.sortType = SKDataManager.sortType;
 	}
 
 	void DisableMegaBoxes()
