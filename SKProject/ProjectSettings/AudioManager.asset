@@ -8,5 +8,5 @@ AudioManager:
   m_SpeedOfSound: 347
   Doppler Factor: 1
   Default Speaker Mode: 2
-  m_DSPBufferSize: 0
+  m_DSPBufferSize: 256
   m_DisableAudio: 0

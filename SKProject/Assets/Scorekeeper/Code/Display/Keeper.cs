@@ -9,11 +9,11 @@ public class Keeper : FContainer
 	public FContainer mainContainer;
 
 	public List<Box> megaBoxes = new List<Box>();
+
 	public Box newPlayerBox;
-	public Box timerBox;
-	public Box sortBox;
 	public Box resetBox;
-	public Box settingsBox;
+	public Box sortBox;
+	public Box volumeBox;
 
 	public SlotList slotList;
 
@@ -50,28 +50,26 @@ public class Keeper : FContainer
 
 	void SetupMegaBoxes ()
 	{
-		mainContainer.AddChild(newPlayerBox = new PlaceholderBox());
+		mainContainer.AddChild(newPlayerBox = new NewPlayerBox());
 		newPlayerBox.SetToCell(CellManager.megaNewPlayer);
 		megaBoxes.Add(newPlayerBox);
 
-		mainContainer.AddChild(timerBox = new PlaceholderBox());
-		timerBox.SetToCell(CellManager.megaTimer);
-		megaBoxes.Add(timerBox);
-
-		mainContainer.AddChild(sortBox = new PlaceholderBox());
-		sortBox.SetToCell(CellManager.megaSort);
-		megaBoxes.Add(sortBox);
-
-		mainContainer.AddChild(resetBox = new PlaceholderBox());
+		mainContainer.AddChild(resetBox = new ResetBox());
 		resetBox.SetToCell(CellManager.megaReset);
 		megaBoxes.Add(resetBox);
 
-		mainContainer.AddChild(settingsBox = new PlaceholderBox());
-		settingsBox.SetToCell(CellManager.megaSettings);
-		megaBoxes.Add(settingsBox);
+		mainContainer.AddChild(sortBox = new SortBox());
+		sortBox.SetToCell(CellManager.megaSort);
+		megaBoxes.Add(sortBox);
+
+		mainContainer.AddChild(volumeBox = new VolumeBox());
+		volumeBox.SetToCell(CellManager.megaVolume);
+		megaBoxes.Add(volumeBox);
 
 		newPlayerBox.SignalPress += HandleNewPlayerTap;
+		resetBox.SignalPress += HandleResetTap;
 		sortBox.SignalPress += HandleSortTap;
+		volumeBox.SignalPress += HandleVolumeTap;
 	}
 
 	void HandlePlayerChange()
@@ -89,14 +87,34 @@ public class Keeper : FContainer
 		{
 			sortBox.isEnabled = false;
 			resetBox.isEnabled = false;
-			settingsBox.isEnabled = false;
+			volumeBox.isEnabled = false;
 		}
 		else 
 		{
 			sortBox.isEnabled = true;
 			resetBox.isEnabled = true;
-			settingsBox.isEnabled = true;
+			volumeBox.isEnabled = true;
 		}
+	}
+
+	void HandleResetTap (Box box)
+	{
+		DisableMegaBoxes();
+
+		ResetBox resetBox = box as ResetBox;
+		resetBox.DoTapEffect();
+		resetBox.DoTapAnimation();
+		FSoundManager.PlaySound("UI/Button1");
+
+		ShrinkMainboxes();
+	}
+
+	void HandleVolumeTap (Box box)
+	{
+		VolumeBox volumeBox = box as VolumeBox;
+		volumeBox.DoTapEffect();
+		//volumeBox.DoTapAnimation();
+		FSoundManager.PlaySound("UI/Button1");
 	}
 
 	void HandleNewPlayerTap (Box box)
@@ -136,19 +154,41 @@ public class Keeper : FContainer
 	void DisableMegaBoxes()
 	{
 		newPlayerBox.isTouchable = false;
-		timerBox.isTouchable = false;
-		sortBox.isTouchable = false;
 		resetBox.isTouchable = false;
-		settingsBox.isTouchable = false;
+		sortBox.isTouchable = false;
+		volumeBox.isTouchable = false;
 	}
 
 	void EnableMegaBoxes()
 	{
 		newPlayerBox.isTouchable = true;
-		timerBox.isTouchable = true;
-		sortBox.isTouchable = true;
 		resetBox.isTouchable = true;
-		settingsBox.isTouchable = true;
+		sortBox.isTouchable = true;
+		volumeBox.isTouchable = true;
+	}
+
+	
+	void ShrinkMainboxes()
+	{
+		TweenConfig config = new TweenConfig().scaleXY(0).setEaseType(EaseType.ExpoIn).hideWhenComplete();
+		Go.to(newPlayerBox, 0.5f,config);
+		Go.to(resetBox, 0.5f,config);
+		Go.to(sortBox, 0.5f,config);
+		Go.to(volumeBox, 0.5f,config);
+	}
+
+	void UnshrinkMainboxes()
+	{
+		newPlayerBox.isVisible = true;
+		resetBox.isVisible = true;
+		sortBox.isVisible = true;
+		volumeBox.isVisible = true;
+
+		TweenConfig config = new TweenConfig().scaleXY(1.0f).setEaseType(EaseType.ExpoOut).removeWhenComplete();
+		Go.to(newPlayerBox, 0.5f,config);
+		Go.to(resetBox, 0.5f,config);
+		Go.to(sortBox, 0.5f,config);
+		Go.to(volumeBox, 0.5f,config);
 	}
 
 	public void EditPlayer(Player player)

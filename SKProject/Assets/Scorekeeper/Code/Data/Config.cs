@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Config
 {
 	//rules
-	public static int MAX_PLAYERS = 16;
+	public static int MAX_PLAYERS = 32;
 	public static int MAX_CHARS_PER_NAME = 16;
 	public static float MATH_MODE_TIME = 3.5f;
 	public static string DEFAULT_NAME = "";
