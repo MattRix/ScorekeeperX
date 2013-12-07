@@ -18,7 +18,7 @@
 },
 "Icons/Equals":
 {
-	"frame": {"x":104,"y":2,"w":47,"h":34},
+	"frame": {"x":2,"y":37,"w":47,"h":34},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":8,"y":15,"w":47,"h":34},
@@ -26,7 +26,7 @@
 },
 "Icons/Minus":
 {
-	"frame": {"x":2,"y":37,"w":47,"h":14},
+	"frame": {"x":52,"y":37,"w":47,"h":14},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":8,"y":25,"w":47,"h":14},
@@ -34,7 +34,7 @@
 },
 "Icons/Placeholder":
 {
-	"frame": {"x":154,"y":2,"w":94,"h":94},
+	"frame": {"x":2,"y":74,"w":94,"h":94},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":2,"w":94,"h":94},
@@ -42,26 +42,34 @@
 },
 "Icons/Plus":
 {
-	"frame": {"x":52,"y":37,"w":47,"h":47},
+	"frame": {"x":2,"y":171,"w":47,"h":47},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":8,"y":9,"w":47,"h":47},
 	"sourceSize": {"w":64,"h":64}
 },
-"Icons/Skull":
+"Icons/QuestionMark":
 {
-	"frame": {"x":2,"y":99,"w":85,"h":93},
+	"frame": {"x":99,"y":54,"w":27,"h":45},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":7,"y":2,"w":85,"h":93},
-	"sourceSize": {"w":98,"h":98}
+	"spriteSourceSize": {"x":20,"y":10,"w":27,"h":45},
+	"sourceSize": {"w":64,"h":64}
+},
+"Icons/Skull":
+{
+	"frame": {"x":52,"y":171,"w":56,"h":62},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":1,"w":56,"h":62},
+	"sourceSize": {"w":64,"h":64}
 }},
 "meta":{
 	"app": "Packrat Atlas Generator github.com/MattRix/Packrat",
 	"version": "1.0",
 	"image": "Assets/Scorekeeper/Resources/Atlases/MainAtlas_Scale2.png",
 	"format": "RGBA8888",
-	"size": {"w":256,"h":256},
+	"size": {"w":128,"h":256},
 	"scale": "0.5"
 }
 }

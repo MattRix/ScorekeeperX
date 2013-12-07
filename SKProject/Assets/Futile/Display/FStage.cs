@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public struct FStageTransform
+public class FStageTransform
 {
 	public Vector3 position;
 	public Quaternion rotation;
@@ -226,7 +226,7 @@ public class FStage : FContainer
         }
     }
 	
-	//notice how we're returning idbox matrixes
+	//notice how we're returning identity matrixes
 	//because we don't want our children to think we've been transformed (or else they will transform)
 	override public FMatrix matrix
 	{

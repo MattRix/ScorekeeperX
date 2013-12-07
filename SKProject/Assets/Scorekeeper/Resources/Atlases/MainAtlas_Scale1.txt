@@ -48,13 +48,21 @@
 	"spriteSourceSize": {"x":4,"y":4,"w":24,"h":24},
 	"sourceSize": {"w":32,"h":32}
 },
-"Icons/Skull":
+"Icons/QuestionMark":
 {
-	"frame": {"x":2,"y":71,"w":43,"h":47},
+	"frame": {"x":110,"y":2,"w":14,"h":23},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":3,"y":1,"w":43,"h":47},
-	"sourceSize": {"w":49,"h":49}
+	"spriteSourceSize": {"x":10,"y":5,"w":14,"h":23},
+	"sourceSize": {"w":32,"h":32}
+},
+"Icons/Skull":
+{
+	"frame": {"x":52,"y":22,"w":28,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":28,"h":31},
+	"sourceSize": {"w":32,"h":32}
 }},
 "meta":{
 	"app": "Packrat Atlas Generator github.com/MattRix/Packrat",

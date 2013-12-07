@@ -103,7 +103,7 @@ public class FAtlasManager
 		if(DoesContainAtlas(atlasPath)) return GetAtlasWithName(atlasPath); //we already have it, don't load it again
 		
 		string filePath = atlasPath+Futile.resourceSuffix+"_png";
-		
+
 		TextAsset imageBytes = Resources.Load (filePath, typeof(TextAsset)) as TextAsset;
 		
 		if(imageBytes != null) //do we have png bytes?
@@ -169,12 +169,13 @@ public class FAtlasManager
 				_atlases.RemoveAt(a);
 				
 				wasAtlasRemoved = true;
+
+				Futile.stage.renderer.ClearLayersThatUseAtlas(atlas);
 			}
 		}
 		
 		if(wasAtlasRemoved)
 		{
-			Futile.stage.renderer.Clear();
 			Resources.UnloadUnusedAssets();
 		}
 	}
