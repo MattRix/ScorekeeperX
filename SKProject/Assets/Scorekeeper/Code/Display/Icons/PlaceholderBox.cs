@@ -35,14 +35,82 @@ public class ResetBox : Box
 
 public class VolumeBox : Box
 {
-	public FSprite iconSprite;
+	public FSprite mainSprite;
+	public FSliceSprite barASprite;
+	public FSliceSprite barBSprite;
+
+	RXTweenable muteTweenable;
+
+	bool _isMuted;
 	
 	public VolumeBox()
 	{
 		base.Init(Player.NullPlayer);
-		contentContainer.AddChild(iconSprite = new FSprite("Icons/Volume_Main"));
-		contentSprites.Add(iconSprite);
-		iconSprite.color = Color.black;
+		contentContainer.AddChild(mainSprite = new FSprite("Icons/Volume_Main"));
+		contentSprites.Add(mainSprite);
+		mainSprite.color = Color.black;
+
+		contentContainer.AddChild(barASprite = new FSliceSprite("Icons/Volume_Bar",4,20,5,0,6,0));
+		contentSprites.Add(barASprite);
+		barASprite.color = Color.black;
+
+		contentContainer.AddChild(barBSprite = new FSliceSprite("Icons/Volume_Bar",4,20,5,0,6,0));
+		contentSprites.Add(barBSprite);
+		barBSprite.color = Color.black;
+
+		_isMuted = FSoundManager.isMuted;
+
+		//1.0f = muted (X), 0.0f = unmuted (||)
+		muteTweenable = new RXTweenable(_isMuted ? 1.0f : 0.0f);
+		muteTweenable.SignalChange += HandleMuteChange;
+		HandleMuteChange();
+	}
+
+	void HandleMuteChange ()
+	{
+		float percent = muteTweenable.amount;
+
+		float barAStartRotation = 0.0f;
+		float barAEndRotation = -45.0f;
+
+		float barBStartRotation = 0.0f;
+		float barBEndRotation = 45.0f;
+
+		float exX = 7;
+
+		float barAStartX = 2;
+		float barAEndX = exX;
+
+		float barBStartX = 9;
+		float barBEndX = exX;
+
+		float exHeight = 20;
+
+		float barAStartHeight = exHeight;
+		float barAEndHeight = exHeight;
+
+		float barBStartHeight = 30;
+		float barBEndHeight = exHeight;
+
+		barASprite.rotation = barAStartRotation + (barAEndRotation - barAStartRotation) * percent;
+		barBSprite.rotation = barBStartRotation + (barBEndRotation - barBStartRotation) * percent;
+
+		barASprite.x = barAStartX + (barAEndX - barAStartX) * percent;
+		barBSprite.x = barBStartX + (barBEndX - barBStartX) * percent;
+
+		barASprite.height = barAStartHeight + (barAEndHeight - barAStartHeight) * percent;
+		barBSprite.height = barBStartHeight + (barBEndHeight - barBStartHeight) * percent;
+	}
+
+	void UpdateMuted ()
+	{
+		muteTweenable.To(_isMuted ? 1.0f : 0.0f, 0.4f, new TweenConfig().expoInOut());
+	}
+
+	public bool isMuted
+	{
+		get {return _isMuted;}
+		set {if(_isMuted != value) {_isMuted = value; UpdateMuted();}}
 	}
 }
 
@@ -108,7 +176,7 @@ public class SortBox : Box
 		else
 		{
 			UpdateSpin();
-			Go.to(this,0.5f,new TweenConfig().floatProp("spin",destSpin).expoInOut());
+			Go.to(this,0.4f,new TweenConfig().floatProp("spin",destSpin).expoInOut());
 		}
 	}
 

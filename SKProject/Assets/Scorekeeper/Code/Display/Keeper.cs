@@ -112,7 +112,15 @@ public class Keeper : FContainer
 	{
 		volumeBox.DoTapEffect();
 		//volumeBox.DoTapAnimation();
-		FSoundManager.PlaySound("UI/Button1");
+
+		FSoundManager.isMuted = !FSoundManager.isMuted;
+
+		volumeBox.isMuted = FSoundManager.isMuted;
+
+		if(!FSoundManager.isMuted)
+		{
+			FSoundManager.PlaySound("UI/SoundOn");
+		}
 	}
 
 	void HandleNewPlayerTap (Box box)
