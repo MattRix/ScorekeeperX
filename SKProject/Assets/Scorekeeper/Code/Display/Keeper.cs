@@ -128,6 +128,7 @@ public class Keeper : FContainer
 		DisableMegaBoxes();
 
 		newPlayerBox.DoTapEffect();
+		newPlayerBox.DoTapAnimation();
 		FSoundManager.PlaySound("UI/Button1");
 
 		Player player = new Player();

@@ -29,6 +29,7 @@ public class ResetBox : Box
 
 	public void DoTapAnimation()
 	{
+		iconSprite.rotation = 0;
 		Go.to(iconSprite, 0.5f, new TweenConfig().rotation(720.0f).setEaseType(EaseType.ExpoIn));
 	}
 }
@@ -120,14 +121,27 @@ public class VolumeBox : Box
 
 public class NewPlayerBox : Box
 {
-	public FSprite iconSprite;
+	public FSprite bodySprite;
+	public FSprite plusSprite;
 	
 	public NewPlayerBox()
 	{
 		base.Init(Player.NullPlayer);
-		contentContainer.AddChild(iconSprite = new FSprite("Icons/NewPlayer_Body"));
-		contentSprites.Add(iconSprite);
-		iconSprite.color = Color.black;
+
+		contentContainer.AddChild(bodySprite = new FSprite("Icons/NewPlayer_Body"));
+		contentSprites.Add(bodySprite);
+		bodySprite.color = Color.black;
+
+		contentContainer.AddChild(plusSprite = new FSprite("Icons/NewPlayer_Plus"));
+		contentSprites.Add(plusSprite);
+		plusSprite.color = Color.black;
+		plusSprite.SetPosition(0.0f,7.0f);
+	}
+
+	public void DoTapAnimation()
+	{
+		plusSprite.rotation = 0;
+		Go.to(plusSprite, 0.33f, new TweenConfig().rotation(360.0f).setEaseType(EaseType.ExpoIn));
 	}
 }
 
