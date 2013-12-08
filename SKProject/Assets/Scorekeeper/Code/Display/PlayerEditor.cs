@@ -107,6 +107,10 @@ public class PlayerEditor : FContainer, SKDestroyable
 		okBox.isTouchable = false; //don't allow it to be touched until it builds in
 		okBox.anchorCell = okCell;
 
+		FSprite okSprite = new FSprite("Icons/Checkmark");
+		okBox.contentContainer.AddChild(okSprite);
+		okSprite.color = Color.black;
+
 		okBox.isEnabled = (slot.player.name.Length > 0);
 
 		Go.to(okBox, 0.4f, new TweenConfig()
@@ -229,6 +233,10 @@ public class PlayerEditor : FContainer, SKDestroyable
 			else if(k == BACKSPACE_KEY)
 			{
 				keyBox.normalSoundName = "UI/Backspace";
+
+				FSprite backspaceSprite = new FSprite("Icons/Backspace");
+				keyBox.contentContainer.AddChild(backspaceSprite);
+				backspaceSprite.color = Color.black;
 			}
 			else //the normal letters
 			{

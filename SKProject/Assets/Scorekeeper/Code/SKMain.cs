@@ -30,10 +30,11 @@ public class SKMain : MonoBehaviour
 		shouldHaveScale1 = false;
 		shouldHaveScale4 = false;
 		#endif
-		
-		if(shouldHaveScale1) fparams.AddResolutionLevel(600.0f,		1.0f,	1.0f,	"_Scale1"); //iPhone
+
+		if(shouldHaveScale1) fparams.AddResolutionLevel(480.0f,		1.0f,	1.0f,	"_Scale1"); //iPhone
 		if(shouldHaveScale2) fparams.AddResolutionLevel(960.0f,		2.0f,	2.0f,	"_Scale2"); //iPhone retina
 		if(shouldHaveScale2) fparams.AddResolutionLevel(1024.0f,	2.0f,	2.0f,	"_Scale2"); //iPad
+		if(shouldHaveScale2) fparams.AddResolutionLevel(1136.0f,	2.0f,	2.0f,	"_Scale2"); //iPhone 5 retina
 		if(shouldHaveScale2) fparams.AddResolutionLevel(1280.0f,	2.0f,	2.0f,	"_Scale2"); //Nexus 7
 		if(shouldHaveScale4) fparams.AddResolutionLevel(2048.0f,	4.0f,	4.0f,	"_Scale4"); //iPad Retina
 		
@@ -61,6 +62,21 @@ public class SKMain : MonoBehaviour
 		Futile.stage.AddChild(new Keeper()); //keeper statically retains itself and never gets removed
 	}
 
+	void OnApplicationQuit()
+	{
+		if(Keeper.instance != null)
+		{
+			SKDataManager.SaveData();
+		}
+	}
+	
+	void OnApplicationPause(bool isPaused)
+	{
+		if(Keeper.instance != null)
+		{
+			SKDataManager.SaveData();
+		}
+	}
 }
 
 

@@ -77,11 +77,11 @@ public class CellManager
 		allCells.Add(megaReset);
 		
 		megaSort.SetSize(fullWidth,halfHeight);
-		megaSort.SetPosition(Config.HALF_WIDTH - megaSort.width/2 + padding,Config.HALF_HEIGHT-megaSort.height/2-padding);
+		megaSort.SetPosition(Config.HALF_WIDTH - megaSort.width/2 - padding,Config.HALF_HEIGHT-megaSort.height/2-padding);
 		allCells.Add(megaSort);
 		
 		megaVolume.SetSize(fullWidth,halfHeight);
-		megaVolume.SetPosition(Config.HALF_WIDTH - megaVolume.width/2 + padding,-Config.HALF_HEIGHT+megaVolume.height/2+padding);
+		megaVolume.SetPosition(Config.HALF_WIDTH - megaVolume.width/2 - padding,-Config.HALF_HEIGHT+megaVolume.height/2+padding);
 		allCells.Add(megaVolume);
 		
 		middleCell.SetSize(Futile.screen.halfWidth, Futile.screen.halfHeight);

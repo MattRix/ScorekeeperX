@@ -46,24 +46,28 @@ public class VolumeBox : Box
 	public VolumeBox()
 	{
 		base.Init(Player.NullPlayer);
+
+		contentContainer.x = 5.0f;
+
 		contentContainer.AddChild(mainSprite = new FSprite("Icons/Volume_Main"));
 		contentSprites.Add(mainSprite);
 		mainSprite.color = Color.black;
 
-		contentContainer.AddChild(barASprite = new FSliceSprite("Icons/Volume_Bar",4,20,5,0,6,0));
+		contentContainer.AddChild(barASprite = new FSliceSprite("Icons/Volume_Bar",6,20,8,0,8,0));
 		contentSprites.Add(barASprite);
 		barASprite.color = Color.black;
 
-		contentContainer.AddChild(barBSprite = new FSliceSprite("Icons/Volume_Bar",4,20,5,0,6,0));
+		contentContainer.AddChild(barBSprite = new FSliceSprite("Icons/Volume_Bar",6,20,8,0,8,0));
 		contentSprites.Add(barBSprite);
 		barBSprite.color = Color.black;
 
+		FSoundManager.Init();
 		_isMuted = FSoundManager.isMuted;
 
 		//1.0f = muted (X), 0.0f = unmuted (||)
 		muteTweenable = new RXTweenable(_isMuted ? 1.0f : 0.0f);
 		muteTweenable.SignalChange += HandleMuteChange;
-		HandleMuteChange();
+		HandleMuteChange(); 
 	}
 
 	void HandleMuteChange ()
@@ -76,7 +80,7 @@ public class VolumeBox : Box
 		float barBStartRotation = 0.0f;
 		float barBEndRotation = 45.0f;
 
-		float exX = 7;
+		float exX = 5;
 
 		float barAStartX = 2;
 		float barAEndX = exX;
@@ -84,12 +88,12 @@ public class VolumeBox : Box
 		float barBStartX = 9;
 		float barBEndX = exX;
 
-		float exHeight = 20;
+		float exHeight = 15;
 
-		float barAStartHeight = exHeight;
+		float barAStartHeight = 17;
 		float barAEndHeight = exHeight;
 
-		float barBStartHeight = 30;
+		float barBStartHeight = 27;
 		float barBEndHeight = exHeight;
 
 		barASprite.rotation = barAStartRotation + (barAEndRotation - barAStartRotation) * percent;
@@ -164,7 +168,7 @@ public class SortBox : Box
 
 		if(_sortType == SortType.HighestAtTop)
 		{
-			destSpin = 180.0f;
+			destSpin = 1.0f;
 		}
 
 		if(_isFirstTime)
@@ -187,11 +191,11 @@ public class SortBox : Box
 
 		float radius1 = 15.0f;
 		float radius3 = 17.0f;
-		float spinRads = _spin * RXMath.DTOR + RXMath.HALF_PI;
+		float spinRads = _spin * RXMath.PI + RXMath.HALF_PI;
 
 		sprite1.SetPosition(baseX+Mathf.Cos(spinRads)*radius1,baseY+Mathf.Sin(spinRads)*radius1);
 		sprite2.SetPosition(baseX,baseY);
-		sprite3.SetPosition(baseX-Mathf.Cos(spinRads)*radius3,baseY-Mathf.Sin(spinRads)*radius3);
+		sprite3.SetPosition(baseX-Mathf.Cos(spinRads)*radius3,baseY-Mathf.Sin(spinRads)*radius3 + (1.0f-_spin));
 	}
 
 	public float spin
