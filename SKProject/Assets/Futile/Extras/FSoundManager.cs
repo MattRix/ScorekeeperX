@@ -239,7 +239,7 @@ public class FSoundManager
 		set 
 		{ 
 			_isMuted = value;
-			AudioListener.pause = value; 
+
 			PlayerPrefs.SetInt(PREFS_KEY, value ? 1 : 0);
 			
 			if(_isMuted)
@@ -251,7 +251,7 @@ public class FSoundManager
 				AudioListener.volume = _volume; 
 			}
 		}
-		get { return AudioListener.pause; }
+		get  {return _isMuted;}
 	}
 }
 
