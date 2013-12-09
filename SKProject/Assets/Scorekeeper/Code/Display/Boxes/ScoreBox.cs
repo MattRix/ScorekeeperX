@@ -52,9 +52,6 @@ public class ScoreBox : Box
 		_equalsIcon = new FSprite("Icons/Equals");
 		_equalsIcon.color = Color.black;
 
-		
-		isTouchable = false;
-		
 		slot.player.SignalScoreChange += HandleScoreChange;
 
 		ListenForUpdate(HandleUpdate);

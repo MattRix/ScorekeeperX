@@ -37,6 +37,8 @@ public class SlotList : FContainer
 		_height = height;
 
 		_scroller = new RXScroller(0,_minScrollY,_maxScrollY);
+		_scroller.WEAK_FRICTION = 0.80f;
+		_scroller.STRONG_FRICTION = 0.95f;
 
 		_touchSlot = Futile.touchManager.GetTouchSlot(0);
 
@@ -72,7 +74,7 @@ public class SlotList : FContainer
 		else 
 		{
 			float duration = 0.3f;
-			slotToRemove.buildIn.To(0,duration,new TweenConfig().onComplete(slotToRemove.Destroy));
+			slotToRemove.buildInTweenable.To(0,duration,new TweenConfig().onComplete(slotToRemove.Destroy));
 			Go.to(slotToRemove, duration, new TweenConfig().floatProp("scale",0.8f));
 		}
 
@@ -148,7 +150,7 @@ public class SlotList : FContainer
 
 		if(isMoving)
 		{
-			Go.killAllTweensWithTarget(this);
+			Go.killAllTweensWithTarget(slotContainer);
 			slotContainer.y = -_scroller.GetPos();
 		}
 		else 
@@ -229,13 +231,13 @@ public class SlotList : FContainer
 				}
 
 				//note how we make the tween longer AND delay it by the delay. weird effect :)
-				Go.killAllTweensWithTarget(slot.buildIn);
-				Go.to(slot.buildIn, 0.5f + delay, new TweenConfig().floatProp("amount",1.0f).setDelay(delay)); 
+				Go.killAllTweensWithTarget(slot.buildInTweenable);
+				Go.to(slot.buildInTweenable, 0.5f + delay, new TweenConfig().floatProp("amount",1.0f).setDelay(delay)); 
 			}
 			else if(slot.index < s) //moving down
 			{
-				Go.killAllTweensWithTarget(slot.buildIn);
-				Go.to(slot.buildIn, 0.5f, new TweenConfig().floatProp("amount",1.0f));
+				Go.killAllTweensWithTarget(slot.buildInTweenable);
+				Go.to(slot.buildInTweenable, 0.5f, new TweenConfig().floatProp("amount",1.0f));
 
 				Go.killAllTweensWithTarget(slot);
 				Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
@@ -255,8 +257,8 @@ public class SlotList : FContainer
 			}
 			else if(slot.index > s) //moving up
 			{
-				Go.killAllTweensWithTarget(slot.buildIn);
-				Go.to(slot.buildIn, 0.5f, new TweenConfig().floatProp("amount",1.0f));
+				Go.killAllTweensWithTarget(slot.buildInTweenable);
+				Go.to(slot.buildInTweenable, 0.5f, new TweenConfig().floatProp("amount",1.0f));
 
 				Go.killAllTweensWithTarget(slot);
 				Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
@@ -277,8 +279,8 @@ public class SlotList : FContainer
 			{
 				if(slot.y != newY)
 				{
-					Go.killAllTweensWithTarget(slot.buildIn);
-					Go.to(slot.buildIn, 0.5f, new TweenConfig().floatProp("amount",1.0f));
+					Go.killAllTweensWithTarget(slot.buildInTweenable);
+					Go.to(slot.buildInTweenable, 0.5f, new TweenConfig().floatProp("amount",1.0f));
 
 					Go.killAllTweensWithTarget(slot);
 					Go.to(slot, 0.5f, new TweenConfig().floatProp("y",newY).setEaseType(EaseType.ExpoInOut));
@@ -317,7 +319,7 @@ public class SlotList : FContainer
 
 	private void ScrollToTop(float time)
 	{
-		Go.killAllTweensWithTarget(this);
+		Go.killAllTweensWithTarget(slotContainer);
 		Go.to(slotContainer, time, new TweenConfig().floatProp("y", _minScrollY).setEaseType(EaseType.ExpoInOut));
 	}
 
@@ -371,21 +373,29 @@ public class SlotList : FContainer
 		return players;
 	}
 
-//	#region FMultiTouchableInterface implementation
-//
-//	void FMultiTouchableInterface.HandleMultiTouch(FTouch[] touches)
-//	{
-//		if(touches[0].slot.index == 0)
-//		{
-//		}
-//	}
-//
-//	#endregion
+	public void StartResetMode()
+	{
+		for(int s = 0; s<_slots.Count; s++)
+		{
+			_slots[s].isResetMode = true;
+		}
+	}
+
+	public void EndResetMode()
+	{
+		for(int s = 0; s<_slots.Count; s++)
+		{
+			_slots[s].isResetMode = false;
+		}
+	}
 
 	public List<Slot> slots
 	{
 		get {return _slots;}
 	}
+
+	public float width {get {return _width;}}
+	public float height {get {return _height;}}
 }
 
 

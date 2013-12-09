@@ -13,19 +13,24 @@ public class Slot : FContainer, SKDestroyable
 	public MathBox plusBox;
 
 	private bool _isMathMode;
+	private bool _isResetMode = false;
 
 	private float _width;
 	private float _height;
 
 	private bool _hasHandle = false;
 
-	public RXTweenable buildIn;
+	public RXTweenable buildInTweenable;
 
 	public int index = -1;
 
 	public Cell nameCell;
 
 	private bool _isMathModePaused = false;
+
+	private RXTweenable _resetTweenable;
+
+	public float resetWidth;
 
 	public Slot(Player player, float width, float height)
 	{
@@ -44,12 +49,15 @@ public class Slot : FContainer, SKDestroyable
 		
 		minusBox.SignalTick += HandleMinusTick;
 		plusBox.SignalTick += HandlePlusTick;
+		scoreBox.SignalRelease += HandleScoreTap;
 		nameBox.SignalRelease += HandleNameTap;
 
 		ListenForUpdate(HandleUpdate);
 		DoLayout();
 
-		buildIn = new RXTweenable(0.0f, HandleBuildInChange);
+		_resetTweenable = new RXTweenable(0.0f, HandleResetTweenableChange);
+		buildInTweenable = new RXTweenable(0.0f, HandleBuildInChange);
+
 		HandleBuildInChange();
 	}
 
@@ -92,6 +100,8 @@ public class Slot : FContainer, SKDestroyable
 
 		freeWidth = Mathf.Round(freeWidth);
 
+		resetWidth = freeWidth;
+
 		float mathModeMultiplier = (1.0f + 1.1f*scoreBox.mathMode.amount);
 		float maxScoreWidth = 100.0f;
 		float scoreWidth = Mathf.Min(maxScoreWidth,freeWidth * 1.5f/5.0f) * mathModeMultiplier;
@@ -99,6 +109,7 @@ public class Slot : FContainer, SKDestroyable
 
 		scoreWidth = Mathf.Round(scoreWidth);
 		nameWidth = Mathf.Round(nameWidth);
+
 
 		nameBox.SetSize(nameWidth,_height);
 		nameBox.SetTopLeft(cursor.x,cursor.y);
@@ -116,30 +127,31 @@ public class Slot : FContainer, SKDestroyable
 		plusBox.SetSize(plusBox.GetNeededWidth(),_height);
 		plusBox.SetTopLeft(cursor.x,cursor.y);
 		cursor.x += plusBox.width + padding;
-
-
-
-		//score
-		//name
-		//plus
-		//minus
 	}
 
 	private void HandleBuildInChange()
 	{
-		float amount = buildIn.amount;
+		float amount = buildInTweenable.amount;
 
 		handleBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.0f,0.4f));
 		nameBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.15f,0.55f));
 		scoreBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.3f,0.7f));
-		minusBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.45f,0.85f));
-		plusBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.6f,1.0f));
+		minusBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.45f,0.85f)) * (1.0f - _resetTweenable.amount);
+		plusBox.scale = RXEase.ExpoOut(RXMath.GetSubPercent(amount, 0.6f,1.0f)) * (1.0f - _resetTweenable.amount);
+	}
 
-//		Debug.Log("m " + nameBox.scale);
+	private void HandleScoreTap(Box box)
+	{
+		if(!_isResetMode) return;
+		if(Keeper.instance.isEditorOpen) return; 
+		
+		FSoundManager.PlaySound("UI/Button1");
+		scoreBox.DoTapEffect();
 	}
 
 	private void HandleNameTap(Box box)
 	{
+		if(_isResetMode) return;
 		if(Keeper.instance.isEditorOpen) return; 
 
 		FSoundManager.PlaySound("UI/Button1");
@@ -150,6 +162,7 @@ public class Slot : FContainer, SKDestroyable
 
 	private void HandleMinusTick(Box box, int ticks) 
 	{
+		if(_isResetMode) return;
 		if(Keeper.instance.isEditorOpen) return; 
 		StartMathMode();
 		player.score -= ticks;
@@ -157,11 +170,11 @@ public class Slot : FContainer, SKDestroyable
 
 	private void HandlePlusTick(Box box, int ticks)
 	{
+		if(_isResetMode) return;
 		if(Keeper.instance.isEditorOpen) return; 
 		StartMathMode();
 		player.score += ticks;
 	}
-
 
 	private void HandleUpdate()
 	{
@@ -231,6 +244,23 @@ public class Slot : FContainer, SKDestroyable
 		_isMathModePaused = false;
 	}
 
+	void HandleResetTweenableChange()
+	{
+		HandleBuildInChange();
+	}
+
+	void UpdateResetMode()
+	{
+		if(_isResetMode)
+		{
+			_resetTweenable.To(1.0f,0.3f,new TweenConfig().expoIn());
+		}
+		else 
+		{
+			_resetTweenable.To(0,0.3f,new TweenConfig().expoOut());
+		}
+	}
+
 	public float width
 	{
 		get {return _width;}
@@ -246,6 +276,12 @@ public class Slot : FContainer, SKDestroyable
 	public bool isMathMode
 	{
 		get {return _isMathMode;}
+	}
+
+	public bool isResetMode
+	{
+		get {return _isResetMode;}
+		set {if(_isResetMode != value) {_isResetMode = value; UpdateResetMode();}}
 	}
 }
 

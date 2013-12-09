@@ -46,7 +46,7 @@ public class Keeper : FContainer
 		Futile.screen.SignalResize += HandleSignalResize;
 		Futile.instance.SignalLateUpdate += HandleLateUpdate; 
 
-		//FSoundManager.PlaySound("UI/Start");
+		FSoundManager.PlaySound("UI/Start");
 	}
 
 	void SetupMegaBoxes ()
@@ -106,7 +106,7 @@ public class Keeper : FContainer
 		resetBox.DoTapAnimation();
 		FSoundManager.PlaySound("UI/Button1");
 
-		ShrinkMainboxes();
+		StartResetMode();
 	}
 
 	void HandleVolumeTap (Box box)
@@ -179,10 +179,10 @@ public class Keeper : FContainer
 	void ShrinkMainboxes()
 	{
 		TweenConfig config = new TweenConfig().scaleXY(0).setEaseType(EaseType.ExpoIn).hideWhenComplete();
-		Go.to(newPlayerBox, 0.5f,config);
-		Go.to(resetBox, 0.5f,config);
-		Go.to(sortBox, 0.5f,config);
-		Go.to(volumeBox, 0.5f,config);
+		Go.to(newPlayerBox, 0.3f,config);
+		Go.to(resetBox, 0.3f,config);
+		Go.to(sortBox, 0.3f,config);
+		Go.to(volumeBox, 0.3f,config);
 	}
 
 	void UnshrinkMainboxes()
@@ -193,10 +193,10 @@ public class Keeper : FContainer
 		volumeBox.isVisible = true;
 
 		TweenConfig config = new TweenConfig().scaleXY(1.0f).setEaseType(EaseType.ExpoOut).removeWhenComplete();
-		Go.to(newPlayerBox, 0.5f,config);
-		Go.to(resetBox, 0.5f,config);
-		Go.to(sortBox, 0.5f,config);
-		Go.to(volumeBox, 0.5f,config);
+		Go.to(newPlayerBox, 0.3f,config);
+		Go.to(resetBox, 0.3f,config);
+		Go.to(sortBox, 0.3f,config);
+		Go.to(volumeBox, 0.3f,config);
 	}
 
 	void DisableList()
@@ -306,5 +306,26 @@ public class Keeper : FContainer
 		      .removeWhenComplete());
 	}
 
+	void StartResetMode()
+	{
+		ShrinkMainboxes();
+		slotList.StartResetMode();
+
+		float resetListWidth = slotList.slots[0].resetWidth;
+		float resetListX = Config.HALF_WIDTH - Config.PADDING_M - resetListWidth/2;
+		resetListX += (slotList.width - resetListWidth - Config.PADDING_S)/2;
+
+		Go.killAllTweensWithTarget(slotList);
+		Go.to(slotList,0.7f,new TweenConfig().x(resetListX).expoInOut().setDelay(0.1f));
+	}
+
+	void EndResetMode()
+	{
+		UnshrinkMainboxes();
+		slotList.EndResetMode();
+
+		Go.killAllTweensWithTarget(slotList);
+		Go.to(slotList,0.7f,new TweenConfig().x(0).expoInOut());
+	}
 }
 

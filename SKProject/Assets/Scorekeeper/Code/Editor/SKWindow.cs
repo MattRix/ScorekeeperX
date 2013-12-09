@@ -27,6 +27,11 @@ public class SKWindow : EditorWindow
 		if(GUILayout.Button("0.5")) Time.timeScale = 0.5f;
 		if(GUILayout.Button("1.0")) Time.timeScale = 1.0f;
 		EditorGUILayout.EndHorizontal();
+
+		GUILayout.Space(10);
+		EditorGUILayout.BeginHorizontal();
+		if(GUILayout.Button("Clear PlayerPrefs")) PlayerPrefs.DeleteAll();
+		EditorGUILayout.EndHorizontal();
 	} 
 } 
 
