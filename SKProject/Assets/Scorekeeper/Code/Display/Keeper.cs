@@ -194,7 +194,7 @@ public class Keeper : FContainer
 		sortBox.isVisible = true;
 		volumeBox.isVisible = true;
 
-		TweenConfig config = new TweenConfig().scaleXY(1.0f).setEaseType(EaseType.ExpoOut).removeWhenComplete();
+		TweenConfig config = new TweenConfig().scaleXY(1.0f).setDelay(0.4f).setEaseType(EaseType.ExpoOut);
 		Go.to(newPlayerBox, 0.3f,config);
 		Go.to(resetBox, 0.3f,config);
 		Go.to(sortBox, 0.3f,config);
@@ -308,7 +308,7 @@ public class Keeper : FContainer
 		      .removeWhenComplete());
 	}
 
-	void StartResetMode()
+	public void StartResetMode()
 	{
 		ShrinkMainboxes();
 		slotList.StartResetMode();
@@ -320,13 +320,15 @@ public class Keeper : FContainer
 		Go.killAllTweensWithTarget(slotList);
 		Go.to(slotList,0.7f,new TweenConfig().x(resetListX).expoInOut().setDelay(0.1f));
 
-		mainContainer.AddChild(resetGroup = new ResetGroup());
+		mainContainer.AddChild(resetGroup = new ResetGroup(Config.WIDTH - resetListWidth - Config.PADDING_L*2 - Config.PADDING_M));
+		resetGroup.x = -Config.HALF_WIDTH + Config.PADDING_L + resetGroup.width/2;
 		resetGroup.Show();
 	}
 
-	void EndResetMode()
+	public void EndResetMode()
 	{
 		UnshrinkMainboxes();
+		EnableMegaBoxes();
 		slotList.EndResetMode();
 
 		Go.killAllTweensWithTarget(slotList);
