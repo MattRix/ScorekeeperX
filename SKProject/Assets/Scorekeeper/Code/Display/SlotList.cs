@@ -27,6 +27,10 @@ public class SlotList : FContainer
 
 	private bool _isFlipping = false;
 
+	public bool isTouchable = true;
+
+	public Rect touchableRect;
+
 	public SlotList(float width, float height)
 	{
 		_width = width;
@@ -36,9 +40,9 @@ public class SlotList : FContainer
 
 		_touchSlot = Futile.touchManager.GetTouchSlot(0);
 
+		touchableRect = new Rect(-_width/2,-10000,_width,20000);//infinite height because thaat's how i doooo
+
 		AddChild(slotContainer = new FContainer());
-
-
 
 		List<Player> players = SKDataManager.GetPlayers();
 
@@ -102,11 +106,16 @@ public class SlotList : FContainer
 		_scroller.SetPos(-slotContainer.y);
 		_scroller.SetBounds(_minScrollY,_maxScrollY);
 
-		if(_canScroll)
+		if(_canScroll && isTouchable)
 		{
 			if(_touchSlot.didJustBegin)
 			{
-				_scroller.BeginDrag(GetLocalTouchPosition(_touchSlot.touch).y);
+				Vector2 touchPos = GetLocalTouchPosition(_touchSlot.touch);
+
+				if(touchableRect.Contains(touchPos))
+				{
+					_scroller.BeginDrag(touchPos.y);
+				}
 			}
 		}
 
@@ -116,21 +125,25 @@ public class SlotList : FContainer
 		}
 		else if(_touchSlot.doesHaveTouch)
 		{
-			if(_canScroll)
+			if(_canScroll && isTouchable)
 			{
-				_scroller.UpdateDrag(GetLocalTouchPosition(_touchSlot.touch).y);
-
-				if(!_touchSlot.wasArtificiallyCanceled)
+				Vector2 touchPos = GetLocalTouchPosition(_touchSlot.touch);
+				
+				if(touchableRect.Contains(touchPos))
 				{
-					if(_scroller.GetDragDistance() > Config.MIN_DRAG_DISTANCE)
+					_scroller.UpdateDrag(touchPos.y);
+
+					if(!_touchSlot.wasArtificiallyCanceled)
 					{
-						_touchSlot.Cancel();
+						if(_scroller.GetDragDistance() > Config.MIN_DRAG_DISTANCE)
+						{
+							_touchSlot.Cancel();
+						}
 					}
 				}
 			}
 		}
 		
-
 		bool isMoving = _scroller.Update();
 
 		if(isMoving)

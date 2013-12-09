@@ -125,8 +125,6 @@ public class Keeper : FContainer
 
 	void HandleNewPlayerTap (Box box)
 	{
-		DisableMegaBoxes();
-
 		newPlayerBox.DoTapEffect();
 		newPlayerBox.DoTapAnimation();
 		FSoundManager.PlaySound("UI/Button1");
@@ -200,9 +198,21 @@ public class Keeper : FContainer
 		Go.to(volumeBox, 0.5f,config);
 	}
 
+	void DisableList()
+	{
+		slotList.isTouchable = false;
+	}
+
+	void EnableList()
+	{
+		slotList.isTouchable = true;
+	}
+
+
 	public void EditPlayer(Player player)
 	{
 		DisableMegaBoxes();
+		DisableList();
 
 		Slot slot = slotList.GetSlotForPlayer(player);
 		if(slot == null) return;
@@ -245,6 +255,7 @@ public class Keeper : FContainer
 	public void RemovePlayerEditor()
 	{
 		EnableMegaBoxes();
+		EnableList();
 
 		//resume math mode on the player view (if needed)
 		if(playerEditor.slot != null) playerEditor.slot.ResumeMathMode();
