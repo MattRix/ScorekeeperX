@@ -48,8 +48,6 @@ public class VolumeBox : Box
 	{
 		base.Init(Player.NullPlayer);
 
-		contentContainer.x = 5.0f;
-
 		contentContainer.AddChild(mainSprite = new FSprite("Icons/Volume_Main"));
 		contentSprites.Add(mainSprite);
 		mainSprite.color = Color.black;
@@ -76,10 +74,10 @@ public class VolumeBox : Box
 		float percent = muteTweenable.amount;
 
 		float barAStartRotation = 0.0f;
-		float barAEndRotation = -45.0f;
+		float barAEndRotation = 45.0f;
 
 		float barBStartRotation = 0.0f;
-		float barBEndRotation = 45.0f;
+		float barBEndRotation = -45.0f;
 
 		float exX = 5;
 
@@ -105,6 +103,10 @@ public class VolumeBox : Box
 
 		barASprite.height = barAStartHeight + (barAEndHeight - barAStartHeight) * percent;
 		barBSprite.height = barBStartHeight + (barBEndHeight - barBStartHeight) * percent;
+
+		float contentStartX = 7;
+		float contentEndX = 7;
+		contentContainer.x = contentStartX + (contentEndX - contentStartX) * percent;
 	}
 
 	void UpdateMuted ()
