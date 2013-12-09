@@ -254,3 +254,14 @@ public class Box : FContainer, FSmartTouchableInterface, SKDestroyable
 	}
 }
 
+public class SpriteBox : Box
+{
+	public FSprite sprite;
+	public SpriteBox(Player player, string elementName, float width, float height)
+	{
+		Init(player,width,height);
+		contentContainer.AddChild(sprite = new FSprite(elementName));
+		contentSprites.Add(sprite);
+		sprite.color = Color.black;
+	}
+}

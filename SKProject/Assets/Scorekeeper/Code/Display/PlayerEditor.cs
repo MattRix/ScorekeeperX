@@ -100,16 +100,11 @@ public class PlayerEditor : FContainer, SKDestroyable
 		/// 
 		Cell okCell = CellManager.GetCellFromGrid(7,8,2,2);
 		
-		AddChild(okBox = new Box());
-		okBox.Init(slot.player,okCell.width,okCell.height);
+		AddChild(okBox = new SpriteBox(slot.player,"Icons/Checkmark",okCell.width,okCell.height));
 		okBox.y = okCell.y;
 		okBox.x = Config.WIDTH/2 + okCell.width + 30.0f; //put if offscreen to the right
 		okBox.isTouchable = false; //don't allow it to be touched until it builds in
 		okBox.anchorCell = okCell;
-
-		FSprite okSprite = new FSprite("Icons/Checkmark");
-		okBox.contentContainer.AddChild(okSprite);
-		okSprite.color = Color.black;
 
 		okBox.isEnabled = (slot.player.name.Length > 0);
 
@@ -397,20 +392,12 @@ public class PlayerEditor : FContainer, SKDestroyable
 		Cell deleteCancelCell = CellManager.GetCellFromGrid(2,4,3,3);
 		Cell deleteOkCell = CellManager.GetCellFromGrid(5,7,3,3);
 
-		deleteCancelBox = new Box();
-		deleteCancelBox.Init(slot.player);
-		FSprite cancelSprite = new FSprite("Icons/Cancel");
-		cancelSprite.color = Color.black;
-		deleteCancelBox.contentContainer.AddChild(cancelSprite);
+		deleteCancelBox = new SpriteBox(slot.player,"Icons/Cancel",100,100);
 		deleteCancelBox.SetToCell(deleteCancelCell);
 		deleteCancelBox.anchorCell = deleteCancelCell;
 		AddChild(deleteCancelBox);
 
-		deleteOkBox = new Box();
-		deleteOkBox.Init(slot.player);
-		FSprite checkmarkSprite = new FSprite("Icons/Checkmark");
-		checkmarkSprite.color = Color.black;
-		deleteOkBox.contentContainer.AddChild(checkmarkSprite);
+		deleteOkBox = new SpriteBox(slot.player,"Icons/Checkmark",100,100);
 		deleteOkBox.SetToCell(deleteOkCell);
 		deleteOkBox.anchorCell = deleteOkCell;
 		AddChild(deleteOkBox);

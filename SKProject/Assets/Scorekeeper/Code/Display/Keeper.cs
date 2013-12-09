@@ -23,6 +23,8 @@ public class Keeper : FContainer
 
 	public bool isEditorOpen = false;
 
+	public ResetGroup resetGroup = null;
+
 	public Keeper ()
 	{
 		instance = this;	
@@ -317,6 +319,9 @@ public class Keeper : FContainer
 
 		Go.killAllTweensWithTarget(slotList);
 		Go.to(slotList,0.7f,new TweenConfig().x(resetListX).expoInOut().setDelay(0.1f));
+
+		mainContainer.AddChild(resetGroup = new ResetGroup());
+		resetGroup.Show();
 	}
 
 	void EndResetMode()
@@ -326,6 +331,9 @@ public class Keeper : FContainer
 
 		Go.killAllTweensWithTarget(slotList);
 		Go.to(slotList,0.7f,new TweenConfig().x(0).expoInOut());
+
+		resetGroup.Close();//it should remove itself
+		resetGroup = null;
 	}
 }
 

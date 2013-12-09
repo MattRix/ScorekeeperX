@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MathBox : RepeatableBox
 {
-	public Slot slot;
+	public Slot slot = null;
 	public MathType mathType;
 	public MathSprite mathSprite;
 	
@@ -18,6 +18,22 @@ public class MathBox : RepeatableBox
 		
 		base.Init(slot.player);
 		
+		Setup();
+	}
+
+	public MathBox(MathType mathType) //for use outside the slot
+	{
+		this.mathType = mathType;
+		
+		this.hasHyperRepeatZones = false;
+		
+		base.Init(Player.NullPlayer);
+		
+		Setup();
+	}
+
+	void Setup()
+	{
 		if(mathType == MathType.Plus)
 		{
 			normalSoundName = "UI/Add";

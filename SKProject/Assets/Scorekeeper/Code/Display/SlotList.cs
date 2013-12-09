@@ -37,8 +37,6 @@ public class SlotList : FContainer
 		_height = height;
 
 		_scroller = new RXScroller(0,_minScrollY,_maxScrollY);
-		_scroller.WEAK_FRICTION = 0.80f;
-		_scroller.STRONG_FRICTION = 0.95f;
 
 		_touchSlot = Futile.touchManager.GetTouchSlot(0);
 

@@ -51,9 +51,9 @@ public class Config
 		PADDING_S = 2.0f;
 		PADDING_XS = 1.0f;
 
-		if(Futile.screen.pixelWidth > 1000.0f)
+		if(SystemInfo.deviceModel.Contains("iPad"))
 		{
-			SLOT_HEIGHT = 40.0f; //if the screen has over 1000 pixels, it's probably a larger screen
+			SLOT_HEIGHT = 40.0f; //smaller on ipad
 		}
 		else 
 		{
