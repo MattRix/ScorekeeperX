@@ -41,13 +41,7 @@ public class Slot : FContainer, SKDestroyable
 		AddChild(scoreBox = new ScoreBox(this));
 		AddChild(minusBox = new MathBox(this, MathType.Minus));
 		AddChild(plusBox = new MathBox(this, MathType.Plus));
-
-//		Box box = new Box();
-//		AddChild(box);
-//		box.Init(Player.NullPlayer);
-//		box.SetSize(_width,_height);
-//		box.y -= _height;
-
+		
 		minusBox.SignalTick += HandleMinusTick;
 		plusBox.SignalTick += HandlePlusTick;
 		nameBox.SignalRelease += HandleNameTap;
@@ -94,10 +88,17 @@ public class Slot : FContainer, SKDestroyable
 			handleBox.RemoveFromContainer();
 		}
 
+		bool shouldRound = (scoreBox.mathMode.amount == 0 || scoreBox.mathMode.amount == 1);
+
+		freeWidth = Mathf.Round(freeWidth);
+
 		float mathModeMultiplier = (1.0f + 1.1f*scoreBox.mathMode.amount);
 		float maxScoreWidth = 100.0f;
 		float scoreWidth = Mathf.Min(maxScoreWidth,freeWidth * 1.5f/5.0f) * mathModeMultiplier;
 		float nameWidth = freeWidth - scoreWidth;
+
+		scoreWidth = Mathf.Round(scoreWidth);
+		nameWidth = Mathf.Round(nameWidth);
 
 		nameBox.SetSize(nameWidth,_height);
 		nameBox.SetTopLeft(cursor.x,cursor.y);
@@ -139,6 +140,8 @@ public class Slot : FContainer, SKDestroyable
 
 	private void HandleNameTap(Box box)
 	{
+		if(Keeper.instance.isEditorOpen) return; 
+
 		FSoundManager.PlaySound("UI/Button1");
 		nameBox.DoTapEffect();
 
@@ -147,12 +150,14 @@ public class Slot : FContainer, SKDestroyable
 
 	private void HandleMinusTick(Box box, int ticks) 
 	{
+		if(Keeper.instance.isEditorOpen) return; 
 		StartMathMode();
 		player.score -= ticks;
 	}
 
 	private void HandlePlusTick(Box box, int ticks)
 	{
+		if(Keeper.instance.isEditorOpen) return; 
 		StartMathMode();
 		player.score += ticks;
 	}

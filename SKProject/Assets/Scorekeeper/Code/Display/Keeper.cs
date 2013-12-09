@@ -21,6 +21,7 @@ public class Keeper : FContainer
 
 	public FContainer effectContainer;
 
+	public bool isEditorOpen = false;
 
 	public Keeper ()
 	{
@@ -213,6 +214,7 @@ public class Keeper : FContainer
 	{
 		DisableMegaBoxes();
 		DisableList();
+		isEditorOpen = true;
 
 		Slot slot = slotList.GetSlotForPlayer(player);
 		if(slot == null) return;
@@ -256,6 +258,7 @@ public class Keeper : FContainer
 	{
 		EnableMegaBoxes();
 		EnableList();
+		isEditorOpen = false;
 
 		//resume math mode on the player view (if needed)
 		if(playerEditor.slot != null) playerEditor.slot.ResumeMathMode();
