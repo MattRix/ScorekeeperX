@@ -596,6 +596,8 @@ public class PlayerEditor : FContainer, SKDestroyable
 
 		pos *= 1.0f/Keeper.instance.mainContainer.scale; //because we want to move to where it WILL be when it tweens in
 
+		pos = new Vector2(Mathf.Ceil(pos.x),Mathf.Ceil(pos.y));
+
 		Go.to(nameBox, 0.8f, new TweenConfig()
 		      .floatProp("x",pos.x)
 		      .floatProp("y",pos.y)
