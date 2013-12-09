@@ -94,9 +94,9 @@ public class Slot : FContainer, SKDestroyable
 			handleBox.RemoveFromContainer();
 		}
 
-		float mathModeMultiplier = (1.0f + 0.75f*scoreBox.mathMode.amount); //between 1.0f and 1.75f
+		float mathModeMultiplier = (1.0f + 1.1f*scoreBox.mathMode.amount);
 		float maxScoreWidth = 100.0f;
-		float scoreWidth = Mathf.Min(maxScoreWidth,freeWidth * 2.0f/5.0f) * mathModeMultiplier;
+		float scoreWidth = Mathf.Min(maxScoreWidth,freeWidth * 1.5f/5.0f) * mathModeMultiplier;
 		float nameWidth = freeWidth - scoreWidth;
 
 		nameBox.SetSize(nameWidth,_height);
