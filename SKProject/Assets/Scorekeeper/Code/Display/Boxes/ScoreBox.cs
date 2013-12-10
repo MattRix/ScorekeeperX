@@ -32,6 +32,9 @@ public class ScoreBox : Box
 	private float _easedScore;
 	private int _scoreTarget;
 	private int _displayScore;
+
+	private bool _shouldRemove = false;
+	private FSprite _skullSprite = null;
 	
 	public ScoreBox(Slot slot)
 	{
@@ -55,6 +58,9 @@ public class ScoreBox : Box
 
 		_equalsIcon = new FSprite("Icons/Equals");
 		_equalsIcon.color = Color.black;
+
+		_skullSprite = new FSprite("Icons/Skull");
+		_skullSprite.color = Color.black;
 
 		slot.player.SignalScoreChange += HandleScoreChange;
 
@@ -156,13 +162,18 @@ public class ScoreBox : Box
 			_scoreLabel.x = _scoreLabelFullX;
 			_scoreLabel.scale = _scoreLabelFullScale;
 		}
-
-
 	}
 
-	public void ApplyResetScore()//gives the player the score
+	public void ApplyResetScore(bool wasConfirmed)//gives the player the score
 	{
-		_player.score = _scoreTarget;
+		if(wasConfirmed)
+		{
+			_player.score = _scoreTarget;
+		}
+		else 
+		{
+			this.shouldRemove = false;
+		}
 	}
 
 	private float _scoreLabelFullScale;
@@ -260,6 +271,29 @@ public class ScoreBox : Box
 		{
 
 		}
+	}
+
+	void UpdateShouldRemove()
+	{
+		if(_shouldRemove)
+		{
+			AddChild(_skullSprite);
+			_skullSprite.SetPosition(_scoreLabel.GetPosition());
+			_scoreLabel.RemoveFromContainer();
+
+			FSoundManager.PlaySound("UI/ResetToZero");
+		}
+		else 
+		{
+			AddChild(_scoreLabel);
+			_skullSprite.RemoveFromContainer();
+		}
+	}
+
+	public bool shouldRemove
+	{
+		get {return _shouldRemove;}
+		set {if(_shouldRemove != value) {_shouldRemove = value; UpdateShouldRemove();}}
 	}
 }
 

@@ -387,11 +387,26 @@ public class SlotList : FContainer
 		}
 	}
 
-	public void ApplyResetScores()
+	public void ApplyResetScores(bool wasConfirmed)
 	{
+		bool didRemove = false;
+		for(int s = _slots.Count-1; s>=0; s--) //reverse so removals are A-OK
+		{
+			if(_slots[s].scoreBox.shouldRemove)
+			{
+				didRemove = true;
+				RemoveSlotForPlayer(_slots[s].player,false,false);
+			}
+		}
+
+		if(didRemove)
+		{
+			Reorder(false,false);
+		}
+
 		for(int s = 0; s<_slots.Count; s++)
 		{
-			_slots[s].scoreBox.ApplyResetScore();
+			_slots[s].scoreBox.ApplyResetScore(wasConfirmed);
 		}
 	}
 

@@ -147,6 +147,7 @@ public class Slot : FContainer, SKDestroyable
 		
 		FSoundManager.PlaySound("UI/Button1");
 		scoreBox.DoTapEffect();
+		scoreBox.shouldRemove = !scoreBox.shouldRemove;
 	}
 
 	private void HandleNameTap(Box box)

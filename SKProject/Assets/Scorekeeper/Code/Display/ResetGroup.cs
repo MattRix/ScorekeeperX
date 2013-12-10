@@ -75,6 +75,7 @@ public class ResetGroup : FContainer
 
 		cancelBox.SignalRelease += (b) =>
 		{
+			Keeper.instance.slotList.ApplyResetScores(false);
 			cancelBox.isTouchable = false;
 			cancelBox.DoTapEffect();
 			Keeper.instance.EndResetMode();
@@ -83,7 +84,7 @@ public class ResetGroup : FContainer
 
 		okBox.SignalRelease += (b) =>
 		{
-			Keeper.instance.slotList.ApplyResetScores();
+			Keeper.instance.slotList.ApplyResetScores(true);
 			okBox.isTouchable = false;
 			okBox.DoTapEffect();
 			Keeper.instance.EndResetMode();

@@ -16,9 +16,65 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":64},
 	"sourceSize": {"w":128,"h":64}
 },
+"Fonts/Raleway_Scale4":
+{
+	"frame": {"x":2,"y":69,"w":1010,"h":421},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":1010,"h":421},
+	"sourceSize": {"w":1024,"h":512}
+},
+"Icons/Backspace":
+{
+	"frame": {"x":2,"y":493,"w":69,"h":107},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":40,"y":29,"w":69,"h":107},
+	"sourceSize": {"w":160,"h":160}
+},
+"Icons/Cancel":
+{
+	"frame": {"x":2,"y":603,"w":133,"h":132},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":22,"w":133,"h":132},
+	"sourceSize": {"w":176,"h":176}
+},
+"Icons/Checkmark":
+{
+	"frame": {"x":74,"y":493,"w":130,"h":103},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":18,"y":15,"w":130,"h":103},
+	"sourceSize": {"w":160,"h":128}
+},
+"Icons/Clock_Body":
+{
+	"frame": {"x":2,"y":738,"w":172,"h":158},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":19,"w":172,"h":158},
+	"sourceSize": {"w":196,"h":196}
+},
+"Icons/Clock_HourHand":
+{
+	"frame": {"x":200,"y":2,"w":16,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":7,"w":16,"h":34},
+	"sourceSize": {"w":24,"h":48}
+},
+"Icons/Clock_MinuteHand":
+{
+	"frame": {"x":219,"y":2,"w":16,"h":48},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":8,"w":16,"h":48},
+	"sourceSize": {"w":24,"h":64}
+},
 "Icons/Equals":
 {
-	"frame": {"x":2,"y":69,"w":94,"h":67},
+	"frame": {"x":2,"y":899,"w":94,"h":67},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":17,"y":31,"w":94,"h":67},
@@ -26,15 +82,31 @@
 },
 "Icons/Minus":
 {
-	"frame": {"x":99,"y":69,"w":94,"h":28},
+	"frame": {"x":2,"y":969,"w":94,"h":28},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":17,"y":50,"w":94,"h":28},
 	"sourceSize": {"w":128,"h":128}
 },
+"Icons/NewPlayer_Body":
+{
+	"frame": {"x":238,"y":2,"w":176,"h":56},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":119,"w":176,"h":56},
+	"sourceSize": {"w":196,"h":196}
+},
+"Icons/NewPlayer_Plus":
+{
+	"frame": {"x":99,"y":899,"w":91,"h":91},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":2,"w":91,"h":91},
+	"sourceSize": {"w":96,"h":96}
+},
 "Icons/Placeholder":
 {
-	"frame": {"x":2,"y":139,"w":188,"h":188},
+	"frame": {"x":177,"y":599,"w":188,"h":188},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":4,"y":4,"w":188,"h":188},
@@ -42,7 +114,7 @@
 },
 "Icons/Plus":
 {
-	"frame": {"x":2,"y":330,"w":94,"h":94},
+	"frame": {"x":207,"y":493,"w":94,"h":94},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":17,"y":17,"w":94,"h":94},
@@ -50,26 +122,74 @@
 },
 "Icons/QuestionMark":
 {
-	"frame": {"x":200,"y":2,"w":54,"h":89},
+	"frame": {"x":304,"y":493,"w":62,"h":96},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":40,"y":21,"w":54,"h":89},
+	"spriteSourceSize": {"x":32,"y":16,"w":62,"h":96},
 	"sourceSize": {"w":128,"h":128}
+},
+"Icons/Reset":
+{
+	"frame": {"x":193,"y":790,"w":176,"h":154},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":21,"w":176,"h":154},
+	"sourceSize": {"w":240,"h":192}
 },
 "Icons/Skull":
 {
-	"frame": {"x":99,"y":330,"w":112,"h":123},
+	"frame": {"x":368,"y":592,"w":112,"h":123},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":9,"y":2,"w":112,"h":123},
 	"sourceSize": {"w":128,"h":128}
+},
+"Icons/Sort_1":
+{
+	"frame": {"x":417,"y":2,"w":48,"h":57},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":3,"w":48,"h":57},
+	"sourceSize": {"w":64,"h":64}
+},
+"Icons/Sort_2":
+{
+	"frame": {"x":468,"y":2,"w":53,"h":57},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":3,"w":53,"h":57},
+	"sourceSize": {"w":64,"h":64}
+},
+"Icons/Sort_3":
+{
+	"frame": {"x":193,"y":947,"w":52,"h":70},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":5,"w":52,"h":70},
+	"sourceSize": {"w":80,"h":80}
+},
+"Icons/Volume_Bar":
+{
+	"frame": {"x":369,"y":493,"w":24,"h":88},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":88},
+	"sourceSize": {"w":24,"h":88}
+},
+"Icons/Volume_Main":
+{
+	"frame": {"x":372,"y":718,"w":79,"h":154},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":26,"y":36,"w":79,"h":154},
+	"sourceSize": {"w":240,"h":224}
 }},
 "meta":{
 	"app": "Packrat Atlas Generator github.com/MattRix/Packrat",
 	"version": "1.0",
 	"image": "Assets/Scorekeeper/Resources/Atlases/MainAtlas_Scale4.png",
 	"format": "RGBA8888",
-	"size": {"w":256,"h":512},
+	"size": {"w":1024,"h":1024},
 	"scale": "1"
 }
 }

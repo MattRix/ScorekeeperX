@@ -60,6 +60,12 @@ public class SKMain : MonoBehaviour
 //		textParams.lineHeightOffset = -15.0f;
 //		Futile.atlasManager.LoadFont("Ostrich","Atlases/Fonts/Ostrich", "Atlases/Fonts/Ostrich"+Futile.resourceSuffix, 0.0f,-2.0f,textParams);
 //		
+		for(int s = 0; s<10; s++)
+		{
+			FSoundManager.PreloadSound("Note"+s+"_bass");
+			FSoundManager.PreloadSound("Note"+s+"_normal");
+		}
+
 		Futile.stage.AddChild(new Keeper()); //keeper statically retains itself and never gets removed
 	}
 
