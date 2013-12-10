@@ -14,6 +14,7 @@ public class RepeatableBox : Box
 	private bool _isTouchDown = false;
 
 	public bool hasHyperRepeatZones = false;
+	public bool hasFastRepeatZones = false;
 
 	public RepeatableBox() : base()
 	{
@@ -76,7 +77,7 @@ public class RepeatableBox : Box
 					//every 10 ms
 					ticksToSend += 1;
 				}
-				else if(hasHyperRepeatZones && _liveTicks >= 200) //2 seconds faster
+				else if((hasFastRepeatZones || hasHyperRepeatZones) && _liveTicks >= 200) //2 seconds faster
 				{
 					soundName = fastSoundName;
 

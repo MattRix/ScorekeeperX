@@ -387,6 +387,14 @@ public class SlotList : FContainer
 		}
 	}
 
+	public void ApplyResetScores()
+	{
+		for(int s = 0; s<_slots.Count; s++)
+		{
+			_slots[s].scoreBox.ApplyResetScore();
+		}
+	}
+
 	public List<Slot> slots
 	{
 		get {return _slots;}

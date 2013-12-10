@@ -221,6 +221,7 @@ public class Slot : FContainer, SKDestroyable
 
 	private void CloseMathMode()
 	{
+		_mathModeAmount = 0.0f;
 		_isMathMode = false;
 		Go.killAllTweensWithTarget(scoreBox);
 		Go.to(scoreBox.mathMode, 0.4f, new TweenConfig().floatProp("amount",0.0f).setEaseType(EaseType.ExpoOut).onComplete(HandleMathModeCloseComplete));
@@ -232,7 +233,6 @@ public class Slot : FContainer, SKDestroyable
 		_isMathMode = false;
 		Keeper.instance.slotList.Reorder(true,false);
 	}
-
 
 	public void PauseMathMode()
 	{
@@ -253,6 +253,10 @@ public class Slot : FContainer, SKDestroyable
 	{
 		if(_isResetMode)
 		{
+			if(_isMathMode)
+			{
+				CloseMathMode();
+			}
 			_resetTweenable.To(1.0f,0.3f,new TweenConfig().expoIn());
 		}
 		else 

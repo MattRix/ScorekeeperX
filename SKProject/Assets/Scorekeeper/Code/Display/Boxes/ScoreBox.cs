@@ -28,6 +28,10 @@ public class ScoreBox : Box
 	private float _baseTargetX;
 
 	private int _baseScore = 0;
+
+	private float _easedScore;
+	private int _scoreTarget;
+	private int _displayScore;
 	
 	public ScoreBox(Slot slot)
 	{
@@ -70,9 +74,10 @@ public class ScoreBox : Box
 
 	}
 	
-	private void HandleScoreChange()
+	private void HandleScoreChange() //instant changes
 	{
-		_scoreLabel.text = slot.player.score.ToString();
+		_easedScore = _displayScore = _scoreTarget = slot.player.score;
+		_scoreLabel.text = _displayScore.ToString();
 		
 		DoLayout();
 	}
@@ -100,6 +105,24 @@ public class ScoreBox : Box
 
 	private void HandleUpdate()
 	{
+		if(ResetGroup.instance != null)
+		{
+			_scoreTarget = ResetGroup.instance.zeroBox.resetAmount;
+		}
+		else 
+		{
+			_scoreTarget = slot.player.score;
+		}
+
+		_easedScore += ((float)_scoreTarget - _easedScore) / 6.0f;
+		int newScore = Mathf.RoundToInt(_easedScore);
+		if(newScore != _displayScore)
+		{
+			_displayScore = newScore;
+			_scoreLabel.text = _displayScore.ToString();
+			DoLayout();
+		}
+
 		if(mathMode.amount > 0 && !_isMathMode)
 		{
 			_isMathMode = true;
@@ -133,6 +156,13 @@ public class ScoreBox : Box
 			_scoreLabel.x = _scoreLabelFullX;
 			_scoreLabel.scale = _scoreLabelFullScale;
 		}
+
+
+	}
+
+	public void ApplyResetScore()//gives the player the score
+	{
+		_player.score = _scoreTarget;
 	}
 
 	private float _scoreLabelFullScale;
