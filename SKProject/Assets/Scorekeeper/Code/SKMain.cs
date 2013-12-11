@@ -62,8 +62,8 @@ public class SKMain : MonoBehaviour
 //		
 		for(int s = 0; s<10; s++)
 		{
-			FSoundManager.PreloadSound("Note"+s+"_bass");
-			FSoundManager.PreloadSound("Note"+s+"_normal");
+			FSoundManager.PreloadSound("Musical/Note"+s+"_bass");
+			FSoundManager.PreloadSound("Musical/Note"+s+"_normal");
 		}
 
 		Futile.stage.AddChild(new Keeper()); //keeper statically retains itself and never gets removed
