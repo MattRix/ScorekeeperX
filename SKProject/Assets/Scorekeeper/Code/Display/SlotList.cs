@@ -36,11 +36,11 @@ public class SlotList : FContainer
 		_width = width;
 		_height = height;
 
+		touchableRect = new Rect(-_width/2,-10000,_width-Config.SLOT_HEIGHT*2-Config.PADDING_XS*2,20000);//infinite height because thaat's how i doooo
+
 		_scroller = new RXScroller(0,_minScrollY,_maxScrollY);
 
 		_touchSlot = Futile.touchManager.GetTouchSlot(0);
-
-		touchableRect = new Rect(-_width/2,-10000,_width,20000);//infinite height because thaat's how i doooo
 
 		AddChild(slotContainer = new FContainer());
 
@@ -125,20 +125,17 @@ public class SlotList : FContainer
 		}
 		else if(_touchSlot.doesHaveTouch)
 		{
-			if(_canScroll && isTouchable)
+			if(_canScroll && isTouchable && _scroller.isDragging)
 			{
 				Vector2 touchPos = GetLocalTouchPosition(_touchSlot.touch);
-				
-				if(touchableRect.Contains(touchPos))
-				{
-					_scroller.UpdateDrag(touchPos.y);
 
-					if(!_touchSlot.wasArtificiallyCanceled)
+				_scroller.UpdateDrag(touchPos.y);
+
+				if(!_touchSlot.wasArtificiallyCanceled)
+				{
+					if(_scroller.GetDragDistance() > Config.MIN_DRAG_DISTANCE)
 					{
-						if(_scroller.GetDragDistance() > Config.MIN_DRAG_DISTANCE)
-						{
-							_touchSlot.Cancel();
-						}
+						_touchSlot.Cancel();
 					}
 				}
 			}
