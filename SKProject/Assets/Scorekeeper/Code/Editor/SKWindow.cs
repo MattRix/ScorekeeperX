@@ -33,5 +33,16 @@ public class SKWindow : EditorWindow
 		if(GUILayout.Button("Clear PlayerPrefs")) PlayerPrefs.DeleteAll();
 		EditorGUILayout.EndHorizontal();
 	} 
+
+	[MenuItem ("Scorekeeper/Build for iOS")]
+	static void BuildForIOS() 
+	{
+		BuildOptions options = BuildOptions.None;
+		options |= BuildOptions.AcceptExternalModificationsToPlayer;
+		options |= BuildOptions.SymlinkLibraries;
+		UnityEditor.BuildPipeline.BuildPlayer(new string[] {"Assets/Scorekeeper.unity"},"Export/iOS",BuildTarget.iPhone,options);
+	}
 } 
+
+
 
