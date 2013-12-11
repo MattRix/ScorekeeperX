@@ -386,19 +386,22 @@ public class SlotList : FContainer
 
 	public void ApplyResetScores(bool wasConfirmed)
 	{
-		bool didRemove = false;
-		for(int s = _slots.Count-1; s>=0; s--) //reverse so removals are A-OK
+		if(wasConfirmed)
 		{
-			if(_slots[s].scoreBox.shouldRemove)
+			bool didRemove = false;
+			for(int s = _slots.Count-1; s>=0; s--) //reverse so removals are A-OK
 			{
-				didRemove = true;
-				RemoveSlotForPlayer(_slots[s].player,false,false);
+				if(_slots[s].scoreBox.shouldRemove)
+				{
+					didRemove = true;
+					RemoveSlotForPlayer(_slots[s].player,false,false);
+				}
 			}
-		}
 
-		if(didRemove)
-		{
-			Reorder(false,false);
+			if(didRemove)
+			{
+				Reorder(false,false);
+			}
 		}
 
 		for(int s = 0; s<_slots.Count; s++)

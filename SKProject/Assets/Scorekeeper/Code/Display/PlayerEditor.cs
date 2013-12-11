@@ -207,11 +207,12 @@ public class PlayerEditor : FContainer, SKDestroyable
 		bool isNameAtMaxLength = (slot.player.name.Length >= Config.MAX_CHARS_PER_NAME);
 		bool isNameEmpty = (slot.player.name.Length == 0);
 
-		FSoundManager.PlaySound("UI/LetterIn",0.5f);
+		FSoundManager.PlaySound("UI/LetterIn",0.25f);
 
 		for(int k = 0; k<28; k++)
 		{
 			KeyBox keyBox = new KeyBox(slot.player,k);
+			keyBox.soundVolume = 0.5f;
 
 			if(k == SPACE_KEY)
 			{
@@ -363,7 +364,7 @@ public class PlayerEditor : FContainer, SKDestroyable
 
 	void RemoveKeyboard()
 	{
-		FSoundManager.PlaySound("UI/LetterIn",0.5f);
+		FSoundManager.PlaySound("UI/LetterIn",0.25f);
 
 		for(int k = 0; k<28; k++)
 		{
@@ -418,10 +419,6 @@ public class PlayerEditor : FContainer, SKDestroyable
 	{
 		float amount = deleteModeTweenable.amount;
 
-		//swap easing depennding on whether we're opening or closing
-		RXEase.Delegate easeOut = isOpeningDelete ? RXEase.ExpoInOut : RXEase.ExpoInOut;
-		RXEase.Delegate easeIn = isOpeningDelete ? RXEase.ExpoInOut : RXEase.ExpoInOut;
-
 		Cell fullCell = CellManager.GetCellFromGrid(2,7,2,2);
 
 		float qMarkWidth = QUESTION_MARK_WIDTH; //question mark width
@@ -436,6 +433,8 @@ public class PlayerEditor : FContainer, SKDestroyable
 		innerWidth += nameBox.nameLabel.textRect.width * nameBox.nameLabel.scale; 
 		innerWidth += Config.PADDING_L * nameBox.nameLabel.scale; //padding between text and question mark
 		innerWidth += qMarkWidth * nameBox.nameLabel.scale;
+
+		Debug.Log ("full cell width " + fullCell.width);
 
 		float remainingWidth = fullCell.width - innerWidth;
 		float halfRemaining = remainingWidth/2;
@@ -455,16 +454,18 @@ public class PlayerEditor : FContainer, SKDestroyable
 		float deletePercent = RXMath.GetSubPercent(amount, 0.0f,0.8f);
 		float namePercent = RXMath.GetSubPercent(amount, 0.0f,0.8f);
 		
-		deleteBox.x = deleteBox.anchorCell.x + (deleteBoxTargetX - deleteBox.anchorCell.x) * easeOut(deletePercent);
-		deleteBox.width = deleteBox.anchorCell.width + (deleteBoxTargetWidth - deleteBox.anchorCell.width) * easeOut(deletePercent);
+		deleteBox.x = deleteBox.anchorCell.x + (deleteBoxTargetX - deleteBox.anchorCell.x) * RXEase.ExpoInOut(deletePercent);
+		deleteBox.width = deleteBox.anchorCell.width + (deleteBoxTargetWidth - deleteBox.anchorCell.width) * RXEase.ExpoInOut(deletePercent);
 		
-		nameBox.x = nameBox.anchorCell.x + (nameBoxTargetX - nameBox.anchorCell.x) * easeOut(namePercent);
-		nameBox.width = nameBox.anchorCell.width + (nameBoxTargetWidth - nameBox.anchorCell.width) * easeOut(namePercent);
+		nameBox.x = nameBox.anchorCell.x + (nameBoxTargetX - nameBox.anchorCell.x) * RXEase.ExpoInOut(namePercent);
+		nameBox.width = nameBox.anchorCell.width + (nameBoxTargetWidth - nameBox.anchorCell.width) * RXEase.ExpoInOut(namePercent);
+
+		Debug.Log ("deleteBox x is " + deleteBox.x + " going from " + deleteBox.anchorCell.x + " to " + deleteBoxTargetX + " perc " + deletePercent);
 
 		float skullPercent = RXMath.GetSubPercent(amount, 0.0f,1.0f);
 		float skullTargetX = deleteBoxTargetWidth/2 - skullPadding - skullWidth/2;
 
-		deleteSkull.x = 0 + (skullTargetX - 0) * easeOut(skullPercent);
+		deleteSkull.x = 0 + (skullTargetX - 0) * RXEase.ExpoInOut(skullPercent);
 
 		deleteQMark.alpha = RXMath.GetSubPercent(amount, 0.5f,1.0f);
 
@@ -475,7 +476,7 @@ public class PlayerEditor : FContainer, SKDestroyable
 		float okPercent = RXMath.GetSubPercent(amount, 0.0f,0.3f);
 		float okX = Config.HALF_WIDTH + okBox.anchorCell.width;
 
-		okBox.x = okBox.anchorCell.x + (okX - okBox.anchorCell.x) * easeIn(okPercent);
+		okBox.x = okBox.anchorCell.x + (okX - okBox.anchorCell.x) * RXEase.ExpoInOut(okPercent);
 
 		float deleteCancelPercent = RXMath.GetSubPercent(amount, 0.5f,0.95f);
 		float deleteOkPercent = RXMath.GetSubPercent(amount, 0.65f,1.0f);

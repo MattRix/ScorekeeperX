@@ -16,6 +16,8 @@ public class RepeatableBox : Box
 	public bool hasHyperRepeatZones = false;
 	public bool hasFastRepeatZones = false;
 
+	public float soundVolume = 1.0f;
+
 	public RepeatableBox() : base()
 	{
 
@@ -122,7 +124,7 @@ public class RepeatableBox : Box
 
 	private void DoTickEffectWithSound(string soundName)
 	{
-		FSoundManager.PlaySound(soundName);
+		FSoundManager.PlaySound(soundName,soundVolume);
 		DoTapEffect();
 	}
 	
