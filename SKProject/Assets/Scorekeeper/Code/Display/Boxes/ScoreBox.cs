@@ -189,7 +189,7 @@ public class ScoreBox : Box
 		float availWidth = this.width - Config.PADDING_M*3;
 		float availHeight = this.height - Config.PADDING_M*2;
 
-		float fullScale = Mathf.Min(0.75f, availWidth/_scoreLabel.textRect.width);
+		float fullScale = Mathf.Min(NameBox.LABEL_MAX_SIZE, availWidth/_scoreLabel.textRect.width);
 		_scoreLabelFullScale = Mathf.Clamp01(fullScale);
 		_scoreLabelFullX = 0;
 

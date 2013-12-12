@@ -36,7 +36,7 @@ public class ResetGroup : FContainer
 			zeroBox.resetAmount = PlayerPrefs.GetInt(PREFS_KEY);
 		}
 
-		float boxSize = 48.0f;
+		float boxSize = Config.SLOT_HEIGHT;
 		float padding = Config.PADDING_S;
 
 		plusBox.SetSize(boxSize,boxSize);

@@ -314,14 +314,15 @@ public class Keeper : FContainer
 		slotList.StartResetMode();
 
 		float resetListWidth = slotList.slots[0].resetWidth;
-		float resetListX = Config.HALF_WIDTH - Config.PADDING_M - resetListWidth/2;
+		float resetListX = Config.HALF_WIDTH - Config.PADDING_M - Config.PADDING_S - resetListWidth/2;
 		resetListX += (slotList.width - resetListWidth - Config.PADDING_S)/2;
 
 		Go.killAllTweensWithTarget(slotList);
 		Go.to(slotList,0.7f,new TweenConfig().x(resetListX).expoInOut().setDelay(0.1f));
 
-		mainContainer.AddChild(resetGroup = new ResetGroup(Config.WIDTH - resetListWidth - Config.PADDING_L*2 - Config.PADDING_M));
-		resetGroup.x = -Config.HALF_WIDTH + Config.PADDING_L + resetGroup.width/2;
+		float resetWidth = Config.WIDTH - resetListWidth - Config.PADDING_M*4;
+		mainContainer.AddChild(resetGroup = new ResetGroup(resetWidth));
+		resetGroup.x = -Config.HALF_WIDTH + Config.PADDING_M + resetGroup.width/2 + 1;
 		resetGroup.Show();
 	}
 

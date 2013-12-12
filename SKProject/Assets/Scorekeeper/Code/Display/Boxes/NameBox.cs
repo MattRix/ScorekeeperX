@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class NameBox : Box
 {
-	const float LABEL_MAX_SIZE = 0.75f;
+	public const float LABEL_MAX_SIZE = 0.9f;
 
 	public Slot slot;
 	public FLabel nameLabel;
@@ -88,7 +88,7 @@ public class NameBox : Box
 		if(questionMark != null)
 		{
 			_cursor.isVisible = false;
-			questionMark.scale = nameLabelScale * (1.0f/0.75f);
+			questionMark.scale = nameLabelScale * (1.0f/LABEL_MAX_SIZE);
 			questionMark.x = targetX + Config.PADDING_L * nameLabelScale;
 		}
 		else 
