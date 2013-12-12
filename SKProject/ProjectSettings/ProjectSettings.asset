@@ -11,7 +11,7 @@ PlayerSettings:
   targetResolution: 0
   accelerometerFrequency: 60
   companyName: Magicule
-  productName: Scorekeeper XL
+  productName: Scorekeeper
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   defaultScreenWidth: 1024
@@ -95,13 +95,17 @@ PlayerSettings:
   uIStatusBarHidden: 1
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 0}
-  iPhoneHighResSplashScreen: {fileID: 0}
-  iPhoneTallHighResSplashScreen: {fileID: 0}
+  iPhoneSplashScreen: {fileID: 2800000, guid: 3901fcd22608b44fe929fc2fad10afae, type: 3}
+  iPhoneHighResSplashScreen: {fileID: 2800000, guid: 3eb5ceaa486594b8993b9e5ece76e29e,
+    type: 3}
+  iPhoneTallHighResSplashScreen: {fileID: 2800000, guid: be15c8d2ce2384f438915d7c9460af19,
+    type: 3}
   iPadPortraitSplashScreen: {fileID: 0}
   iPadHighResPortraitSplashScreen: {fileID: 0}
-  iPadLandscapeSplashScreen: {fileID: 0}
-  iPadHighResLandscapeSplashScreen: {fileID: 0}
+  iPadLandscapeSplashScreen: {fileID: 2800000, guid: a4e35bd48bc0243c0b2625d3ef7e388a,
+    type: 3}
+  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 9db670ef25b764e1a8d84c75d0f0af5b,
+    type: 3}
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   AndroidKeystoreName: 
@@ -110,8 +114,24 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 0}
+    - m_Icon: {fileID: 2800000, guid: f02aa1052957e4958ab081c9bda9737c, type: 3}
       m_Size: 128
+  - m_BuildTarget: iPhone
+    m_Icons:
+    - m_Icon: {fileID: 2800000, guid: 2dc956518734f4b0099ed1b6daf24330, type: 3}
+      m_Size: 152
+    - m_Icon: {fileID: 2800000, guid: 60fbff76b9ecc40e79fca536b7c8a4cf, type: 3}
+      m_Size: 144
+    - m_Icon: {fileID: 2800000, guid: 93400aac8278a4871b9611151cc17782, type: 3}
+      m_Size: 120
+    - m_Icon: {fileID: 2800000, guid: 60fbff76b9ecc40e79fca536b7c8a4cf, type: 3}
+      m_Size: 114
+    - m_Icon: {fileID: 2800000, guid: 75fbafdc5ffc241b0bb7b5fb2da42c47, type: 3}
+      m_Size: 76
+    - m_Icon: {fileID: 2800000, guid: c1c7e21f40d43434ba7eed0ce61e94d2, type: 3}
+      m_Size: 72
+    - m_Icon: {fileID: 2800000, guid: f02aa1052957e4958ab081c9bda9737c, type: 3}
+      m_Size: 57
   m_BuildTargetBatching:
   - m_BuildTarget: iPhone
     m_StaticBatching: 0
