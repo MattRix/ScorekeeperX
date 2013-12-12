@@ -42,6 +42,37 @@ public class SKWindow : EditorWindow
 		options |= BuildOptions.SymlinkLibraries;
 		UnityEditor.BuildPipeline.BuildPlayer(new string[] {"Assets/Scorekeeper.unity"},"Export/iOS",BuildTarget.iPhone,options);
 	}
+
+	[MenuItem ("Scorekeeper/Screenshot A 1x")]
+	static void CaptureScreenshotA1() 
+	{
+		CaptureScreenshot("A",1);
+	}
+
+	[MenuItem ("Scorekeeper/Screenshot A 2x")]
+	static void CaptureScreenshotA2() 
+	{
+		CaptureScreenshot("A",2);
+	}
+
+	[MenuItem ("Scorekeeper/Screenshot B 1x")]
+	static void CaptureScreenshotB1() 
+	{
+		CaptureScreenshot("B",1);
+	}
+	
+	[MenuItem ("Scorekeeper/Screenshot B 2x")]
+	static void CaptureScreenshotB2() 
+	{
+		CaptureScreenshot("B",2);
+	}
+
+	static void CaptureScreenshot(string name, int superSize) 
+	{
+		int width = superSize*Mathf.RoundToInt(Futile.screen.pixelWidth);
+		int height = superSize*Mathf.RoundToInt(Futile.screen.pixelHeight);
+		Application.CaptureScreenshot("Screenshots/Screenshot_"+name+"_"+width+"x"+height+".png",superSize);
+	}
 } 
 
 
