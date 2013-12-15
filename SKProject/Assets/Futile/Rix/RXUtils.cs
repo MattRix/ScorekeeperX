@@ -441,6 +441,10 @@ public static class RXRandom
 		return objects[_randomSource.Next() % objects.Length];
 	}
 
+	public static Color Color(float alpha)
+	{
+		return new Color(RXRandom.Float(),RXRandom.Float(),RXRandom.Float(),alpha);
+	}
 	//random item from an array
 	public static T GetRandomItem<T>(T[] items)
 	{
