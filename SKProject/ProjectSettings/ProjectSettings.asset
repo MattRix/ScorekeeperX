@@ -6,7 +6,7 @@ PlayerSettings:
   serializedVersion: 10
   productGUID: 689c28457fad6aa4890e37fc1e957484
   AndroidProfiler: 0
-  defaultScreenOrientation: 3
+  defaultScreenOrientation: 2
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
@@ -15,8 +15,8 @@ PlayerSettings:
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21176471, a: 1}
-  m_ShowUnitySplashScreen: 1
-  m_ShowUnitySplashLogo: 1
+  m_ShowUnitySplashScreen: 0
+  m_ShowUnitySplashLogo: 0
   m_SplashScreenOverlayOpacity: 1
   m_SplashScreenAnimation: 1
   m_SplashScreenLogoStyle: 1
@@ -133,7 +133,7 @@ PlayerSettings:
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 1
-  iPhoneBuildNumber: 0
+  iPhoneBuildNumber: 2
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
   CreateWallpaper: 0
@@ -159,14 +159,17 @@ PlayerSettings:
     type: 3}
   iPhoneTallHighResSplashScreen: {fileID: 2800000, guid: be15c8d2ce2384f438915d7c9460af19,
     type: 3}
-  iPhone47inSplashScreen: {fileID: 0}
-  iPhone55inPortraitSplashScreen: {fileID: 0}
-  iPhone55inLandscapeSplashScreen: {fileID: 0}
+  iPhone47inSplashScreen: {fileID: 2800000, guid: 2f280ed60ce764ffa8b29fdcaf259ab8,
+    type: 3}
+  iPhone55inPortraitSplashScreen: {fileID: 2800000, guid: e7d5b0d7b15c0423e887a95fb9af91ee,
+    type: 3}
+  iPhone55inLandscapeSplashScreen: {fileID: 2800000, guid: e7d5b0d7b15c0423e887a95fb9af91ee,
+    type: 3}
   iPadPortraitSplashScreen: {fileID: 0}
   iPadHighResPortraitSplashScreen: {fileID: 0}
   iPadLandscapeSplashScreen: {fileID: 2800000, guid: a4e35bd48bc0243c0b2625d3ef7e388a,
     type: 3}
-  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 9db670ef25b764e1a8d84c75d0f0af5b,
+  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 3eb5ceaa486594b8993b9e5ece76e29e,
     type: 3}
   appleTVSplashScreen: {fileID: 0}
   tvOSSmallIconLayers: []
@@ -255,6 +258,9 @@ PlayerSettings:
     m_APIs: 01000000
     m_Automatic: 0
   - m_BuildTarget: AndroidPlayer
+    m_APIs: 08000000
+    m_Automatic: 0
+  - m_BuildTarget: iOSSupport
     m_APIs: 08000000
     m_Automatic: 0
   m_BuildTargetVRSettings: []
