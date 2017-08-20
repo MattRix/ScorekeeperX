@@ -15,8 +15,7 @@ public class SKMain : MonoBehaviour
 		
 		//Time.timeScale = 0.1f; //use for checking timings of things in slow motion
 
-		//only support portrait
-		FutileParams fparams = new FutileParams(true, true, false, true);
+		FutileParams fparams = new FutileParams(true, true, false, false);
 		
 		fparams.backgroundColor = RXUtils.GetColorFromHex(0x050122); 
 		fparams.shouldLerpToNearestResolutionLevel = false;
