@@ -71,7 +71,7 @@ public class SKWindow : EditorWindow
 	{
 		int width = superSize*Mathf.RoundToInt(Futile.screen.pixelWidth);
 		int height = superSize*Mathf.RoundToInt(Futile.screen.pixelHeight);
-		Application.CaptureScreenshot("Screenshots/Screenshot_"+name+"_"+width+"x"+height+".png",superSize);
+		ScreenCapture.CaptureScreenshot("Screenshots/Screenshot_"+name+"_"+width+"x"+height+".png",superSize);
 	}
 } 
 
